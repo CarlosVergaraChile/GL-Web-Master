@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GL Strategic | Ingeniería de Gestión y Anticipación</title>
+    
+    <!-- STACK TECNOLÓGICO -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+
+    <style>
+        /* ESTILO CORPORATIVO BIG FOUR BOUTIQUE */
+        :root { --primary: #0f172a; --gold: #b45309; --silver: #e2e8f0; }
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #1e293b; overflow-x: hidden; }
+        h1, h2, h3, h4 { font-family: 'Playfair Display', serif; }
+
+        /* FLIPCARDS 3D UNIFICADAS */
+        .flip-card { perspective: 1000px; height: 320px; } /* Altura unificada */
+        .flip-card-inner { position: relative; width: 100%; height: 100%; text-align: center; transition: transform 0.8s; transform-style: preserve-3d; }
+        .group:hover .flip-card-inner { transform: rotateY(180deg); }
+        .flip-card-front, .flip-card-back { position: absolute; width: 100%; height: 100%; -webkit-backface-visibility: hidden; backface-visibility: hidden; border-radius: 0.75rem; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 1.5rem; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
+        
+        /* ACABADOS GLASSY */
+        .glass-panel { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.3); }
+        .glass-dark { background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); }
+
+        /* VIDEO FONDO */
+        .video-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1; }
+        
+        /* SCROLLBAR */
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #f1f1f1; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #b45309; border-radius: 10px; }
+
+        /* MODAL */
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 9999; display: flex; justify-content: center; align-items: center; }
+    </style>
+</head>
+
+<body class="bg-slate-50" x-data="appData()">
+
+    <!-- NAVEGACIÓN -->
+    <nav class="fixed w-full z-50 glass-panel border-b border-gray-200">
+        <div class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <img src="assets/images/logo_gl_strategic.png" alt="GL Logo" class="h-10">
+            </div>
+            <div class="hidden lg:flex space-x-6 text-sm font-bold text-slate-700">
+                <a href="#inicio" class="hover:text-[#b45309]">INICIO</a>
+                <a href="#adn" class="hover:text-[#b45309]">NUESTRO ADN</a>
+                <a href="#servicios" class="hover:text-[#b45309]">SERVICIOS</a>
+                <a href="#equipo" class="hover:text-[#b45309]">EQUIPO</a>
+                <a href="#contacto" class="px-5 py-2 bg-slate-900 text-white rounded-full hover:bg-[#b45309] transition">CONTACTO</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 1. HERO (SOLUCIÓN GRID PARA NO MONTARSE) -->
+    <header id="inicio" class="relative min-h-screen flex items-center pt-24 pb-12 overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <video class="video-bg opacity-60" autoplay loop muted playsinline><source src="assets/videos/bosque.mp4" type="video/mp4"></video>
+            <div class="absolute inset-0 bg-gradient-to-r from-slate-900 via-slate-900/70 to-transparent"></div>
+        </div>
+        
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <!-- Texto -->
+                <div class="text-white space-y-6">
+                    <div class="inline-block px-4 py-1 border border-white/30 rounded-full text-xs font-bold uppercase bg-white/10 backdrop-blur">
+                        Ingeniería de Gestión y Anticipación
+                    </div>
+                    <h1 class="text-5xl lg:text-7xl font-bold leading-tight drop-shadow-lg">
+                        Transformación <br> <span class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-amber-600">Anticipativa</span>
+                    </h1>
+                    <p class="text-lg text-gray-200 font-light max-w-lg">
+                        Integramos la visión del <strong>Proyecto País</strong> con la ingeniería de gestión. No adivinamos el futuro, lo modelamos con datos para proteger su patrimonio.
+                    </p>
+                    <button @click="document.getElementById('adn').scrollIntoView({behavior: 'smooth'})" class="bg-[#b45309] text-white px-8 py-4 rounded-lg font-bold hover:bg-amber-700 transition flex items-center gap-2">
+                        <i class="fas fa-chart-line"></i> Ver Evidencia Predictiva
+                    </button>
+                </div>
+
+                <!-- Tarjeta (Grid separado, no float) -->
+                <div class="flex justify-center lg:justify-end">
+                    <div class="glass-dark p-6 rounded-2xl shadow-2xl border border-white/10 max-w-md w-full transform hover:scale-105 transition cursor-pointer" @click="openModal('predictiva')">
+                        <div class="flex items-center gap-4 mb-4 border-b border-white/10 pb-4">
+                            <div class="w-10 h-10 bg-[#b45309] rounded-full flex items-center justify-center text-white"><i class="fas fa-brain"></i></div>
+                            <div>
+                                <h3 class="text-white font-bold text-lg">Precisión Predictiva</h3>
+                                <p class="text-gray-400 text-xs">PPCI vs Mercado</p>
+                            </div>
+                        </div>
+                        <img src="assets/images/precision_predictiva_chatgpt.PNG" class="w-full rounded mb-3 opacity-90 hover:opacity-100 transition">
+                        <p class="text-gray-300 text-xs italic">"El PPCI anticipó el estancamiento (2014) y el estallido (2019) años antes."</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 2. SECCIÓN ADN: EVIDENCIA DE ANTICIPACIÓN -->
+    <section id="adn" class="py-20 bg-slate-50">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-10">
+                <span class="text-[#b45309] font-bold tracking-widest uppercase text-xs">Inteligencia Estratégica</span>
+                <h2 class="text-3xl font-serif font-bold text-slate-900 mt-2">La Ventaja de Saber Antes</h2>
+                <p class="text-slate-600 text-sm max-w-2xl mx-auto mt-2">
+                    Mientras el mercado reacciona, GL Strategic anticipa. Nuestra red de expertos (PPCI) detectó los dos quiebres estructurales más grandes de Chile con una década de antelación.
+                </p>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-8 items-stretch">
+                
+                <!-- COLUMNA 1: GRÁFICO PIB (Compacto y Estilizado) -->
+                <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-xl relative flex flex-col justify-between">
+                    <div class="flex justify-between items-center mb-4 border-b border-gray-100 pb-2">
+                        <h3 class="text-sm font-bold text-slate-800 uppercase">Proyección vs Realidad</h3>
+                        <div class="flex gap-2 text-[10px]">
+                            <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-[#b45309]"></span> PPCI (Acierto)</span>
+                            <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-[#0f172a]"></span> Realidad</span>
+                            <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-gray-400"></span> FMI (Error)</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Altura fija pequeña (h-64) -->
+                    <div class="relative w-full h-64">
+                        <canvas id="pibChart"></canvas>
+                    </div>
+                    
+                    <div class="mt-2 text-[9px] text-gray-400 text-right italic">
+                        Fuente: Proyecto País 2050 / Banco Central de Chile.
+                    </div>
+                </div>
+
+                <!-- COLUMNA 2: RECUADRO ANTICIPACIÓN ESTALLIDO SOCIAL -->
+                <div class="bg-[#0f172a] text-white rounded-xl p-6 shadow-xl border-l-4 border-[#b45309] relative overflow-hidden flex flex-col justify-center">
+                    <!-- Icono de fondo sutil -->
+                    <div class="absolute top-0 right-0 opacity-10 transform translate-x-1/4 -translate-y-1/4">
+                        <i class="fas fa-bullhorn text-9xl"></i>
+                    </div>
+
+                    <h3 class="text-sm font-bold text-[#b45309] uppercase mb-4 tracking-widest relative z-10">
+                        <i class="fas fa-exclamation-triangle mr-2"></i>Anticipación de Crisis Social
+                    </h3>
+                    
+                    <div class="space-y-6 relative z-10">
+                        <div class="bg-white/5 p-4 rounded-lg backdrop-blur-sm border border-white/10">
+                            <div class="flex justify-between text-[10px] text-gray-400 mb-2 uppercase font-bold">
+                                <span>Predicción GL / PPCI</span>
+                                <span class="text-[#b45309]">Año: 2011 (8 años antes)</span>
+                            </div>
+                            <p class="text-sm italic font-serif text-gray-200 leading-relaxed">
+                                "La falta de liderazgo se traduce en falta de soluciones... en este contexto, las soluciones se lograrán solo cuando la comunidad las exija, 
+                                <strong class="text-white bg-[#b45309]/50 px-1">con creciente movilización ciudadana y convulsiones sociales</strong>."
+                            </p>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4 text-center">
+                            <div>
+                                <span class="block text-2xl font-bold text-red-500"><i class="fas fa-times"></i></span>
+                                <span class="text-[10px] text-gray-400">Gobierno/Elite<br>(No advirtieron)</span>
+                            </div>
+                            <div>
+                                <span class="block text-2xl font-bold text-green-500"><i class="fas fa-check"></i></span>
+                                <span class="text-[10px] text-gray-400">GL Strategic<br>(Anticipación Total)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+    <!-- 3. SERVICIOS (ACORDEONES + ICONOS) -->
+    <section id="servicios" class="py-24 bg-white" x-data="{ tab: 'cam' }">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold text-center text-slate-900 mb-12">Soluciones de Ciclo Completo</h2>
+            
+            <div class="flex justify-center gap-4 mb-12 flex-wrap">
+                <button @click="tab='cam'" :class="tab==='cam' ? 'bg-blue-900 text-white' : 'bg-slate-100 text-slate-600'" class="px-6 py-2 rounded-full font-bold text-sm transition">1. DIAGNÓSTICO (CAM+)</button>
+                <button @click="tab='caf'" :class="tab==='caf' ? 'bg-green-700 text-white' : 'bg-slate-100 text-slate-600'" class="px-6 py-2 rounded-full font-bold text-sm transition">2. INVERSIÓN (CAF)</button>
+                <button @click="tab='sem'" :class="tab==='sem' ? 'bg-slate-800 text-white' : 'bg-slate-100 text-slate-600'" class="px-6 py-2 rounded-full font-bold text-sm transition">3. GESTIÓN (SEM)</button>
+            </div>
+
+            <!-- TAB 1: CAM+ (14 CAPAS) -->
+            <div x-show="tab==='cam'" class="grid lg:grid-cols-2 gap-12" x-transition.opacity>
+                <div>
+                    <h3 class="text-2xl font-bold text-blue-900 mb-4">Critical Adjustment Matrix (CAM+)</h3>
+                    <p class="text-sm text-gray-600 mb-6">Escáner profundo de 14 dimensiones que clasifica su organización en Excel, Adhoc, Reborn o RIP.</p>
+                    <img src="assets/images/matriz_cam_chatgpt.PNG" class="rounded-lg shadow-xl cursor-pointer hover:scale-105 transition" @click="openModal('cam')">
+                </div>
+                <!-- Acordeón 14 Capas -->
+                <div class="bg-slate-50 rounded-xl border border-gray-200 h-96 overflow-y-auto custom-scrollbar" x-data="{ selected: null }">
+                    <template x-for="(item, index) in [
+                        {t:'Disposición al Cambio', d:'Evaluación de madurez cultural.'}, {t:'Análisis Prospectivo', d:'Tendencias y riesgos geopolíticos.'}, 
+                        {t:'Estrategia y Modelo', d:'Coherencia objetivos-estructura.'}, {t:'Cultura y Liderazgo', d:'Valores adhocráticos vs burocráticos.'},
+                        {t:'Competencias Esenciales', d:'Capacidades históricas distintivas.'}, {t:'Perfil de Personas', d:'Ajuste rol-persona.'},
+                        {t:'Transformación Digital', d:'Madurez digital y alineamiento.'}, {t:'Herramientas Estratégicas', d:'EVA, BSC, ABC.'},
+                        {t:'Innovación Adaptativa', d:'Creatividad ante escasez.'}, {t:'Adecuación Gestión', d:'Detección de quiebres.'},
+                        {t:'Exigencias Inversionistas', d:'Estándares ESG/IED.'}, {t:'Cumplimiento Normativo', d:'Compliance y buenas prácticas.'},
+                        {t:'Performance Ingeniería', d:'Evaluación técnica de procesos.'}, {t:'Proyección Financiera', d:'Solidez y flujo de caja.'}
+                    ]">
+                        <div class="border-b border-gray-200">
+                            <button @click="selected !== index ? selected = index : selected = null" class="w-full px-4 py-3 text-left flex justify-between items-center hover:bg-blue-50">
+                                <span class="text-xs font-bold text-slate-700" x-text="(index+1) + '. ' + item.t"></span>
+                                <i class="fas fa-chevron-down text-[10px] text-gray-400"></i>
+                            </button>
+                            <div x-show="selected === index" class="px-4 pb-3 text-xs text-gray-500 bg-white" x-text="item.d"></div>
+                        </div>
+                    </template>
+                </div>
+            </div>
+
+            <!-- TAB 2: CAF (ECOPARQUES) -->
+            <div x-show="tab==='caf'" class="grid lg:grid-cols-2 gap-12 items-center" x-transition.opacity>
+                <div class="space-y-6">
+                    <h3 class="text-2xl font-bold text-green-700">El Fin de la Permisología</h3>
+                    <p class="text-gray-600 text-sm">Reducimos el Time-to-Market de 10 a 2 años mediante Ecoparques Industriales con permisos pre-aprobados.</p>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="relative group rounded-lg overflow-hidden cursor-pointer" @click="openModal('caf')">
+                            <video class="w-full h-32 object-cover" autoplay loop muted playsinline><source src="assets/videos/arica.mp4" type="video/mp4"></video>
+                            <div class="absolute bottom-0 w-full bg-black/60 text-white text-[10px] p-1 text-center">Ecoparque Norte</div>
+                        </div>
+                        <div class="relative group rounded-lg overflow-hidden cursor-pointer" @click="openModal('caf')">
+                            <video class="w-full h-32 object-cover" autoplay loop muted playsinline><source src="assets/videos/golf.mp4" type="video/mp4"></video>
+                            <div class="absolute bottom-0 w-full bg-black/60 text-white text-[10px] p-1 text-center">Ecoparque Centro</div>
+                        </div>
+                    </div>
+                </div>
+                <img src="assets/images/ecoparque_chatgpt.PNG" class="rounded-xl shadow-lg cursor-pointer hover:scale-105 transition" @click="openModal('caf')">
+            </div>
+
+             <!-- TAB 3: SEM -->
+             <div x-show="tab==='sem'" class="text-center" x-transition.opacity>
+                <h3 class="text-2xl font-bold text-slate-800 mb-6">Gestión Estratégica SEM</h3>
+                <img src="assets/images/gl_18_balanza_eva_vs_ebitda.png" class="mx-auto max-w-sm drop-shadow-xl hover:scale-105 transition cursor-pointer mb-6" @click="openModal('sem')">
+                <p class="text-sm text-gray-500 max-w-2xl mx-auto">Integración de EVA (Valor Económico), ABC (Costeo Real) y BSC para eliminar costos ocultos.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. NUESTRO EQUIPO (FLIPCARDS UNIFICADAS COLOR-CODED) -->
+    <section id="equipo" class="py-24 bg-slate-100 relative overflow-hidden">
+        <div class="container mx-auto px-6 relative z-10">
+            <h2 class="text-3xl font-bold text-center text-slate-900 mb-16">Liderazgo y Red de Expertos</h2>
+
+            <!-- 1. SOCIOS (AZUL + DORADO) -->
+            <div class="mb-12">
+                <h3 class="text-lg font-serif text-[#b45309] border-b-2 border-[#b45309] inline-block mb-6 uppercase tracking-widest">Socios y Directivos</h3>
+                <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                    <!-- Gastón -->
+                    <div class="flip-card group cursor-pointer">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front bg-gradient-to-br from-[#0f172a] to-[#1e3a8a] border-2 border-[#b45309]">
+                                <img src="assets/images/gaston_lhuillier_troncoso.png" class="w-20 h-20 rounded-full border-2 border-[#b45309] object-cover mb-3">
+                                <h4 class="text-white font-bold text-sm">Gastón L'Huillier</h4>
+                                <p class="text-[#b45309] text-[10px] uppercase font-bold mt-1">Socio Principal</p>
+                            </div>
+                            <div class="flip-card-back bg-[#0f172a] border-2 border-[#b45309]">
+                                <p class="text-[10px] text-white mb-2">Ing. Civil Industrial, Magíster Economía (U. Chile). +500 proyectos. Director Proyecto País.</p>
+                                <a href="#" class="text-[#b45309] text-[10px] underline">LinkedIn</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Pablo Canobra -->
+                    <div class="flip-card group cursor-pointer">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front bg-gradient-to-br from-[#0f172a] to-[#1e3a8a] border-2 border-[#b45309]">
+                                <img src="assets/images/pablo_canobra.png" class="w-20 h-20 rounded-full border-2 border-[#b45309] object-cover mb-3">
+                                <h4 class="text-white font-bold text-sm">Pablo Canobra</h4>
+                                <p class="text-[#b45309] text-[10px] uppercase font-bold mt-1">Socio Estrategia</p>
+                            </div>
+                            <div class="flip-card-back bg-[#0f172a] border-2 border-[#b45309]">
+                                <p class="text-[10px] text-white">MBA Tulane. Crecimiento sostenible y resiliencia.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Claudio Maggi -->
+                    <div class="flip-card group cursor-pointer">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front bg-gradient-to-br from-[#0f172a] to-[#1e3a8a] border-2 border-[#b45309]">
+                                <img src="assets/images/claudio_maggi.png" class="w-20 h-20 rounded-full border-2 border-[#b45309] object-cover mb-3"> <!-- Placeholder si no hay foto -->
+                                <h4 class="text-white font-bold text-sm">Claudio Maggi</h4>
+                                <p class="text-[#b45309] text-[10px] uppercase font-bold mt-1">Socio Territorio</p>
+                            </div>
+                            <div class="flip-card-back bg-[#0f172a] border-2 border-[#b45309]">
+                                <p class="text-[10px] text-white">Ex Director Innova Chile. Especialización Inteligente.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Guillermo Muñoz -->
+                    <div class="flip-card group cursor-pointer">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front bg-gradient-to-br from-[#0f172a] to-[#1e3a8a] border-2 border-[#b45309]">
+                                <img src="assets/images/guillermo_munoz.png" class="w-20 h-20 rounded-full border-2 border-[#b45309] object-cover mb-3">
+                                <h4 class="text-white font-bold text-sm">Guillermo Muñoz</h4>
+                                <p class="text-[#b45309] text-[10px] uppercase font-bold mt-1">Socio Digital</p>
+                            </div>
+                            <div class="flip-card-back bg-[#0f172a] border-2 border-[#b45309]">
+                                <p class="text-[10px] text-white">Ex Gte. Sistemas ENAP. Estrategia TD.</p>
+                            </div>
+                        </div>
+                    </div>
+                     <!-- Rafael Sotil -->
+                     <div class="flip-card group cursor-pointer">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front bg-gradient-to-br from-[#0f172a] to-[#1e3a8a] border-2 border-[#b45309]">
+                                <img src="assets/images/rafael_sotil.png" class="w-20 h-20 rounded-full border-2 border-[#b45309] object-cover mb-3">
+                                <h4 class="text-white font-bold text-sm">Rafael Sotil</h4>
+                                <p class="text-[#b45309] text-[10px] uppercase font-bold mt-1">Socio Cambio</p>
+                            </div>
+                            <div class="flip-card-back bg-[#0f172a] border-2 border-[#b45309]">
+                                <p class="text-[10px] text-white">MBA Tulane. Coach Ontológico. Ex Cencosud.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Carlos Vergara -->
+                    <div class="flip-card group cursor-pointer">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front bg-gradient-to-br from-[#0f172a] to-[#1e3a8a] border-2 border-[#b45309]">
+                                <img src="assets/images/carlos_vergara.png" class="w-20 h-20 rounded-full border-2 border-[#b45309] object-cover mb-3">
+                                <h4 class="text-white font-bold text-sm">Carlos Vergara</h4>
+                                <p class="text-[#b45309] text-[10px] uppercase font-bold mt-1">Socio Finanzas</p>
+                            </div>
+                            <div class="flip-card-back bg-[#0f172a] border-2 border-[#b45309]">
+                                <p class="text-[10px] text-white">MBA ESADE. Control de gestión y procesos.</p>
+                            </div>
+                        </div>
+                    </div>
+                     <!-- Jose Inostroza -->
+                     <div class="flip-card group cursor-pointer">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front bg-gradient-to-br from-[#0f172a] to-[#1e3a8a] border-2 border-[#b45309]">
+                                <div class="w-20 h-20 rounded-full bg-white/10 flex items-center justify-center border-2 border-[#b45309] mb-3"><i class="fas fa-user text-3xl text-white"></i></div>
+                                <h4 class="text-white font-bold text-sm">José Inostroza</h4>
+                                <p class="text-[#b45309] text-[10px] uppercase font-bold mt-1">Socio PMO</p>
+                            </div>
+                            <div class="flip-card-back bg-[#0f172a] border-2 border-[#b45309]">
+                                <p class="text-[10px] text-white">Ingeniero Gestión. PMO CAM+.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. CONSULTORES (GRIS OSCURO / GUNMETAL) -->
+            <div class="mb-12">
+                <h3 class="text-lg font-serif text-slate-700 border-b-2 border-slate-400 inline-block mb-6 uppercase tracking-widest">Consultores Especialistas</h3>
+                <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                    <!-- Gilberto -->
+                    <div class="flip-card group cursor-pointer">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front bg-slate-700 border border-slate-600">
+                                <img src="assets/images/gilberto_cespedes.png" class="w-16 h-16 rounded-full border border-slate-400 object-cover mb-3">
+                                <h4 class="text-white font-bold text-sm">Gilberto Céspedes</h4>
+                                <p class="text-slate-300 text-[10px] uppercase mt-1">Minería & Logística</p>
+                            </div>
+                            <div class="flip-card-back bg-slate-800 text-white">
+                                <p class="text-[10px]">MBA PUC. Ex Codelco y BHP.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Edith -->
+                    <div class="flip-card group cursor-pointer">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front bg-slate-700 border border-slate-600">
+                                <img src="assets/images/edith_wilson.png" class="w-16 h-16 rounded-full border border-slate-400 object-cover mb-3">
+                                <h4 class="text-white font-bold text-sm">Edith Wilson</h4>
+                                <p class="text-slate-300 text-[10px] uppercase mt-1">Legal & M&A</p>
+                            </div>
+                            <div class="flip-card-back bg-slate-800 text-white">
+                                <p class="text-[10px]">Master Derecho Empresa.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Maurice -->
+                    <div class="flip-card group cursor-pointer">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front bg-slate-700 border border-slate-600">
+                                <img src="assets/images/maurice_filippi.png" class="w-16 h-16 rounded-full border border-slate-400 object-cover mb-3">
+                                <h4 class="text-white font-bold text-sm">Maurice Filippi</h4>
+                                <p class="text-slate-300 text-[10px] uppercase mt-1">Costos ABC</p>
+                            </div>
+                            <div class="flip-card-back bg-slate-800 text-white">
+                                <p class="text-[10px]">Magíster U. Chile. Experto BSC.</p>
+                            </div>
+                        </div>
+                    </div>
+                     <!-- Elena -->
+                     <div class="flip-card group cursor-pointer">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front bg-slate-700 border border-slate-600">
+                                <img src="assets/images/elena_pailamilla.jfif" class="w-16 h-16 rounded-full border border-slate-400 object-cover mb-3">
+                                <h4 class="text-white font-bold text-sm">Elena Pailamilla</h4>
+                                <p class="text-slate-300 text-[10px] uppercase mt-1">Normas</p>
+                            </div>
+                            <div class="flip-card-back bg-slate-800 text-white">
+                                <p class="text-[10px]">Compliance y buenas prácticas.</p>
+                            </div>
+                        </div>
+                    </div>
+                     <!-- Juan Ramon -->
+                     <div class="flip-card group cursor-pointer">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front bg-slate-700 border border-slate-600">
+                                <img src="assets/images/juan_samaniego.png" class="w-16 h-16 rounded-full border border-slate-400 object-cover mb-3">
+                                <h4 class="text-white font-bold text-sm">Juan R. Samaniego</h4>
+                                <p class="text-slate-300 text-[10px] uppercase mt-1">Benchmarking</p>
+                            </div>
+                            <div class="flip-card-back bg-slate-800 text-white">
+                                <p class="text-[10px]">Finanzas y Desarrollo Empresarial.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. TERRITORIO (GRIS CLARO / PLATINUM) -->
+            <div>
+                <h3 class="text-lg font-serif text-slate-600 border-b-2 border-slate-300 inline-block mb-6 uppercase tracking-widest">Directores Regionales</h3>
+                <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                    <!-- Javier -->
+                    <div class="flip-card group cursor-pointer">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front bg-slate-100 border border-slate-300">
+                                <div class="w-16 h-16 rounded-full bg-slate-200 flex items-center justify-center mb-3"><i class="fas fa-map-marker-alt text-2xl text-slate-500"></i></div>
+                                <h4 class="text-slate-800 font-bold text-sm">Javier Díaz</h4>
+                                <p class="text-slate-500 text-[10px] uppercase mt-1">Arica</p>
+                            </div>
+                            <div class="flip-card-back bg-slate-200 text-slate-800">
+                                <p class="text-[10px] font-bold">Gestión Norte.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Jaime -->
+                    <div class="flip-card group cursor-pointer">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front bg-slate-100 border border-slate-300">
+                                <img src="assets/images/jaime_soto.png" class="w-16 h-16 rounded-full border border-slate-300 object-cover mb-3">
+                                <h4 class="text-slate-800 font-bold text-sm">Jaime Soto</h4>
+                                <p class="text-slate-500 text-[10px] uppercase mt-1">Tarapacá</p>
+                            </div>
+                            <div class="flip-card-back bg-slate-200 text-slate-800">
+                                <p class="text-[10px] font-bold">Zofri y Logística.</p>
+                            </div>
+                        </div>
+                    </div>
+                     <!-- Juan Carlos -->
+                     <div class="flip-card group cursor-pointer">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front bg-slate-100 border border-slate-300">
+                                <img src="assets/images/juan_bacovich.png" class="w-16 h-16 rounded-full border border-slate-300 object-cover mb-3">
+                                <h4 class="text-slate-800 font-bold text-sm">J.C. Bacovich</h4>
+                                <p class="text-slate-500 text-[10px] uppercase mt-1">Antofagasta</p>
+                            </div>
+                            <div class="flip-card-back bg-slate-200 text-slate-800">
+                                <p class="text-[10px] font-bold">Sostenibilidad.</p>
+                            </div>
+                        </div>
+                    </div>
+                     <!-- Julio -->
+                     <div class="flip-card group cursor-pointer">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front bg-slate-100 border border-slate-300">
+                                <div class="w-16 h-16 rounded-full bg-slate-200 flex items-center justify-center mb-3"><i class="fas fa-user text-2xl text-slate-500"></i></div>
+                                <h4 class="text-slate-800 font-bold text-sm">Julio Muñoz</h4>
+                                <p class="text-slate-500 text-[10px] uppercase mt-1">Maule</p>
+                            </div>
+                            <div class="flip-card-back bg-slate-200 text-slate-800">
+                                <p class="text-[10px] font-bold">Prospectiva.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Jenny -->
+                    <div class="flip-card group cursor-pointer">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front bg-slate-100 border border-slate-300">
+                                <img src="assets/images/jenny_sauterel.png" class="w-16 h-16 rounded-full border border-slate-300 object-cover mb-3">
+                                <h4 class="text-slate-800 font-bold text-sm">Jenny Sauterel</h4>
+                                <p class="text-slate-500 text-[10px] uppercase mt-1">Concepción</p>
+                            </div>
+                            <div class="flip-card-back bg-slate-200 text-slate-800">
+                                <p class="text-[10px] font-bold">Liderazgo Regional.</p>
+                            </div>
+                        </div>
+                    </div>
+                     <!-- Pablo Vega -->
+                     <div class="flip-card group cursor-pointer">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front bg-slate-100 border border-slate-300">
+                                <img src="assets/images/pablo_vega.png" class="w-16 h-16 rounded-full border border-slate-300 object-cover mb-3">
+                                <h4 class="text-slate-800 font-bold text-sm">Pablo Vega</h4>
+                                <p class="text-slate-500 text-[10px] uppercase mt-1">Perú</p>
+                            </div>
+                            <div class="flip-card-back bg-slate-200 text-slate-800">
+                                <p class="text-[10px] font-bold">Gobierno Corp.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. CLIENTES -->
+    <section id="clientes" class="py-16 bg-white border-t">
+        <div class="container mx-auto px-6 text-center">
+            <h3 class="text-2xl font-bold text-slate-900 mb-8">Confianza en Sectores Críticos</h3>
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-4 opacity-70 text-xs font-bold text-slate-500">
+                <div class="border p-3">CODELCO</div>
+                <div class="border p-3">BHP</div>
+                <div class="border p-3">TECK</div>
+                <div class="border p-3">ENAP</div>
+                <div class="border p-3">COLUN</div>
+                <div class="border p-3">BCI</div>
+                <div class="border p-3">CONSORCIO</div>
+                <div class="border p-3">FALABELLA</div>
+                <div class="border p-3">CENCOSUD</div>
+                <div class="border p-3">CORFO</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACTO -->
+    <footer id="contacto" class="bg-slate-900 text-white py-16">
+        <div class="container mx-auto px-6 grid md:grid-cols-2 gap-12">
+            <div>
+                <h2 class="text-3xl font-serif mb-4">Hable con la Visión.</h2>
+                <p class="text-gray-400 text-sm mb-6">Respuesta inmediata de un socio senior.</p>
+                <ul class="text-sm space-y-2">
+                    <li><i class="fas fa-envelope text-[#b45309] mr-2"></i> contacto@glstrategic.cl</li>
+                    <li><i class="fas fa-phone text-[#b45309] mr-2"></i> +56 9 7609 3848</li>
+                </ul>
+            </div>
+            <form class="space-y-3">
+                <input type="text" placeholder="Nombre" class="w-full bg-slate-800 border-none p-3 rounded text-sm text-white">
+                <input type="email" placeholder="Email" class="w-full bg-slate-800 border-none p-3 rounded text-sm text-white">
+                <button class="w-full bg-[#b45309] py-3 rounded font-bold hover:brightness-110 text-sm">SOLICITAR REUNIÓN</button>
+            </form>
+        </div>
+        <div class="text-center mt-12 pt-8 border-t border-slate-800 text-xs text-gray-500">&copy; 2025 GL Strategic.</div>
+    </footer>
+
+    <!-- MODAL -->
+    <div class="modal-overlay" x-show="showModal" style="display:none;" x-transition>
+        <div class="bg-white w-full max-w-4xl rounded-xl relative m-4 flex flex-col md:flex-row overflow-hidden shadow-2xl" @click.away="showModal=false">
+            <button @click="showModal=false" class="absolute top-2 right-2 text-gray-500 text-2xl z-20 hover:text-red-500">&times;</button>
+            <div class="w-full md:w-1/2 bg-gray-100 flex items-center justify-center p-4">
+                <img :src="modalData.image" class="max-h-64 object-contain">
+            </div>
+            <div class="w-full md:w-1/2 p-8 flex flex-col justify-center">
+                <h3 class="text-xl font-bold mb-4 text-slate-900" x-text="modalData.title"></h3>
+                <p class="text-gray-600 mb-6 text-sm leading-relaxed" x-text="modalData.body"></p>
+                <button class="w-full bg-slate-900 text-white py-2 rounded font-bold hover:bg-[#b45309] transition">Solicitar Documento</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function appData() {
+            return {
+                showModal: false,
+                modalData: {},
+                openModal(type) {
+                    this.showModal = true;
+                    if(type === 'predictiva') this.modalData = { title: 'Precisión Predictiva', body: 'El Proyecto País anticipó el estancamiento estructural (2014) y el estallido social (2019) años antes que ocurrieran.', image: 'assets/images/precision_predictiva_chatgpt.PNG' };
+                    if(type === 'cam') this.modalData = { title: 'Ficha CAM+', body: 'Diagnóstico de 14 capas para medir la capacidad adaptativa organizacional.', image: 'assets/images/matriz_cam_chatgpt.PNG' };
+                    if(type === 'caf') this.modalData = { title: 'Ecoparques Industriales', body: 'Solución a la permisología. De 10 a 2 años en Time-to-Market.', image: 'assets/images/ecoparque_chatgpt.PNG' };
+                    if(type === 'sem') this.modalData = { title: 'Gestión SEM', body: 'Integración de EVA, ABC y BSC para eliminar costos ocultos.', image: 'assets/images/gl_18_balanza_eva_vs_ebitda.png' };
+                }
+            }
+        }
+
+        // GRÁFICO CHART.JS (MITAD TAMAÑO, AZUL/DORADO)
+        document.addEventListener('DOMContentLoaded', function() {
+            const ctx = document.getElementById('pibChart');
+            if(ctx) {
+                new Chart(ctx.getContext('2d'), {
+                    type: 'line',
+                    data: {
+                        labels: ['2002', '2005', '2008', '2010 (Auge)', '2014 (Freno)', '2019 (Crisis)', '2025'],
+                        datasets: [
+                            {
+                                label: 'Anticipación GL Strategic (PPCI)',
+                                data: [5.6, 5.8, 4.5, 5.8, 2.5, 1.0, 2.0],
+                                borderColor: '#b45309', // DORADO
+                                backgroundColor: '#b45309',
+                                borderWidth: 3,
+                                pointRadius: 4,
+                                tension: 0.2
+                            },
+                            {
+                                label: 'Realidad (Banco Central)',
+                                data: [5.6, 5.6, 3.5, 5.8, 1.9, -5.8, 1.9],
+                                borderColor: '#0f172a', // AZUL OSCURO
+                                borderWidth: 2,
+                                pointRadius: 2,
+                                tension: 0.2
+                            },
+                            {
+                                label: 'Mercado/FMI',
+                                data: [3.5, 4.0, 4.5, 4.0, 4.8, 3.5, 4.4],
+                                borderColor: '#94a3b8', // GRIS
+                                borderWidth: 2,
+                                borderDash:,
+                                pointRadius: 0,
+                                tension: 0.2
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { position: 'bottom', labels: { font: { size: 10 } } } },
+                        scales: { y: { beginAtZero: false, grid: { color: '#f1f5f9' } }, x: { grid: { display: false } } }
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
+```

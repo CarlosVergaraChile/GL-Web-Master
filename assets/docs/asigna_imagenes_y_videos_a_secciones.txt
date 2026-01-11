@@ -1,0 +1,43 @@
+### 1. Lista de Asignación de Videos de Fondo (Por Sección)
+
+*Estos videos deben ir dentro de cada sección (no uno solo fijo para todo el sitio).*
+
+* **Inicio (Hero):** `bosque.mp4` (Contexto: Naturaleza, crecimiento, "Ingeniería de Anticipación").
+* **Sección ADN:** `nuestro_adn.mp4` (Contexto: Identidad, historia).
+* **Sección Servicios (CAM/CAF/SEM):** `servicios.mp4` (Contexto: Operación, industria).
+* **Sección Equipo:** `puerto.mp4` (Contexto: Trabajo en equipo, actividad portuaria/industrial).
+* **Sección Clientes/Contacto:** `panel_solar.mp4` (Contexto: Energía, sustentabilidad, cierre).
+
+---
+
+### 2. Lista de Asignación de Imágenes `gl_` (Por Subsección)
+
+*Estas imágenes corresponden a los iconos conceptuales específicos de la metodología GL.*
+
+**En Sección ADN:**
+
+* **Estrategia (Espejo Retrovisor):** `gl_02_espejo retrovisor_02.png`
+* **Relato País (Mapa):** `gl_17_mapa_de_chile.png`
+
+**En Sección Servicios > Pestaña CAF (Inversión):**
+
+* **Softlanding:** `gl_19_laberinto_permisologia.png`
+* **Ecoparques:** `gl_05_icono_gl_ecoparques.png`
+* **H2V:** `gl_12_diagrama_hidrogeno_verde.png`
+* **Arica Hub:** `gl_13_mapa_ecosistema_arica.png`
+* **Cultura:** `gl_03_iceberg_cultura_chile.png`
+* **Escudo Inversor:** `gl_14_diagrama_escudo_defensivo.png`
+
+**En Sección Servicios > Pestaña SEM (Gestión):**
+
+* **Finanzas Estratégicas:** `gl_06_icono_gl_finance.png` y `gl_18_balanza_eva_vs_ebitda.png` (Doble icono).
+* **Operaciones:** `gl_07_icono_gl_ops.png`
+* **Personas:** `gl_08_icono_gl_people.png`
+* **Legal:** `gl_09_icono_gl_legal.png`
+* **Tech & IA:** `gl_04_icono_gl_tech.png` y `gl_16_diagrama_cubo_3x3x3.png` (Doble icono).
+
+**En Sección Equipo:**
+
+* **Cabecera (Opcional/Sinergia):** `gl_20_puzzle_sinergia_equipo.png`
+
+¿Estás conforme con esta asignación para proceder a generar el código final corregido?
