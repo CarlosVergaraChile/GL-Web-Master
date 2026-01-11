@@ -37,11 +37,11 @@
     <style>
         body { background-color: #051c2c; color: white; overflow-x: hidden; }
         
-        /* Vidrio */
+        /* Glassmorphism */
         .glass-panel {
-            background: rgba(15, 47, 74, 0.95); /* Más opaco para legibilidad */
+            background: rgba(15, 47, 74, 0.85);
             backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+            border: 1px solid rgba(212, 175, 55, 0.2);
         }
         .glass-card-light {
             background: rgba(255, 255, 255, 0.95);
@@ -50,7 +50,7 @@
             color: #0F2F4A;
         }
 
-        /* Videos */
+        /* Video Backgrounds */
         .video-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; z-index: -1; }
         .video-bg { width: 100%; height: 100%; object-fit: cover; }
         .overlay-navy { position: absolute; inset: 0; background: rgba(5, 28, 44, 0.30); }
@@ -59,7 +59,7 @@
         /* Contenedor Ancho */
         .container-fluid-custom { width: 96%; max-width: 1800px; margin: 0 auto; padding: 0 10px; position: relative; z-index: 10; }
 
-        /* PRE-FUTUR CARDS (Eje X - Flacas) */
+        /* PRE-FUTUR FLIPCARDS (Eje X - Flacas) */
         .pf-card { height: 420px; perspective: 1000px; cursor: pointer; }
         .pf-inner { position: relative; width: 100%; height: 100%; transition: transform 0.8s; transform-style: preserve-3d; }
         .pf-card:hover .pf-inner { transform: rotateX(180deg); }
@@ -68,12 +68,12 @@
         .pf-back { transform: rotateX(180deg); background: white; color: #0F2F4A; text-align: center; }
 
         /* EQUIPO FLIPCARDS (Pequeñas - 8 Col) */
-        .team-card { height: 200px; perspective: 1000px; cursor: pointer; }
+        .team-card { height: 210px; perspective: 1000px; cursor: pointer; }
         .team-inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s; transform-style: preserve-3d; }
         .team-card:hover .team-inner { transform: rotateY(180deg); }
         .team-front, .team-back { position: absolute; inset: 0; backface-visibility: hidden; border-radius: 6px; overflow: hidden; }
         .team-front { background: white; display: flex; flex-direction: column; }
-        .team-back { background: #0F2F4A; color: white; transform: rotateY(180deg); display: flex; flex-direction: column; justify-content: center; padding: 5px; text-align: center; border: 1px solid #D4AF37; }
+        .team-back { background: #0F2F4A; color: white; transform: rotateY(180deg); display: flex; flex-direction: column; justify-content: center; padding: 8px; text-align: center; border: 1px solid #D4AF37; }
         .team-img { width: 100%; height: 75%; object-fit: cover; object-position: top; }
 
         /* CLIENTES FLIPCARDS */
@@ -89,16 +89,17 @@
         .accordion-content.active { max-height: 2000px; }
         .tab-btn.active { background-color: #D4AF37; color: white; border-color: #D4AF37; }
         
-        .logo-container { background-color: rgba(255, 255, 255, 0.95); padding: 5px 15px; border-radius: 4px; }
+        /* LOGO CONTAINER FIX */
+        .logo-container { background-color: rgba(255, 255, 255, 0.95); padding: 5px 15px; border-radius: 8px; box-shadow: 0 0 10px rgba(255,255,255,0.2); }
     </style>
 </head>
 <body>
 
-    <nav class="fixed w-full z-50 glass-panel shadow-lg transition-all duration-300">
+    <nav class="fixed w-full z-50 bg-navy/95 border-b border-gold shadow-lg transition-all duration-300">
         <div class="container mx-auto px-6 py-3 flex justify-between items-center">
             <div class="logo-container">
                 <a href="#hero">
-                    <img src="assets/images/logo_sin_fondo.png" alt="GL Strategic" class="h-10 w-auto hover:opacity-90 transition">
+                    <img src="assets/images/logo_sin_fondo.png" alt="GL Strategic Logo" class="h-10 w-auto hover:opacity-90 transition">
                 </a>
             </div>
             <div class="hidden xl:flex space-x-6 text-[11px] font-bold uppercase tracking-widest text-white items-center">
@@ -151,7 +152,7 @@
                     </p>
                 </div>
                 <div class="flex justify-center">
-                    <img src="assets/images/gl_02_espejo retrovisor_02.png" alt="Espejo Retrovisor" class="max-h-64 object-contain drop-shadow-2xl bg-white/10 rounded-lg p-2">
+                    <img src="assets/images/gl_02_espejo retrovisor_02.png" alt="Espejo Retrovisor" class="max-h-64 object-contain drop-shadow-2xl" onerror="this.src='https://placehold.co/400x300/0F2F4A/C5A059?text=Espejo+Retrovisor'">
                 </div>
             </div>
 
@@ -218,11 +219,16 @@
             </div>
 
             <div id="tab-caf" class="hidden animate-fade-in">
-                <div class="flex justify-center mb-8"><img src="assets/images/diagrama_caf_glass.png" class="max-w-3xl w-full object-contain" onerror="this.style.display='none'"></div>
+                <div class="flex justify-center mb-8">
+                    <img src="assets/images/diagrama_caf_glass.png" alt="Diagrama CAF" class="max-w-3xl w-full object-contain" onerror="this.style.display='none'">
+                </div>
+                
                 <div class="glass-panel p-8 rounded-xl mb-12 grid lg:grid-cols-2 gap-8 items-center border-l-4 border-green-500">
                     <div>
                         <h3 class="text-2xl font-bold text-white mb-2"><i class="fas fa-leaf text-green-500 mr-2"></i>Modelo Ecoparques Industriales</h3>
-                        <p class="text-gray-300 text-sm mb-4">Solución RegTech que mitiga el riesgo regulatorio y acelera el Time-to-Market. Ofrecemos territorios con pre-certificación ambiental y social.</p>
+                        <p class="text-gray-300 text-sm mb-4">
+                            Solución RegTech que mitiga el riesgo regulatorio y acelera el Time-to-Market. Ofrecemos territorios con pre-certificación ambiental y social.
+                        </p>
                         <a href="assets/docs/Ecoparque Industrial proyecto.doc" class="text-gold text-xs font-bold uppercase underline">Ver Proyecto</a>
                     </div>
                     <div class="grid grid-cols-2 gap-2">
@@ -232,6 +238,7 @@
                         <video controls class="w-full h-24 object-cover rounded border border-white/20"><source src="assets/videos/puerto.mp4" type="video/mp4"></video>
                     </div>
                 </div>
+
                 <div class="grid grid-cols-2 md:grid-cols-6 gap-4">
                     <div class="flip-card-simple group"><div class="flip-inner-simple"><div class="flip-front-simple"><img src="assets/images/gl_19_laberinto_permisologia.png" class="h-8 mb-2 block mx-auto">Softlanding</div><div class="flip-back-simple">Permisología y Regulación</div></div></div>
                     <div class="flip-card-simple group"><div class="flip-inner-simple"><div class="flip-front-simple"><img src="assets/images/gl_05_icono_gl_ecoparques.png" class="h-8 mb-2 block mx-auto">Ecoparques</div><div class="flip-back-simple">Territorio Industrial</div></div></div>
@@ -243,13 +250,35 @@
             </div>
 
             <div id="tab-sem" class="hidden animate-fade-in text-center">
-                 <div class="flex justify-center mb-12"><img src="assets/images/diagrama_sem_glass.png" alt="Diagrama SEM" class="max-w-4xl w-full object-contain" onerror="this.style.display='none'"></div>
-                 <div class="grid grid-cols-1 md:grid-cols-5 gap-6">
-                    <div class="glass-card p-4 hover:border-gold transition"><h4 class="text-gold font-bold text-sm mb-2">FINANZAS</h4><p class="text-[10px] text-gray-300">ABC/ABM, EVA.</p></div>
-                    <div class="glass-card p-4 hover:border-gold transition"><h4 class="text-gold font-bold text-sm mb-2">OPERACIONES</h4><p class="text-[10px] text-gray-300">Lean, Eficiencia.</p></div>
-                    <div class="glass-card p-4 hover:border-gold transition"><h4 class="text-gold font-bold text-sm mb-2">PERSONAS</h4><p class="text-[10px] text-gray-300">Cultura, Liderazgo.</p></div>
-                    <div class="glass-card p-4 hover:border-gold transition"><h4 class="text-gold font-bold text-sm mb-2">LEGAL</h4><p class="text-[10px] text-gray-300">Compliance, Riesgos.</p></div>
-                    <div class="glass-card p-4 hover:border-gold transition"><h4 class="text-gold font-bold text-sm mb-2">TECH</h4><p class="text-[10px] text-gray-300">Digital, Data.</p></div>
+                <div class="flex justify-center mb-12">
+                    <img src="assets/images/diagrama_sem_glass.png" alt="Diagrama SEM" class="max-w-4xl w-full object-contain" onerror="this.style.display='none'">
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-5 gap-6">
+                    <div class="glass-card p-4 hover:border-gold transition">
+                        <img src="assets/images/gl_06_icono_gl_finance.png" class="h-10 mx-auto mb-2">
+                        <h4 class="text-gold font-bold text-sm mb-2">FINANZAS</h4>
+                        <p class="text-[10px] text-gray-300">ABC/ABM (Costeo), EVA, Reestructuración.</p>
+                    </div>
+                    <div class="glass-card p-4 hover:border-gold transition">
+                        <img src="assets/images/gl_07_icono_gl_ops.png" class="h-10 mx-auto mb-2">
+                        <h4 class="text-gold font-bold text-sm mb-2">OPERACIONES</h4>
+                        <p class="text-[10px] text-gray-300">Supply Chain, Lean, Eficiencia.</p>
+                    </div>
+                    <div class="glass-card p-4 hover:border-gold transition">
+                        <img src="assets/images/gl_08_icono_gl_people.png" class="h-10 mx-auto mb-2">
+                        <h4 class="text-gold font-bold text-sm mb-2">PERSONAS</h4>
+                        <p class="text-[10px] text-gray-300">Cultura, Liderazgo, Gestión Cambio.</p>
+                    </div>
+                    <div class="glass-card p-4 hover:border-gold transition">
+                        <img src="assets/images/gl_09_icono_gl_legal.png" class="h-10 mx-auto mb-2">
+                        <h4 class="text-gold font-bold text-sm mb-2">LEGAL</h4>
+                        <p class="text-[10px] text-gray-300">Compliance, Riesgo Normativo.</p>
+                    </div>
+                    <div class="glass-card p-4 hover:border-gold transition">
+                        <img src="assets/images/gl_04_icono_gl_tech.png" class="h-10 mx-auto mb-2">
+                        <h4 class="text-gold font-bold text-sm mb-2">TECH & IA</h4>
+                        <p class="text-[10px] text-gray-300">Transformación Digital, Data Analytics.</p>
+                    </div>
                 </div>
             </div>
         </div>
