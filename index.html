@@ -4,30 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GL Strategic | Ingeniería de Anticipación</title>
+    <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
     
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        navy: '#002040',
-                        gold: '#c5a059',
-                        /* Colores Luminosos tipo ChileconTodo */
-                        cct_cyan: '#00C8FF', 
-                        cct_orange: '#FF8C00',
-                        lightbg: '#F0F8FF'
+                        cct_cyan: '#00A3E0',   /* Cian ChileconTodo */
+                        cct_orange: '#FF6600', /* Naranja ChileconTodo */
+                        navy: '#002040',       /* Azul GL */
                     },
                     fontFamily: { sans: ['Montserrat', 'sans-serif'] },
                     backgroundImage: {
-                        'hero-pattern': "url('assets/images/paisaje_001.jpg')",
-                        'adn-pattern': "url('assets/images/paisaje_002.jpg')",
-                        'services-pattern': "url('assets/images/paisaje_003.jpg')",
+                        'sect1': "url('assets/images/paisaje001.png')",
+                        'sect2': "url('assets/images/paisaje002.png')",
+                        'sect3': "url('assets/images/paisaje003.png')",
+                        'sect4': "url('assets/images/paisaje004.png')",
+                        'sect5': "url('assets/images/paisaje005.png')",
                     }
                 }
             }
@@ -35,403 +35,1968 @@
     </script>
 
     <style>
-        body { background-color: #ffffff; color: #333; }
+        /* RESET & BASE */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Montserrat', sans-serif; line-height: 1.8; color: #1a1a1a; background: #ffffff; }
+        h1, h2, h3, h4, h5, h6 { font-weight: 700; line-height: 1.3; margin-bottom: 1rem; }
+        p { margin-bottom: 1rem; }
+        a { color: inherit; text-decoration: none; }
+
+        /* ChileconTodo-style larger type overrides (significantly larger) */
+        .text-xs { font-size: 1.6rem; }
+        .text-sm { font-size: 2.2rem; }
+
+        /* Video Fondo */
+        .video-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; z-index: -1; }
+        .video-bg { width: 100%; height: 100%; object-fit: cover; }
+
+        /* Parallax */
+        .parallax { background-attachment: fixed; background-position: center; background-repeat: no-repeat; background-size: cover; position: relative; }
         
-        /* Vidrio Luminoso (White Glass) */
-        .glass-light {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
-        }
+        /* FLIP CARD 3D */
+        .flip-card { background-color: transparent; perspective: 1000px; height: 320px; cursor: pointer; }
+        .flip-card-inner { position: relative; width: 100%; height: 100%; text-align: center; transition: transform 0.8s; transform-style: preserve-3d; border-radius: 12px; box-shadow: 0 8px 16px rgba(0,0,0,0.08); }
+        .flip-card:hover .flip-card-inner { transform: rotateY(180deg); }
+        .flip-card-front, .flip-card-back { position: absolute; width: 100%; height: 100%; -webkit-backface-visibility: hidden; backface-visibility: hidden; border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 24px; }
 
-        /* Botones y Tabs */
-        .tab-btn.active { background-color: #002040; color: white; border-color: #002040; }
-        .btn-gradient { background: linear-gradient(90deg, #002040 0%, #0056b3 100%); }
+        /* Compact variant for lighter grids (ChileconTodo style) */
+        .flip-card.compact { height: 200px; }
+        
+        /* Frente: Blanco limpio */
+        .flip-card-front { background: #ffffff; color: #002040; border-top: 5px solid #00A3E0; box-shadow: inset 0 1px 3px rgba(0,0,0,0.05); }
+        /* Dorso: Degradado Sutil */
+        .flip-card-back { background: linear-gradient(135deg, #002040 0%, #0055aa 100%); color: white; transform: rotateY(180deg); }
+        
+        /* Variantes de Color */
+        .orange-card .flip-card-front { border-top-color: #FF6600; }
+        .orange-card .flip-card-back { background: linear-gradient(135deg, #FF6600 0%, #d94600 100%); }
 
-        /* Tarjetas de Servicio (Flip Luminosas) */
-        .pf-card { height: 380px; perspective: 1000px; cursor: pointer; }
-        .pf-inner { position: relative; width: 100%; height: 100%; transition: transform 0.8s; transform-style: preserve-3d; }
-        .pf-card:hover .pf-inner { transform: rotateX(180deg); }
-        .pf-front, .pf-back { position: absolute; inset: 0; -webkit-backface-visibility: hidden; backface-visibility: hidden; border-radius: 12px; padding: 1.5rem; display: flex; flex-direction: column; justify-content: center; align-items: center; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border: 2px solid transparent; }
-        .pf-front { background: white; color: #002040; border-top-color: var(--border-color); }
-        .pf-back { transform: rotateX(180deg); background: #f8fafc; color: #333; text-align: center; border-top-color: var(--border-color); }
+        /* Fotos Equipo */
+        .team-img { width: 120px; height: 120px; border-radius: 50%; object-fit: contain; object-position: center center; border: 4px solid white; box-shadow: 0 4px 12px rgba(0,0,0,0.15); margin-bottom: 12px; filter: grayscale(0%) brightness(1.0) contrast(1.1); transition: all 0.3s ease; background: white; }
+        .team-img:hover { filter: brightness(1.05) contrast(1.15); }
+        .team-img-principal { box-shadow: 0 0 0 3px #00A3E0, 0 4px 12px rgba(0,0,0,0.15); filter: grayscale(0%) !important; }
+        .team-card { height: 340px; }
 
-        /* Equipo */
-        .team-card-clean { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.05); transition: 0.3s; border-bottom: 3px solid transparent; }
-        .team-card-clean:hover { transform: translateY(-5px); border-bottom-color: #c5a059; box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
-        .team-img { width: 100%; height: 240px; object-fit: cover; object-position: top; }
+        /* Botones */
+        .btn-cct { background: #00A3E0; color: white; padding: 13px 32px; border-radius: 6px; font-weight: 700; text-transform: uppercase; font-size: 0.875rem; letter-spacing: 0.5px; transition: 0.3s ease; box-shadow: 0 4px 12px rgba(0, 163, 224, 0.2); }
+        .btn-cct:hover { background: #0087b8; transform: translateY(-1px); box-shadow: 0 6px 16px rgba(0, 163, 224, 0.3); }
+        
+        /* Boton Activo Tabs */
+        .tab-btn.active { background-color: white !important; color: #002040 !important; border-color: white !important; font-weight: 700; }
 
-        /* Clientes */
-        .client-box { background: white; border: 1px solid #e2e8f0; border-radius: 8px; padding: 15px; text-align: center; font-weight: 600; color: #002040; transition: 0.3s; }
-        .client-box:hover { border-color: #00C8FF; color: #00C8FF; box-shadow: 0 4px 12px rgba(0, 200, 255, 0.1); }
+        /* Diagrama CAM - Texto Blanco */
+        img[src*="Diagrama_CAM"] { filter: brightness(1.1); }
+        img[src*="Diagrama_CAM_glass.png"] { color: white; }
     </style>
 </head>
-<body x-data="{ activeTab: 'cam' }">
+<body x-data="{ activeTab: 'cam', modalOpen: false, modalSrc: '' }">
 
-    <nav class="fixed w-full z-50 bg-white/95 backdrop-blur-md border-b border-gray-100 shadow-sm">
+    <nav class="fixed w-full z-50 bg-white/95 backdrop-blur-lg border-b border-gray-200/50 shadow-sm">
         <div class="container mx-auto px-6 h-20 flex justify-between items-center">
-            <a href="#inicio">
-                <img src="assets/images/logo_00.jpeg" alt="GL Strategic" class="h-14 w-auto">
+            <a href="#inicio" class="transition-all duration-300 hover:scale-105">
+                <div class="p-2 rounded-2xl hover:bg-gray-50 transition-all duration-300">
+                    <img src="assets/images/logo_gl_strategic.png" alt="GL Strategic" class="h-12 w-auto drop-shadow-sm">
+                </div>
             </a>
-            <div class="hidden lg:flex space-x-8 font-semibold text-sm uppercase tracking-wide text-navy">
-                <a href="#inicio" class="hover:text-cct_cyan transition">Inicio</a>
-                <a href="#adn" class="hover:text-cct_cyan transition">ADN</a>
-                <a href="#servicios" class="hover:text-cct_cyan transition">Servicios</a>
-                <a href="#equipo" class="hover:text-cct_cyan transition">Equipo</a>
-                <a href="#clientes" class="hover:text-cct_cyan transition">Clientes</a>
-                <a href="#contacto" class="px-6 py-2 bg-cct_cyan text-white rounded-full hover:bg-navy transition shadow-md">Contacto</a>
+            <div class="hidden lg:flex space-x-6 text-xs font-bold uppercase tracking-wider text-navy">
+                <a href="#inicio" class="px-4 py-2 rounded-lg hover:bg-gray-100 transition duration-200">Inicio</a>
+                <a href="#adn" class="px-4 py-2 rounded-lg hover:bg-gray-100 transition duration-200">Nuestro ADN</a>
+                <a href="#servicios" class="px-4 py-2 rounded-lg hover:bg-gray-100 transition duration-200">Servicios</a>
+                <a href="#equipo" class="px-4 py-2 rounded-lg hover:bg-gray-100 transition duration-200">Equipo</a>
+                <a href="#clientes" class="px-4 py-2 rounded-lg hover:bg-gray-100 transition duration-200">Clientes</a>
+                <a href="#contacto" class="px-4 py-2 rounded-lg bg-gradient-to-br from-cct_cyan to-blue-500 text-white font-bold hover:shadow-lg transition-all duration-200">Contacto</a>
             </div>
         </div>
     </nav>
 
-    <header id="inicio" class="relative h-screen flex items-center justify-center bg-hero-pattern bg-cover bg-center bg-fixed">
-        <div class="absolute inset-0 bg-white/75"></div> <div class="relative z-10 container mx-auto px-6 text-center">
-            <h1 class="text-5xl md:text-7xl font-extrabold text-navy mb-6 leading-tight drop-shadow-sm">
-                Ingeniería de <br/><span class="text-cct_cyan">Anticipación Estratégica</span>
+    <header id="inicio" class="relative h-screen flex items-center justify-center pt-16">
+        <div class="video-container">
+            <video autoplay muted loop playsinline class="video-bg">
+                <source src="assets/videos/bosque.mp4" type="video/mp4">
+            </video>
+            <div class="absolute inset-0 bg-white/20"></div>
+        </div>
+        <div class="relative z-10 container mx-auto px-6 text-center max-w-4xl">
+            <p class="text-cct_cyan font-bold text-sm uppercase tracking-widest mb-6">Ingeniería de Anticipación</p>
+            <h1 class="text-6xl md:text-7xl font-extrabold text-navy mb-8 leading-tight">
+                La Ventaja <br/><span class="text-cct_cyan">Imposible de Copiar</span>
             </h1>
-            <p class="text-xl text-gray-700 mb-10 max-w-3xl mx-auto font-medium leading-relaxed">
-                "Nacemos de la iniciativa de prospectiva más ambiciosa de Chile (PPCI). Transformamos la incertidumbre en ventaja competitiva mediante ingeniería multidisciplinaria."
+            <p class="text-lg text-navy font-semibold mb-12 max-w-3xl mx-auto leading-relaxed">
+                Integramos la inteligencia colectiva de <strong>2.000 expertos y 107 comisiones técnicas</strong> del Proyecto País para transformar la incertidumbre en ventaja estratégica.
             </p>
-            <div class="flex justify-center gap-6">
-                <a href="#servicios" class="px-8 py-4 btn-gradient text-white font-bold text-sm uppercase rounded-full shadow-lg hover:shadow-xl transition transform hover:-translate-y-1">Conoce Nuestros Servicios</a>
-                <a href="assets/docs/LA VENTAJA IMPOSIBLE DE COPIAR.pdf" target="_blank" class="px-8 py-4 bg-white text-navy border-2 border-navy font-bold text-sm uppercase rounded-full hover:bg-navy hover:text-white transition">Leer Manifiesto</a>
+            <div class="flex justify-center gap-6 flex-wrap">
+                <a href="#servicios" class="btn-cct shadow-md hover:shadow-lg">Ver Servicios</a>
             </div>
         </div>
     </header>
 
-    <section id="adn" class="relative py-24 bg-adn-pattern bg-cover bg-fixed">
-        <div class="absolute inset-0 bg-lightbg/90"></div>
+    <section id="adn" class="relative py-24 bg-gradient-to-b from-white to-gray-50 bg-sect2 parallax opacity-[0.95]">
+        <div class="absolute inset-0 bg-white/40"></div>
         <div class="container mx-auto px-6 relative z-10">
-            <div class="grid lg:grid-cols-2 gap-16 items-center">
-                <div>
-                    <span class="text-cct_orange font-bold uppercase tracking-widest mb-2 block">Nuestra Metodología</span>
-                    <h2 class="text-4xl font-bold text-navy mb-6">Superando el "Espejo Retrovisor"</h2>
-                    <p class="text-gray-600 text-lg mb-6 leading-relaxed">
-                        La mayoría intenta predecir el futuro extrapolando el pasado. En tiempos de disrupción, eso es fatal. Nosotros no usamos bolas de cristal; usamos **sistemas de alerta temprana** basados en inteligencia colectiva y análisis de señales débiles.
-                    </p>
-                    <div class="glass-light p-6 rounded-xl border-l-4 border-cct_cyan">
-                        <h4 class="font-bold text-navy mb-2"><i class="fas fa-chart-line text-cct_cyan mr-2"></i>Anticipación Comprobada</h4>
-                        <p class="text-sm text-gray-600">El gráfico muestra cómo nuestras proyecciones (Línea Dorada) se acercaron más a la realidad que el optimismo del mercado, detectando el estancamiento antes que nadie.</p>
-                    </div>
-                </div>
-                <div class="glass-light p-8 rounded-2xl shadow-xl bg-white">
-                    <div class="relative h-80 w-full"><canvas id="pibChart"></canvas></div>
-                </div>
+            <div class="flex items-center justify-between mb-4">
+                <div class="text-xs font-bold text-navy/90">Inicio › ADN</div>
+                <a href="#inicio" class="text-xs font-bold text-navy underline">Volver al Inicio</a>
             </div>
-        </div>
-    </section>
-
-    <section id="servicios" class="relative py-24 bg-services-pattern bg-cover bg-fixed">
-        <div class="absolute inset-0 bg-white/85"></div>
-        <div class="container mx-auto px-6 relative z-10">
-            <div class="text-center mb-16">
-                <h2 class="text-4xl font-bold text-navy mb-4">NUESTROS SERVICIOS</h2>
-                <p class="text-gray-600 max-w-2xl mx-auto mb-10">Soluciones integrales de ingeniería y gestión para la transformación.</p>
-                <div class="inline-flex bg-white p-2 rounded-full shadow-md gap-2">
-                    <button @click="activeTab = 'cam'" :class="activeTab === 'cam' ? 'bg-navy text-white' : 'text-gray-500 hover:text-navy'" class="px-8 py-3 rounded-full font-bold transition duration-300">CAM+ (Diagnóstico)</button>
-                    <button @click="activeTab = 'caf'" :class="activeTab === 'caf' ? 'bg-navy text-white' : 'text-gray-500 hover:text-navy'" class="px-8 py-3 rounded-full font-bold transition duration-300">CAF (Inversión)</button>
-                    <button @click="activeTab = 'sem'" :class="activeTab === 'sem' ? 'bg-navy text-white' : 'text-gray-500 hover:text-navy'" class="px-8 py-3 rounded-full font-bold transition duration-300">SEM (Gestión)</button>
-                </div>
-            </div>
-
-            <div x-show="activeTab === 'cam'" x-transition.opacity class="glass-light p-8 rounded-3xl shadow-lg bg-white">
-                <div class="flex justify-center mb-12">
-                    <img src="assets/images/diagrama_cam_glass.png" alt="Matriz CAM+" class="max-w-4xl w-full object-contain drop-shadow-lg" onerror="this.style.display='none'">
-                </div>
-                
-                <h3 class="text-2xl font-bold text-center text-navy mb-8">Metodología Pré-Futur (7 Pasos)</h3>
-                <div class="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-7 gap-4 mb-12">
-                     <div class="pf-card group" style="--border-color: #00C8FF"><div class="pf-inner"><div class="pf-front"><i class="fas fa-microscope text-4xl text-cct_cyan mb-4"></i><h3 class="font-bold text-navy tracking-widest">DIAGNÓSTICO</h3></div><div class="pf-back"><h4 class="font-bold text-navy mb-2">Screening</h4><p class="text-sm">Mapa de calor de riesgos y 12 capas críticas.</p></div></div></div>
-                    <div class="pf-card group" style="--border-color: #00C851"><div class="pf-inner"><div class="pf-front"><i class="fas fa-binoculars text-4xl text-green-500 mb-4"></i><h3 class="font-bold text-navy tracking-widest">PROSPECTIVA</h3></div><div class="pf-back"><h4 class="font-bold text-navy mb-2">Futuros</h4><p class="text-sm">Wargaming y análisis de escenarios.</p></div></div></div>
-                    <div class="pf-card group" style="--border-color: #FFBB33"><div class="pf-inner"><div class="pf-front"><i class="fas fa-chess-board text-4xl text-orange-400 mb-4"></i><h3 class="font-bold text-navy tracking-widest">ESTRATEGIA</h3></div><div class="pf-back"><h4 class="font-bold text-navy mb-2">Identidad</h4><p class="text-sm">Definición de ruta crítica.</p></div></div></div>
-                    <div class="pf-card group" style="--border-color: #FF4444"><div class="pf-inner"><div class="pf-front"><i class="fas fa-pencil-ruler text-4xl text-red-500 mb-4"></i><h3 class="font-bold text-navy tracking-widest">DISEÑO</h3></div><div class="pf-back"><h4 class="font-bold text-navy mb-2">Ingeniería</h4><p class="text-sm">Rediseño de procesos y estructuras.</p></div></div></div>
-                    <div class="pf-card group" style="--border-color: #AA66CC"><div class="pf-inner"><div class="pf-front"><i class="fas fa-cogs text-4xl text-purple-500 mb-4"></i><h3 class="font-bold text-navy tracking-widest">EJECUCIÓN</h3></div><div class="pf-back"><h4 class="font-bold text-navy mb-2">Acción</h4><p class="text-sm">Implementación ágil y PMO.</p></div></div></div>
-                    <div class="pf-card group" style="--border-color: #33B5E5"><div class="pf-inner"><div class="pf-front"><i class="fas fa-users text-4xl text-info mb-4"></i><h3 class="font-bold text-navy tracking-widest">CULTURA</h3></div><div class="pf-back"><h4 class="font-bold text-navy mb-2">Personas</h4><p class="text-sm">Gestión del cambio y liderazgo.</p></div></div></div>
-                    <div class="pf-card group" style="--border-color: #D4AF37"><div class="pf-inner"><div class="pf-front"><i class="fas fa-chart-line text-4xl text-gold mb-4"></i><h3 class="font-bold text-navy tracking-widest">EVALUACIÓN</h3></div><div class="pf-back"><h4 class="font-bold text-navy mb-2">Mejora</h4><p class="text-sm">Medición de impacto y KPIs.</p></div></div></div>
-                </div>
-
-                <div class="max-w-3xl mx-auto bg-gray-50 rounded-xl border border-gray-200 overflow-hidden" x-data="{ open: false }">
-                    <button @click="open = !open" class="w-full flex justify-between items-center p-4 bg-white hover:bg-gray-50 transition font-bold text-navy">
-                        <span><i class="fas fa-list-check text-cct_cyan mr-2"></i> Ver las 10 Áreas Críticas de Análisis</span>
-                        <i :class="open ? 'fa-chevron-up' : 'fa-chevron-down'" class="fas text-gray-400"></i>
-                    </button>
-                    <div x-show="open" x-collapse class="p-6 grid md:grid-cols-2 gap-4 text-sm text-gray-700 border-t">
-                        <ul class="list-disc pl-5 space-y-2">
-                            <li>Legal Corporativo (Vigencia, sociedad)</li>
-                            <li>Tributario (Cumplimiento, planificación)</li>
-                            <li>Laboral (Contratos, clima)</li>
-                            <li>Ambiental (RCAs, normativa)</li>
-                            <li>Libre Competencia (Compliance)</li>
-                        </ul>
-                        <ul class="list-disc pl-5 space-y-2">
-                            <li>Derechos Humanos (Cadena suministro)</li>
-                            <li>Género e Igualdad (Inclusión)</li>
-                            <li>Consumidor (Ley pro-consumidor)</li>
-                            <li>Infraestructura (Permisos)</li>
-                            <li>Contable (IFRS, auditoría)</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <div x-show="activeTab === 'caf'" x-transition.opacity class="glass-light p-8 rounded-3xl shadow-lg bg-white">
-                <div class="flex justify-center mb-12">
-                    <img src="assets/images/diagrama_caf_glass.png" alt="Diagrama CAF" class="max-w-3xl w-full object-contain drop-shadow-lg" onerror="this.style.display='none'">
-                </div>
-
-                <div class="grid lg:grid-cols-2 gap-12 items-center mb-12">
-                    <div>
-                        <h3 class="text-3xl font-bold text-navy mb-4">Modelo Ecoparques Industriales</h3>
-                        <p class="text-gray-600 mb-6 leading-relaxed">
-                            Solución RegTech "llave en mano" que mitiga el riesgo regulatorio y acelera drásticamente el Time-to-Market. Ofrecemos territorios con <strong>pre-certificación ambiental y licencia social</strong> para una inversión segura.
-                        </p>
-                        <a href="assets/docs/Ecoparque Industrial proyecto.doc" class="inline-flex items-center text-cct_cyan font-bold underline hover:text-navy"><i class="fas fa-file-download mr-2"></i> Descargar Detalles del Proyecto</a>
-                    </div>
-                    <div class="grid grid-cols-2 gap-4">
-                        <div class="bg-white p-2 rounded-xl shadow-sm border border-gray-100"><video controls class="w-full h-28 object-cover rounded-lg"><source src="assets/videos/arica.mp4" type="video/mp4"></video><p class="text-xs text-center font-bold mt-2 text-navy">Arica Hub</p></div>
-                        <div class="bg-white p-2 rounded-xl shadow-sm border border-gray-100"><video controls class="w-full h-28 object-cover rounded-lg"><source src="assets/videos/golf.mp4" type="video/mp4"></video><p class="text-xs text-center font-bold mt-2 text-navy">Centro Logístico</p></div>
-                        <div class="bg-white p-2 rounded-xl shadow-sm border border-gray-100"><video controls class="w-full h-28 object-cover rounded-lg"><source src="assets/videos/panel_solar.mp4" type="video/mp4"></video><p class="text-xs text-center font-bold mt-2 text-navy">Energía Verde</p></div>
-                        <div class="bg-white p-2 rounded-xl shadow-sm border border-gray-100"><video controls class="w-full h-28 object-cover rounded-lg"><source src="assets/videos/puerto.mp4" type="video/mp4"></video><p class="text-xs text-center font-bold mt-2 text-navy">Conexión Global</p></div>
-                    </div>
-                </div>
-            </div>
-
-            <div x-show="activeTab === 'sem'" x-transition.opacity class="glass-light p-8 rounded-3xl shadow-lg bg-white text-center">
-                <div class="flex justify-center mb-12">
-                    <img src="assets/images/diagrama_sem_glass.png" alt="Diagrama SEM" class="max-w-4xl w-full object-contain drop-shadow-lg" onerror="this.style.display='none'">
-                </div>
-                
-                <div class="grid grid-cols-1 md:grid-cols-5 gap-6 text-left">
-                    <div class="bg-white p-5 rounded-xl shadow-sm border-t-4 border-gold hover:shadow-md transition">
-                        <i class="fas fa-coins text-3xl text-gold mb-3 block text-center"></i>
-                        <h4 class="font-bold text-navy text-center mb-3">FINANZAS</h4>
-                        <ul class="text-sm text-gray-600 space-y-1">
-                            <li>• Costeo ABC/ABM</li>
-                            <li>• Análisis EVA</li>
-                            <li>• Reestructuración</li>
-                            <li>• Pricing Estratégico</li>
-                        </ul>
-                    </div>
-                    <div class="bg-white p-5 rounded-xl shadow-sm border-t-4 border-cct_cyan hover:shadow-md transition">
-                        <i class="fas fa-industry text-3xl text-cct_cyan mb-3 block text-center"></i>
-                        <h4 class="font-bold text-navy text-center mb-3">OPERACIONES</h4>
-                        <ul class="text-sm text-gray-600 space-y-1">
-                            <li>• Supply Chain (SCM)</li>
-                            <li>• Lean Management</li>
-                            <li>• Eficiencia Operativa</li>
-                            <li>• Logística Compleja</li>
-                        </ul>
-                    </div>
-                    <div class="bg-white p-5 rounded-xl shadow-sm border-t-4 border-cct_orange hover:shadow-md transition">
-                        <i class="fas fa-user-group text-3xl text-cct_orange mb-3 block text-center"></i>
-                        <h4 class="font-bold text-navy text-center mb-3">PERSONAS</h4>
-                        <ul class="text-sm text-gray-600 space-y-1">
-                            <li>• Gestión del Cambio</li>
-                            <li>• Liderazgo y Cultura</li>
-                            <li>• Diseño Organizacional</li>
-                            <li>• Alineamiento</li>
-                        </ul>
-                    </div>
-                    <div class="bg-white p-5 rounded-xl shadow-sm border-t-4 border-red-400 hover:shadow-md transition">
-                        <i class="fas fa-scale-balanced text-3xl text-red-400 mb-3 block text-center"></i>
-                        <h4 class="font-bold text-navy text-center mb-3">LEGAL & RIESGO</h4>
-                        <ul class="text-sm text-gray-600 space-y-1">
-                            <li>• Compliance</li>
-                            <li>• Due Diligence</li>
-                            <li>• Fusiones (M&A)</li>
-                            <li>• Riesgo Normativo</li>
-                        </ul>
-                    </div>
-                    <div class="bg-white p-5 rounded-xl shadow-sm border-t-4 border-purple-400 hover:shadow-md transition">
-                        <i class="fas fa-robot text-3xl text-purple-400 mb-3 block text-center"></i>
-                        <h4 class="font-bold text-navy text-center mb-3">TECH & IA</h4>
-                        <ul class="text-sm text-gray-600 space-y-1">
-                            <li>• Transformación Digital</li>
-                            <li>• Data Analytics</li>
-                            <li>• Automatización</li>
-                            <li>• Ciberseguridad</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="equipo" class="py-24 bg-lightbg">
-        <div class="container mx-auto px-6">
-            <h2 class="text-4xl font-bold text-center text-navy mb-16">NUESTRO EQUIPO</h2>
-
-            <div class="mb-16">
-                <h3 class="text-xl font-bold text-navy border-b-2 border-cct_cyan pb-2 mb-8 inline-block">Socios Directivos</h3>
-                <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8">
-                    <div class="team-card-clean">
-                        <img src="assets/images/gaston_lhuillier_troncoso.png" class="team-img" alt="Gastón">
-                        <div class="p-4 text-center">
-                            <h4 class="font-bold text-navy">Gastón L’Huillier</h4>
-                            <p class="text-sm text-cct_orange font-medium">Socio Principal</p>
-                            <p class="text-xs text-gray-500 mt-1">Ingeniero Civil. Estrategia.</p>
-                        </div>
-                    </div>
-                    <div class="team-card-clean">
-                        <img src="assets/images/pablo_canobra.png" class="team-img" alt="Pablo">
-                        <div class="p-4 text-center">
-                            <h4 class="font-bold text-navy">Pablo Canobra</h4>
-                            <p class="text-sm text-gold font-medium">Socio</p>
-                            <p class="text-xs text-gray-500 mt-1">Ing. Comercial. Finanzas.</p>
-                        </div>
-                    </div>
-                    <div class="team-card-clean">
-                        <img src="assets/images/guillermo_munoz.png" class="team-img" alt="Guillermo">
-                        <div class="p-4 text-center">
-                            <h4 class="font-bold text-navy">Guillermo Muñoz</h4>
-                            <p class="text-sm text-gold font-medium">Socio</p>
-                            <p class="text-xs text-gray-500 mt-1">Ing. Civil. Infraestructura.</p>
-                        </div>
-                    </div>
-                    <div class="team-card-clean">
-                        <img src="assets/images/rafael_sotil.png" class="team-img" alt="Rafael">
-                        <div class="p-4 text-center">
-                            <h4 class="font-bold text-navy">Rafael Sotil</h4>
-                            <p class="text-sm text-gold font-medium">Socio</p>
-                            <p class="text-xs text-gray-500 mt-1">Ing. Comercial. Marketing.</p>
-                        </div>
-                    </div>
-                    <div class="team-card-clean">
-                        <img src="assets/images/carlos_vergara_new.png" class="team-img" alt="Carlos Vergara" onerror="this.src='assets/images/carlos_vergara.png'"> <div class="p-4 text-center">
-                            <h4 class="font-bold text-navy">Carlos Vergara</h4>
-                            <p class="text-sm text-gold font-medium">Socio</p>
-                            <p class="text-xs text-gray-500 mt-1">Ing. Civil Ind. Gestión.</p>
-                        </div>
-                    </div>
-                    <div class="team-card-clean">
-                        <img src="assets/images/jose_martinez.png" class="team-img" alt="Jose">
-                        <div class="p-4 text-center">
-                            <h4 class="font-bold text-navy">José Inostroza</h4>
-                            <p class="text-sm text-gold font-medium">Socio</p>
-                            <p class="text-xs text-gray-500 mt-1">Abogado. Modernización.</p>
-                        </div>
-                    </div>
-                    <div class="team-card-clean">
-                        <img src="assets/images/claudio_hohmann.png" class="team-img" alt="Claudio H">
-                        <div class="p-4 text-center">
-                            <h4 class="font-bold text-navy">Claudio Hohmann</h4>
-                            <p class="text-sm text-gold font-medium">Socio</p>
-                            <p class="text-xs text-gray-500 mt-1">Ing. Civil. Transporte.</p>
-                        </div>
-                    </div>
-                    <div class="team-card-clean">
-                        <img src="assets/images/claudio_maggi.png" class="team-img" alt="Claudio M">
-                        <div class="p-4 text-center">
-                            <h4 class="font-bold text-navy">Claudio Maggi</h4>
-                            <p class="text-sm text-gold font-medium">Socio</p>
-                            <p class="text-xs text-gray-500 mt-1">Ing. Civil. Innovación.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="grid md:grid-cols-2 gap-16 bg-white p-8 rounded-2xl shadow-sm">
-                <div>
-                    <h3 class="text-lg font-bold text-navy border-b border-gray-200 pb-3 mb-6">Consultores Especialistas</h3>
-                    <ul class="grid grid-cols-2 gap-y-3 gap-x-6 text-sm text-gray-700 font-medium">
-                        <li class="flex items-center"><i class="fas fa-check-circle text-cct_cyan mr-2 text-xs"></i>Klaus Van der Molen (Riesgos)</li>
-                        <li class="flex items-center"><i class="fas fa-check-circle text-cct_cyan mr-2 text-xs"></i>Edith Wilson (Legal)</li>
-                        <li class="flex items-center"><i class="fas fa-check-circle text-cct_cyan mr-2 text-xs"></i>Elena Pailamilla (Normas)</li>
-                        <li class="flex items-center"><i class="fas fa-check-circle text-cct_cyan mr-2 text-xs"></i>Gilberto Céspedes (Procesos)</li>
-                        <li class="flex items-center"><i class="fas fa-check-circle text-cct_cyan mr-2 text-xs"></i>Juan Samaniego (Benchmark)</li>
-                        <li class="flex items-center"><i class="fas fa-check-circle text-cct_cyan mr-2 text-xs"></i>Maurice Filippi (Costeo)</li>
-                        <li class="flex items-center"><i class="fas fa-check-circle text-cct_cyan mr-2 text-xs"></i>Mario Boada (Comms)</li>
-                        <li class="flex items-center"><i class="fas fa-check-circle text-cct_cyan mr-2 text-xs"></i>Paula Jadue (Público)</li>
-                        <li class="flex items-center"><i class="fas fa-check-circle text-cct_cyan mr-2 text-xs"></i>Angelo Cerda (Estrategia)</li>
-                        <li class="flex items-center"><i class="fas fa-check-circle text-cct_cyan mr-2 text-xs"></i>Cristian Durán (Finanzas)</li>
-                    </ul>
-                </div>
-                <div>
-                    <h3 class="text-lg font-bold text-navy border-b border-gray-200 pb-3 mb-6">Directores Regionales</h3>
-                    <ul class="grid grid-cols-2 gap-y-3 gap-x-6 text-sm text-gray-700 font-medium">
-                        <li class="flex items-center"><i class="fas fa-map-marker-alt text-cct_orange mr-2 text-xs"></i>Javier Díaz (Arica)</li>
-                        <li class="flex items-center"><i class="fas fa-map-marker-alt text-cct_orange mr-2 text-xs"></i>Jaime Soto (Tarapacá)</li>
-                        <li class="flex items-center"><i class="fas fa-map-marker-alt text-cct_orange mr-2 text-xs"></i>Juan Bacovich (Antofagasta)</li>
-                        <li class="flex items-center"><i class="fas fa-map-marker-alt text-cct_orange mr-2 text-xs"></i>Julio Muñoz (Maule)</li>
-                        <li class="flex items-center"><i class="fas fa-map-marker-alt text-cct_orange mr-2 text-xs"></i>Jenny Sauterel (Biobío)</li>
-                        <li class="flex items-center"><i class="fas fa-map-marker-alt text-cct_orange mr-2 text-xs"></i>Alejandro Rodó (Araucanía)</li>
-                        <li class="flex items-center"><i class="fas fa-map-marker-alt text-cct_orange mr-2 text-xs"></i>Pablo Canobra (Los Lagos)</li>
-                        <li class="flex items-center"><i class="fas fa-map-marker-alt text-cct_orange mr-2 text-xs"></i>Pablo Vega (Perú)</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="clientes" class="py-24 bg-white">
-        <div class="container mx-auto px-6 text-center">
-            <h2 class="text-3xl font-bold text-navy mb-12">CONFÍAN EN NOSOTROS</h2>
+            <h2 class="text-4xl font-bold text-navy mb-8 text-center">NUESTRO ADN</h2>
             
-            <div class="max-w-4xl mx-auto space-y-10">
-                <div>
-                    <h4 class="font-bold text-cct_cyan mb-6 text-sm uppercase tracking-wider">Minería y Recursos Naturales</h4>
-                    <div class="flex flex-wrap justify-center gap-4">
-                        <div class="client-box w-32">Codelco</div><div class="client-box w-32">Teck</div><div class="client-box w-32">CMPC</div><div class="client-box w-32">Colun</div><div class="client-box w-40">Minera Zaldívar</div>
+            <!-- HERO ADN + VIDEO SIDE BY SIDE -->
+            <div class="grid md:grid-cols-2 gap-6 mb-6">
+                <!-- FLIPCARD: ESPEJO RETROVISOR -->
+                <div class="flip-card h-72">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front bg-gradient-to-br from-white via-blue-50 to-cyan-50 backdrop-blur flex items-center justify-center p-6">
+                            <div class="relative w-full h-full">
+                                <img src="assets/images/gl_02_espejo_retrovisor_02.png" class="w-full h-full object-cover rounded-2xl shadow-2xl brightness-110 contrast-110 hover:brightness-125 hover:scale-105 transition-all duration-500" style="filter: drop-shadow(0 0 20px rgba(0,163,224,0.6)) brightness(1.15) contrast(1.1);" alt="Espejo Retrovisor" onerror="this.parentElement.innerHTML='<div class=\'text-center\'><i class=\'fas fa-eye text-6xl text-cct_cyan mb-2\'></i><p class=\'text-sm text-navy font-bold\'>Espejo Retrovisor</p></div>';">
+                                <!-- Labels sobre la imagen -->
+                                <div class="absolute top-4 left-4 bg-red-500/90 text-white px-3 py-1.5 rounded-lg text-xs font-bold shadow-lg">
+                                    Consultoría Tradicional<br/><span class="text-[10px] font-normal">(Espejo Retrovisor)</span>
+                                </div>
+                                <div class="absolute top-4 right-4 bg-cct_cyan/90 text-white px-3 py-1.5 rounded-lg text-xs font-bold shadow-lg">
+                                    Anticipación GL Strategic<br/><span class="text-[10px] font-normal">(Visión al Futuro)</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flip-card-back bg-gradient-to-br from-cct_cyan/90 to-blue-600/80 flex items-center justify-center">
+                            <div class="text-sm px-4 leading-relaxed text-white font-medium text-center space-y-3">
+                                <p>
+                                    Mientras gobierno y mercado reaccionan al pasado, <strong>GL Strategic anticipa el futuro</strong>, detectando tenues señales en la institucionalidad, la cultura, la política, los sectores económicos, los gremios, con metodologías probadas.
+                                </p>
+                                <p>
+                                    En las últimas dos décadas nuestra red de expertos (PPCI) anticipó con una década de antelación: <strong>1) El Estallido Social de 2019</strong> (previsto en 2011) y <strong>2) El Estancamiento Económico</strong> (advertido en 2014).
+                                </p>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div>
-                    <h4 class="font-bold text-cct_cyan mb-6 text-sm uppercase tracking-wider">Banca y Servicios</h4>
-                    <div class="flex flex-wrap justify-center gap-4">
-                        <div class="client-box w-40">Banco de Chile</div><div class="client-box w-32">Consorcio</div><div class="client-box w-32">Transbank</div><div class="client-box w-32">Metro</div>
+
+                <!-- Video en recuadro -->
+                <div class="bg-white/95 backdrop-blur p-4 rounded-2xl shadow border border-gray-200 h-72">
+                    <div class="relative overflow-hidden rounded-xl border border-gray-200 shadow h-full">
+                        <video autoplay muted loop playsinline class="w-full h-full object-cover">
+                            <source src="assets/videos/nuestro_adn.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <p class="text-[10px] text-gray-500 mt-2 text-center">Video: Nuestro ADN</p>
+                </div>
+            </div>
+
+            <!-- GRID DE 6 FLIP CARDS: Nuestro ADN - 2 filas, 3 columnas -->
+            <h4 class="text-lg font-bold text-navy mb-4 text-center">El Relato de los Chilenos & Nuestra Ventaja Imposible de Copiar</h4>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                <!-- Fila 1: Relato de los Chilenos -->
+                <div class="flip-card h-56">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <i class="fas fa-mountain text-3xl text-red-500 mb-1"></i>
+                            <h5 class="font-bold text-navy text-xs">🌋 Resiliencia Extrema</h5>
+                        </div>
+                        <div class="flip-card-back bg-gradient-to-br from-red-500/90 to-rose-600/80">
+                            <p class="text-sm px-2 leading-relaxed text-white font-medium mb-2">Campeones mundiales en operar bajo caos, adaptación a extremos y gestión de crisis.</p>
+                            <ul class="text-sm px-2 text-white space-y-1 leading-tight">
+                                <li>• 3x gasto nacional en desastres naturales</li>
+                                <li>• Experiencia comprobada en contingencias</li>
+                                <li>• Ecosistema de innovación bajo presión</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
-                <div>
-                    <h4 class="font-bold text-cct_orange mb-6 text-sm uppercase tracking-wider">Sector Público</h4>
-                    <div class="flex flex-wrap justify-center gap-4">
-                        <div class="client-box w-32">CORFO</div><div class="client-box w-32">MOP</div><div class="client-box w-32">GOREs</div><div class="client-box w-32">ENAP</div>
+                <div class="flip-card h-56">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <i class="fas fa-compass text-3xl text-cct_orange mb-1"></i>
+                            <h5 class="font-bold text-navy text-xs">🏔️ Herencia Mapuche</h5>
+                        </div>
+                        <div class="flip-card-back bg-gradient-to-br from-cct_orange/90 to-red-600/80">
+                            <p class="text-sm px-2 leading-relaxed text-white font-medium mb-2">86% ADN originario: modelo de liderazgo horizontal y adaptativo.</p>
+                            <ul class="text-sm px-2 text-white space-y-1 leading-tight">
+                                <li>• Adhocracia: decisiones rápidas sin capas</li>
+                                <li>• Innovación adaptativa al territorio</li>
+                                <li>• Reciprocidad con el entorno (minka)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="flip-card h-56">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <i class="fas fa-hands-helping text-3xl text-green-500 mb-1"></i>
+                            <h5 class="font-bold text-navy text-xs">🤝 La Minga</h5>
+                        </div>
+                        <div class="flip-card-back bg-gradient-to-br from-green-500/90 to-emerald-600/80">
+                            <p class="text-sm px-2 leading-relaxed text-white font-medium mb-2">Gestión por compromiso, reciprocidad y sentido colectivo, no imposición.</p>
+                            <ul class="text-sm px-2 text-white space-y-1 leading-tight">
+                                <li>• Colaboración territorial ancestral</li>
+                                <li>• Movilización desde la base social</li>
+                                <li>• Transformación desde la identidad local</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Fila 2: Ventajas Estratégicas -->
+                <!-- PPCI PRECISION PREDICTIVA - CON GRAFICO -->
+                <div class="flip-card h-56">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front flex flex-col items-center justify-center overflow-hidden p-2">
+                            <h6 class="text-[9px] font-bold text-gray-600 uppercase tracking-widest mb-1">PIB: PPCI vs Mercado</h6>
+                            <div class="relative w-full h-40"><canvas id="pibChart"></canvas></div>
+                            <p class="text-[8px] text-gray-500 italic mt-1 text-center">Proyecto País 2050 / BC</p>
+                        </div>
+                        <div class="flip-card-back bg-gradient-to-br from-cct_orange/90 to-red-600/80">
+                            <p class="text-sm px-2 leading-relaxed text-white font-medium mb-2">
+                                Red de 2.000+ expertos del Proyecto País anticipa quiebres estructurales:
+                            </p>
+                            <div class="space-y-1.5 text-sm px-2 text-white">
+                                <div><strong>2011:</strong> Predijo estallido social (2019)</div>
+                                <div><strong>2014:</strong> Advirtió estancamiento económico</div>
+                                <div><strong>2002-2020:</strong> PIB más preciso que FMI y BC</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ENTENDEMOS EL TERRENO -->
+                <div class="flip-card h-56">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <i class="fas fa-map-marked-alt text-3xl text-cct_cyan mb-1"></i>
+                            <h5 class="font-bold text-navy text-xs">Entendemos el Terreno</h5>
+                        </div>
+                        <div class="flip-card-back bg-gradient-to-br from-cct_cyan/90 to-blue-600/80">
+                            <p class="text-sm px-2 leading-relaxed text-white font-medium mb-2">Conocemos Chile: identidad, regiones, instituciones y cultura organizacional avalados por décadas del Proyecto País.</p>
+                            <ul class="text-sm px-2 text-white space-y-1 leading-tight">
+                                <li>• Mirada territorial de particularidades productivas</li>
+                                <li>• Soluciones aplicables a contexto local</li>
+                                <li>• Resiliencia + adhocracia como ventaja</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VALOR REAL, NO HUMO -->
+                <div class="flip-card h-56">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <i class="fas fa-gem text-3xl text-cct_orange mb-1"></i>
+                            <h5 class="font-bold text-navy text-xs">Valor Real, No Humo</h5>
+                        </div>
+                        <div class="flip-card-back bg-gradient-to-br from-cct_orange/90 to-red-600/80">
+                            <p class="text-sm px-2 leading-relaxed text-white font-medium mb-2">
+                                Consultores 100% senior. Acompañamiento integral de transformación:
+                            </p>
+                            <ul class="text-sm px-2 text-white space-y-1 leading-tight">
+                                <li>• ABC/ABM: Rentabilidad real por línea</li>
+                                <li>• EVA: Creación de valor económico medible</li>
+                                <li>• Implementación: No solo informes, ejecución</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ENLACES INSTITUCIONALES -->
+            <div class="grid md:grid-cols-2 gap-4 mb-8">
+                <a href="https://proyectopaischile.blogspot.com/" target="_blank" class="bg-white/95 backdrop-blur p-6 rounded-xl border-2 border-cct_cyan shadow-md hover:shadow-xl hover:scale-105 transition-all duration-300 group">
+                    <div class="flex items-center gap-4">
+                        <div class="w-16 h-16 rounded-full bg-gradient-to-br from-cct_cyan to-blue-500 flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-network-wired text-2xl text-white"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h5 class="font-bold text-navy text-base mb-1 group-hover:text-cct_cyan transition-colors">Proyecto País Chile</h5>
+                            <p class="text-xs text-gray-600">Red de 2.000+ expertos del Colegio de Ingenieros. Dirigido por Gastón L'Huillier, fundador de GL Strategic.</p>
+                        </div>
+                        <i class="fas fa-external-link-alt text-cct_cyan text-xl opacity-0 group-hover:opacity-100 transition-opacity"></i>
+                    </div>
+                </a>
+                
+                <a href="http://www.groupeloyal.cl/" target="_blank" class="bg-white/95 backdrop-blur p-6 rounded-xl border-2 border-cct_orange shadow-md hover:shadow-xl hover:scale-105 transition-all duration-300 group">
+                    <div class="flex items-center gap-4">
+                        <div class="w-16 h-16 rounded-full bg-gradient-to-br from-cct_orange to-red-500 flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-history text-2xl text-white"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h5 class="font-bold text-navy text-base mb-1 group-hover:text-cct_orange transition-colors">Groupe Loyal</h5>
+                            <p class="text-xs text-gray-600">Firma antecesora de GL Strategic. Legado de más de 20 años en consultoría estratégica y transformación.</p>
+                        </div>
+                        <i class="fas fa-external-link-alt text-cct_orange text-xl opacity-0 group-hover:opacity-100 transition-opacity"></i>
+                    </div>
+                </a>
+            </div>
+
+            <!-- BANNER DE NOTICIAS Y NOVEDADES -->
+            <div class="bg-gradient-to-br from-blue-50 to-cyan-50 backdrop-blur p-8 rounded-2xl shadow-lg border border-cct_cyan/30">
+                <div class="flex items-center justify-between mb-6">
+                    <div class="flex items-center gap-3">
+                        <i class="fas fa-newspaper text-3xl text-cct_cyan"></i>
+                        <h4 class="text-2xl font-bold text-navy">Noticias y Novedades</h4>
+                    </div>
+                    <a href="http://groupeloyal.blogspot.com/" target="_blank" class="text-xs font-bold text-cct_cyan hover:text-blue-600 transition">Ver todas →</a>
+                </div>
+                
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <!-- Noticia 1 -->
+                    <div class="bg-white/95 rounded-xl p-5 shadow-md hover:shadow-lg transition-all duration-300 border border-gray-200 hover:border-cct_cyan">
+                        <h5 class="font-bold text-navy text-sm mb-2 line-clamp-2">Proyecto País se anticipa 10 años a los cambios de tendencia en Chile</h5>
+                        <p class="text-xs text-gray-600 mb-3 line-clamp-3">El PP del Colegio de Ingenieros, creado y dirigido por nuestro socio Gastón L'Huillier, ha entregado durante 12 años la mejor información sobre los cambios que vienen en el País...</p>
+                        <a href="http://groupeloyal.blogspot.com/2014/03/proyecto-pais-se-anticipa-10-anos-los.html" target="_blank" class="text-xs font-bold text-cct_cyan hover:text-blue-600 transition">Leer más →</a>
+                    </div>
+                    
+                    <!-- Noticia 2 -->
+                    <div class="bg-white/95 rounded-xl p-5 shadow-md hover:shadow-lg transition-all duration-300 border border-gray-200 hover:border-cct_cyan">
+                        <h5 class="font-bold text-navy text-sm mb-2 line-clamp-2">Proyecto de nuestra firma premiados a nivel mundial</h5>
+                        <p class="text-xs text-gray-600 mb-3 line-clamp-3">Chilectra, una de las cuatro empresas chilenas premiadas con Palladium Balanced Scorecard Hall of Fame for Executing Strategy...</p>
+                        <a href="http://groupeloyal.blogspot.com/2014/03/proyectos-de-nuestra-firma-premiados.html" target="_blank" class="text-xs font-bold text-cct_cyan hover:text-blue-600 transition">Leer más →</a>
+                    </div>
+                    
+                    <!-- Noticia 3 -->
+                    <div class="bg-white/95 rounded-xl p-5 shadow-md hover:shadow-lg transition-all duration-300 border border-gray-200 hover:border-cct_cyan">
+                        <h5 class="font-bold text-navy text-sm mb-2 line-clamp-2">Plan estratégico para tener ingeniería de clase mundial el año 2030</h5>
+                        <p class="text-xs text-gray-600 mb-3 line-clamp-3">Nuestra firma asesoró a la Universidad de Concepción en el programa de Corfo "Nueva Ingeniería para el 2030"...</p>
+                        <a href="http://groupeloyal.blogspot.com/2014/03/plan-estrategico-para-tener-ingenieria.html" target="_blank" class="text-xs font-bold text-cct_cyan hover:text-blue-600 transition">Leer más →</a>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <footer id="contacto" class="bg-navy text-white pt-16 pb-8">
-        <div class="container mx-auto px-6 grid md:grid-cols-3 gap-12 mb-12">
-            <div>
-                <img src="assets/images/logo_sin_fondo.png" class="h-16 brightness-0 invert mb-6" alt="Logo">
-                <p class="text-gray-300 leading-relaxed">Ingeniería de Transformación Anticipativa. Socios senior y confidencialidad absoluta.</p>
+    <section id="servicios" class="relative py-24 bg-gradient-to-b from-white to-gray-50 bg-sect3 parallax opacity-[0.97]">
+        <div class="absolute inset-0 bg-white/30"></div>
+        <div class="container mx-auto px-6 relative z-10">
+            <h2 class="text-5xl font-bold text-navy mb-12 text-center">NUESTROS SERVICIOS</h2>
+            <div class="text-center mb-8">
+                <p class="text-xs text-gray-600 mb-4"><strong>CAM+:</strong> Centro de Anticipación y Creación de Futuro | <strong>CAF:</strong> Soft Landing de Inversiones | <strong>SEM:</strong> Strategic Engineering & Management</p>
             </div>
-            <div>
-                <h5 class="text-xl font-bold text-cct_cyan mb-6">Contacto Directo</h5>
-                <p class="flex items-center text-gray-300 mb-3"><i class="fas fa-map-marker-alt text-cct_orange w-8"></i> La Dehesa 226, Santiago</p>
-                <p class="flex items-center text-gray-300 mb-3"><i class="fas fa-phone text-cct_orange w-8"></i> +569 7609 3848</p>
-                <a href="mailto:contacto@glstrategic.cl" class="flex items-center text-gray-300 hover:text-cct_cyan transition"><i class="fas fa-envelope text-cct_orange w-8"></i> contacto@glstrategic.cl</a>
+            <div class="text-center mb-12">
+                <div class="flex flex-wrap justify-center gap-3 md:gap-4">
+                    <button @click="activeTab = 'cam'" :class="activeTab === 'cam' ? 'bg-white text-navy border-2 border-navy' : 'bg-white text-navy hover:bg-navy/10 border-2 border-gray-200'" class="px-6 md:px-8 py-2.5 md:py-3 rounded-full font-bold transition shadow-sm">CAM+ <span class="text-xs font-normal">Diagnóstico</span></button>
+                    <button @click="activeTab = 'caf'" :class="activeTab === 'caf' ? 'bg-white text-navy border-2 border-navy' : 'bg-white text-navy hover:bg-navy/10 border-2 border-gray-200'" class="px-6 md:px-8 py-2.5 md:py-3 rounded-full font-bold transition shadow-sm">CAF <span class="text-xs font-normal">Inversión</span></button>
+                    <button @click="activeTab = 'sem'" :class="activeTab === 'sem' ? 'bg-white text-navy border-2 border-navy' : 'bg-white text-navy hover:bg-navy/10 border-2 border-gray-200'" class="px-6 md:px-8 py-2.5 md:py-3 rounded-full font-bold transition shadow-sm">SEM <span class="text-xs font-normal">Gestión</span></button>
+                </div>
             </div>
-            <div>
-                <h5 class="text-xl font-bold text-gold mb-6">Enlaces Rápidos</h5>
-                <ul class="space-y-3 text-gray-300">
-                    <li><a href="#servicios" class="hover:text-gold transition">Nuestros Servicios</a></li>
-                    <li><a href="#equipo" class="hover:text-gold transition">El Equipo</a></li>
-                    <li><a href="assets/docs/LA VENTAJA IMPOSIBLE DE COPIAR.pdf" target="_blank" class="hover:text-gold transition">Descargar Manifiesto</a></li>
-                </ul>
+
+            <div x-show="activeTab === 'cam'" class="animate-fade-in space-y-12" x-data="{camPage: 1}">
+                <!-- PAGE NAVIGATION -->
+                <div class="bg-white/95 backdrop-blur p-6 rounded-2xl shadow-lg border border-cct_cyan/30 mb-8">
+                    <div class="flex items-center justify-between flex-wrap gap-4">
+                        <div class="flex items-center gap-3 flex-1">
+                            <button @click="camPage=1" :class="camPage===1 ? 'bg-cct_cyan text-white shadow-lg scale-105' : 'bg-white text-gray-600 hover:bg-gray-100'" class="px-4 py-2 rounded-lg font-bold text-xs transition-all duration-300 border border-gray-200">1. Visión</button>
+                            <div class="h-1 w-8 bg-gradient-to-r from-cct_cyan to-cct_orange rounded"></div>
+                            <button @click="camPage=2" :class="camPage===2 ? 'bg-cct_cyan text-white shadow-lg scale-105' : 'bg-white text-gray-600 hover:bg-gray-100'" class="px-4 py-2 rounded-lg font-bold text-xs transition-all duration-300 border border-gray-200">2. Diagnóstico Integral</button>
+                            <div class="h-1 w-8 bg-gradient-to-r from-cct_orange to-green-500 rounded"></div>
+                            <button @click="camPage=3" :class="camPage===3 ? 'bg-cct_cyan text-white shadow-lg scale-105' : 'bg-white text-gray-600 hover:bg-gray-100'" class="px-4 py-2 rounded-lg font-bold text-xs transition-all duration-300 border border-gray-200">3. Pré-Futur</button>
+                            <div class="h-1 w-8 bg-gradient-to-r from-green-500 to-purple-500 rounded"></div>
+                            <button @click="camPage=4" :class="camPage===4 ? 'bg-cct_cyan text-white shadow-lg scale-105' : 'bg-white text-gray-600 hover:bg-gray-100'" class="px-4 py-2 rounded-lg font-bold text-xs transition-all duration-300 border border-gray-200">4. Resultados</button>
+                        </div>
+                        <div class="flex gap-2">
+                            <button @click="camPage=Math.max(1,camPage-1)" class="p-2 rounded-lg bg-gray-100 hover:bg-cct_cyan hover:text-white transition-all"><i class="fas fa-chevron-left text-sm"></i></button>
+                            <button @click="camPage=Math.min(4,camPage+1)" class="p-2 rounded-lg bg-gray-100 hover:bg-cct_cyan hover:text-white transition-all"><i class="fas fa-chevron-right text-sm"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Breadcrumb: CAM -->
+                <div class="hidden mb-4">
+                    <div class="text-xs font-bold text-navy/90">
+                        Servicios › CAM+ › <span x-text="camPage===1 ? 'Visión' : (camPage===2 ? 'Diagnóstico Integral' : (camPage===3 ? 'Pré-Futur' : 'Resultados'))"></span>
+                    </div>
+                    <a href="#servicios" class="text-xs font-bold text-navy underline">Volver a Servicios</a>
+                </div>
+
+                
+
+                <!-- PAGE 1: VISION & MODELO CONCEPTUAL -->
+                <div x-show="camPage===1" x-transition>
+                    <!-- COMBINED: Cubo + Matriz en 2 columnas como flipcards -->
+                    <div class="grid lg:grid-cols-2 gap-4 mb-6">
+                        <!-- LEFT: Cubo Flipcard -->
+                        <div class="flip-card h-72">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front bg-gradient-to-br from-white via-blue-50 to-cyan-50 backdrop-blur flex items-center justify-center p-4">
+                                    <img src="assets/images/gl_16_diagrama_cubo_3x3x3.png" alt="Cubo 3x3x3" class="w-full h-full object-contain rounded-xl shadow-lg" onerror="this.style.display='none';">
+                                </div>
+                                <div class="flip-card-back bg-gradient-to-br from-cct_cyan/90 to-blue-600/80">
+                                    <div class="flex flex-col justify-center h-full px-3">
+                                        <h5 class="font-bold text-white text-base mb-3">El Desafío y la Solución</h5>
+                                        <div class="space-y-2">
+                                            <div>
+                                                <p class="font-bold text-white text-sm mb-1">La Realidad:</p>
+                                                <p class="text-sm text-white/90">Disrupción, crisis climática. 90% estrategias fracasan por ejecución.</p>
+                                            </div>
+                                            <div>
+                                                <p class="font-bold text-white text-sm mb-1">CAM+:</p>
+                                                <p class="text-sm text-white/90">Diagnóstico en 12 componentes. Integra estrategia, cultura, tecnología. Pré-Futur en 7 etapas.</p>
+                                            </div>
+                                            <div>
+                                                <p class="font-bold text-white text-sm mb-1">Por qué:</p>
+                                                <p class="text-sm text-white/90">Reduce ciclos, elimina subsidios cruzados, resiliencia anticipativa.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- RIGHT: Matriz CAM Flipcard -->
+                        <div class="flip-card h-72">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front bg-white/95 backdrop-blur flex items-center justify-center p-2">
+                                    <img src="assets/images/Diagrama_CAM_glass.png" alt="Matriz CAM+" class="w-full h-auto max-w-xs mx-auto rounded-lg shadow-md" onerror="this.style.display='none';">
+                                </div>
+                                <div class="flip-card-back bg-gradient-to-br from-cct_orange/90 to-red-600/80">
+                                    <div class="flex flex-col justify-center h-full px-2 py-3">
+                                        <h5 class="font-bold text-white text-base mb-3 text-center">La Matriz CAM+</h5>
+                                        <div class="grid grid-cols-2 gap-2 text-xs">
+                                            <!-- EXCEL -->
+                                            <div class="bg-green-600/30 p-2 rounded border border-green-400/50">
+                                                <p class="font-bold text-white mb-1">EXCEL</p>
+                                                <p class="text-white/95 leading-tight">Alto desafío + Alta capacidad. Organizaciones viables que aprenden rápido. Consolidar ventajas.</p>
+                                            </div>
+                                            <!-- ADHOC -->
+                                            <div class="bg-orange-600/30 p-2 rounded border border-orange-400/50">
+                                                <p class="font-bold text-white mb-1">ADHOC</p>
+                                                <p class="text-white/95 leading-tight">Alto desafío + Baja capacidad. Flexibles pero reactivos. Estructurar.</p>
+                                            </div>
+                                            <!-- REBORN -->
+                                            <div class="bg-blue-600/30 p-2 rounded border border-blue-400/50">
+                                                <p class="font-bold text-white mb-1">REBORN</p>
+                                                <p class="text-white/95 leading-tight">Bajo desafío + Alta capacidad. Reinventar antes de obsolescencia.</p>
+                                            </div>
+                                            <!-- RIP -->
+                                            <div class="bg-red-600/30 p-2 rounded border border-red-400/50">
+                                                <p class="font-bold text-white mb-1">RIP</p>
+                                                <p class="text-white/95 leading-tight">Bajo desafío + Baja capacidad. Riesgo crítico. Reestructuración total.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PAGE 2: DIAGNOSTICO INTEGRAL (Los 12 Componentes) -->
+                <div x-show="camPage===2" x-transition>
+                    <div class="bg-white/95 backdrop-blur p-8 rounded-2xl shadow border-l-8 border-cct_cyan mb-8">
+                        <h4 class="text-lg font-bold text-navy mb-6">Los 12 Componentes del Diagnóstico Integral — Evaluamos la organización en doce componentes clave (visión 360°):</h4>
+                        <div id="cam-componentes" class="grid md:grid-cols-3 lg:grid-cols-4 gap-4">
+                            <div class="flip-card h-24">
+                                <div class="flip-card-inner">
+                                    <div class="flip-card-front">
+                                        <i class="fas fa-sync-alt text-3xl text-cct_cyan mb-1"></i>
+                                        <h5 class="font-bold text-navy text-xs">1. Cambio</h5>
+                                    </div>
+                                    <div class="flip-card-back bg-gradient-to-br from-cct_cyan/90 to-blue-600/80">
+                                        <p class="text-sm px-2 leading-relaxed text-white font-medium">Evalúa la apertura y capacidad de adaptación frente a transformaciones.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flip-card h-24">
+                                <div class="flip-card-inner">
+                                    <div class="flip-card-front">
+                                        <i class="fas fa-chart-line text-3xl text-cct_orange mb-1"></i>
+                                        <h5 class="font-bold text-navy text-xs">2. Prospectiva</h5>
+                                    </div>
+                                    <div class="flip-card-back bg-gradient-to-br from-cct_orange/90 to-red-600/80">
+                                        <p class="text-sm px-2 leading-relaxed text-white font-medium">Capacidad de anticipación y análisis de escenarios futuros.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flip-card h-24">
+                                <div class="flip-card-inner">
+                                    <div class="flip-card-front">
+                                        <i class="fas fa-chess text-3xl text-green-500 mb-1"></i>
+                                        <h5 class="font-bold text-navy text-xs">3. Estrategia</h5>
+                                    </div>
+                                    <div class="flip-card-back bg-gradient-to-br from-green-500/90 to-emerald-600/80">
+                                        <p class="text-sm px-2 leading-relaxed text-white font-medium">Claridad y coherencia en la dirección estratégica y modelo de negocio.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flip-card h-24">
+                                <div class="flip-card-inner">
+                                    <div class="flip-card-front">
+                                        <i class="fas fa-users text-3xl text-purple-500 mb-1"></i>
+                                        <h5 class="font-bold text-navy text-xs">4. Cultura</h5>
+                                    </div>
+                                    <div class="flip-card-back bg-gradient-to-br from-purple-500/90 to-indigo-600/80">
+                                        <p class="text-sm px-2 leading-relaxed text-white font-medium">Liderazgo colaborativo, confianza y valores compartidos en la organización.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flip-card h-24">
+                                <div class="flip-card-inner">
+                                    <div class="flip-card-front">
+                                        <i class="fas fa-gem text-3xl text-pink-500 mb-1"></i>
+                                        <h5 class="font-bold text-navy text-xs">5. Competencias</h5>
+                                    </div>
+                                    <div class="flip-card-back bg-gradient-to-br from-pink-500/90 to-rose-600/80">
+                                        <p class="text-sm px-2 leading-relaxed text-white font-medium">Disponibilidad de habilidades críticas alineadas con la estrategia.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flip-card h-24">
+                                <div class="flip-card-inner">
+                                    <div class="flip-card-front">
+                                        <i class="fas fa-user-tie text-3xl text-blue-400 mb-1"></i>
+                                        <h5 class="font-bold text-navy text-xs">6. Personas</h5>
+                                    </div>
+                                    <div class="flip-card-back bg-gradient-to-br from-blue-400/90 to-cyan-600/80">
+                                        <p class="text-sm px-2 leading-relaxed text-white font-medium">Perfiles, motivación y capacidad de retención de talento clave.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flip-card h-24">
+                                <div class="flip-card-inner">
+                                    <div class="flip-card-front">
+                                        <i class="fas fa-laptop-code text-3xl text-yellow-500 mb-1"></i>
+                                        <h5 class="font-bold text-navy text-xs">7. Digital</h5>
+                                    </div>
+                                    <div class="flip-card-back bg-gradient-to-br from-yellow-500/90 to-amber-600/80">
+                                        <p class="text-sm px-2 leading-relaxed text-white font-medium">Madurez tecnológica y capacidad de transformación digital integrada.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flip-card h-24">
+                                <div class="flip-card-inner">
+                                    <div class="flip-card-front">
+                                        <i class="fas fa-tools text-3xl text-red-500 mb-1"></i>
+                                        <h5 class="font-bold text-navy text-xs">8. Herramientas</h5>
+                                    </div>
+                                    <div class="flip-card-back bg-gradient-to-br from-red-500/90 to-rose-600/80">
+                                        <p class="text-sm px-2 leading-relaxed text-white font-medium">Disponibilidad y uso efectivo de metodologías y sistemas estratégicos.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flip-card h-24">
+                                <div class="flip-card-inner">
+                                    <div class="flip-card-front">
+                                        <i class="fas fa-lightbulb text-3xl text-lime-500 mb-1"></i>
+                                        <h5 class="font-bold text-navy text-xs">9. Innovación</h5>
+                                    </div>
+                                    <div class="flip-card-back bg-gradient-to-br from-lime-500/90 to-green-600/80">
+                                        <p class="text-sm px-2 leading-relaxed text-white font-medium">Capacidad de generar y validar nuevas ideas de forma sistemática.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flip-card h-24">
+                                <div class="flip-card-inner">
+                                    <div class="flip-card-front">
+                                        <i class="fas fa-cogs text-3xl text-teal-500 mb-1"></i>
+                                        <h5 class="font-bold text-navy text-xs">10. Gestión</h5>
+                                    </div>
+                                    <div class="flip-card-back bg-gradient-to-br from-teal-500/90 to-cyan-600/80">
+                                        <p class="text-sm px-2 leading-relaxed text-white font-medium">Gobernanza, procesos y sistemas de gestión integrados y eficientes.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flip-card h-24">
+                                <div class="flip-card-inner">
+                                    <div class="flip-card-front">
+                                        <i class="fas fa-globe text-3xl text-indigo-500 mb-1"></i>
+                                        <h5 class="font-bold text-navy text-xs">11. Inversores</h5>
+                                    </div>
+                                    <div class="flip-card-back bg-gradient-to-br from-indigo-500/90 to-blue-700/80">
+                                        <p class="text-sm px-2 leading-relaxed text-white font-medium">Alineación con expectativas de retorno y gobernanza corporativa.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flip-card h-24">
+                                <div class="flip-card-inner">
+                                    <div class="flip-card-front">
+                                        <i class="fas fa-balance-scale text-3xl text-violet-500 mb-1"></i>
+                                        <h5 class="font-bold text-navy text-xs">12. Normativa</h5>
+                                    </div>
+                                    <div class="flip-card-back bg-gradient-to-br from-violet-500/90 to-purple-700/80">
+                                        <p class="text-sm px-2 leading-relaxed text-white font-medium">Cumplimiento normativo, regulatorio y estándares de la industria.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PAGE 3: PRE-FUTUR (7 Etapas) -->
+                <div x-show="camPage===3" x-transition>
+                    <!-- FLUJO VISUAL COMPACTO: Pré-Futur en fila -->
+                    <div class="bg-white/95 backdrop-blur p-6 rounded-2xl shadow border-l-8 border-cct_cyan mb-6">
+                        <h4 class="text-sm font-bold text-navy mb-4 text-center uppercase tracking-widest">Ciclo Continuo Pré-Futur: 7 Etapas de Transformación</h4>
+                        <div class="flex items-center justify-center flex-wrap gap-2 lg:gap-3">
+                            <!-- Screening -->
+                            <div class="text-center flex flex-col items-center">
+                                <div class="w-12 h-12 rounded-full bg-cct_cyan/20 border-2 border-cct_cyan flex items-center justify-center flex-shrink-0">
+                                    <i class="fas fa-search text-cct_cyan text-sm"></i>
+                                </div>
+                                <p class="text-xs font-bold text-navy mt-1">1</p>
+                            </div>
+                            <div class="hidden lg:block text-cct_cyan text-lg font-bold">→</div>
+                            <!-- Diagnóstico -->
+                            <div class="text-center flex flex-col items-center">
+                                <div class="w-12 h-12 rounded-full bg-cct_orange/20 border-2 border-cct_orange flex items-center justify-center flex-shrink-0">
+                                    <i class="fas fa-chart-line text-cct_orange text-sm"></i>
+                                </div>
+                                <p class="text-xs font-bold text-navy mt-1">2</p>
+                            </div>
+                            <div class="hidden lg:block text-cct_orange text-lg font-bold">→</div>
+                            <!-- Estrategia -->
+                            <div class="text-center flex flex-col items-center">
+                                <div class="w-12 h-12 rounded-full bg-green-500/20 border-2 border-green-500 flex items-center justify-center flex-shrink-0">
+                                    <i class="fas fa-chess text-green-500 text-sm"></i>
+                                </div>
+                                <p class="text-xs font-bold text-navy mt-1">3</p>
+                            </div>
+                            <div class="hidden lg:block text-green-500 text-lg font-bold">→</div>
+                            <!-- Diseño -->
+                            <div class="text-center flex flex-col items-center">
+                                <div class="w-12 h-12 rounded-full bg-red-500/20 border-2 border-red-500 flex items-center justify-center flex-shrink-0">
+                                    <i class="fas fa-drafting-compass text-red-500 text-sm"></i>
+                                </div>
+                                <p class="text-xs font-bold text-navy mt-1">4</p>
+                            </div>
+                            <div class="hidden lg:block text-red-500 text-lg font-bold">→</div>
+                            <!-- Ejecución -->
+                            <div class="text-center flex flex-col items-center">
+                                <div class="w-12 h-12 rounded-full bg-purple-500/20 border-2 border-purple-500 flex items-center justify-center flex-shrink-0">
+                                    <i class="fas fa-rocket text-purple-500 text-sm"></i>
+                                </div>
+                                <p class="text-xs font-bold text-navy mt-1">5</p>
+                            </div>
+                            <div class="hidden lg:block text-yellow-500 text-lg font-bold">→</div>
+                            <!-- Consolidación -->
+                            <div class="text-center flex flex-col items-center">
+                                <div class="w-12 h-12 rounded-full bg-yellow-500/20 border-2 border-yellow-500 flex items-center justify-center flex-shrink-0">
+                                    <i class="fas fa-handshake text-yellow-500 text-sm"></i>
+                                </div>
+                                <p class="text-xs font-bold text-navy mt-1">6</p>
+                            </div>
+                            <div class="hidden lg:block text-blue-400 text-lg font-bold">→</div>
+                            <!-- Medición -->
+                            <div class="text-center flex flex-col items-center">
+                                <div class="w-12 h-12 rounded-full bg-blue-400/20 border-2 border-blue-400 flex items-center justify-center flex-shrink-0">
+                                    <i class="fas fa-chart-pie text-blue-400 text-sm"></i>
+                                </div>
+                                <p class="text-xs font-bold text-navy mt-1">7</p>
+                            </div>
+                            <!-- Loop back -->
+                            <div class="hidden lg:block text-cct_cyan text-lg font-bold">↻</div>
+                        </div>
+                        <p class="text-xs text-gray-600 text-center mt-4 italic">Ciclo continuo: cada fase retroalimenta la siguiente en mejora permanente.</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                        <div class="flip-card h-28">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <i class="fas fa-search text-3xl text-cct_cyan mb-1"></i>
+                                    <span class="text-2xl text-cct_cyan font-bold block">01</span>
+                                    <h4 class="font-bold text-navy text-xs uppercase mt-1">Screening</h4>
+                                </div>
+                                <div class="flip-card-back bg-gradient-to-br from-cct_cyan/90 to-blue-600/80">
+                                    <p class="text-sm px-2 leading-relaxed text-white font-medium">Detección rápida de urgencias, riesgos inmediatos y disposición al cambio (Readiness) de la organización.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flip-card h-28 orange-card">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <i class="fas fa-chart-line text-3xl text-cct_orange mb-1"></i>
+                                    <span class="text-2xl text-cct_orange font-bold block">02</span>
+                                    <h4 class="font-bold text-navy text-xs uppercase mt-1">Diagnóstico</h4>
+                                </div>
+                                <div class="flip-card-back bg-gradient-to-br from-cct_orange/90 to-red-600/80">
+                                    <p class="text-sm px-2 leading-relaxed text-white font-medium">Evaluación profunda de la madurez adaptativa mediante 12 componentes críticos de la organización.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flip-card h-28">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <i class="fas fa-chess text-3xl text-green-500 mb-1"></i>
+                                    <span class="text-2xl text-green-500 font-bold block">03</span>
+                                    <h4 class="font-bold text-navy text-xs uppercase mt-1">Estrategia</h4>
+                                </div>
+                                <div class="flip-card-back bg-gradient-to-br from-green-500/90 to-emerald-600/80">
+                                    <p class="text-sm px-2 leading-relaxed text-white font-medium">Definición de escenarios futuros y apuestas estratégicas alineadas con el propósito corporativo.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flip-card h-28">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <i class="fas fa-drafting-compass text-3xl text-red-500 mb-1"></i>
+                                    <span class="text-2xl text-red-500 font-bold block">04</span>
+                                    <h4 class="font-bold text-navy text-xs uppercase mt-1">Diseño</h4>
+                                </div>
+                                <div class="flip-card-back bg-gradient-to-br from-red-500/90 to-rose-600/80">
+                                    <p class="text-sm px-2 leading-relaxed text-white font-medium">Creación de hoja de ruta, gobernanza y selección de herramientas tácticas para la ejecución.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flip-card h-28">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <i class="fas fa-rocket text-3xl text-purple-500 mb-1"></i>
+                                    <span class="text-2xl text-purple-500 font-bold block">05</span>
+                                    <h4 class="font-bold text-navy text-xs uppercase mt-1">Ejecución</h4>
+                                </div>
+                                <div class="flip-card-back bg-gradient-to-br from-purple-500/90 to-indigo-600/80">
+                                    <p class="text-sm px-2 leading-relaxed text-white font-medium">Ejecución mediante pilotos ágiles, Quick Wins y ciclos de aprendizaje rápido validados en terreno.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flip-card h-28 orange-card">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <i class="fas fa-handshake text-3xl text-yellow-500 mb-1"></i>
+                                    <span class="text-2xl text-yellow-500 font-bold block">06</span>
+                                    <h4 class="font-bold text-navy text-xs uppercase mt-1">Consolidación</h4>
+                                </div>
+                                <div class="flip-card-back bg-gradient-to-br from-yellow-500/90 to-amber-600/80">
+                                    <p class="text-sm px-2 leading-relaxed text-white font-medium">Institucionalización de nuevos hábitos, liderazgo colaborativo y valores adaptativos en la organización.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flip-card h-28">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <i class="fas fa-chart-pie text-3xl text-blue-400 mb-1"></i>
+                                    <span class="text-2xl text-blue-400 font-bold block">07</span>
+                                    <h4 class="font-bold text-navy text-xs uppercase mt-1">Medición</h4>
+                                </div>
+                                <div class="flip-card-back bg-gradient-to-br from-blue-400/90 to-cyan-600/80">
+                                    <p class="text-sm px-2 leading-relaxed text-white font-medium">Medición de impacto y retroalimentación para reiniciar el ciclo de mejora continua.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-xs text-gray-600 text-center mt-4 italic">Ciclo continuo: cada fase retroalimenta la siguiente en mejora permanente.</p>
+                </div>
+
+                <!-- PAGE 4: RESULTADOS -->
+                <div x-show="camPage===4" x-transition>
+                    <h3 class="text-2xl font-bold text-navy mb-6 border-b-2 border-cct_cyan pb-3">Resultados</h3>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <div class="flip-card h-56">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <i class="fas fa-tachometer-alt text-4xl text-cct_cyan mb-2"></i>
+                                    <h4 class="font-bold text-navy text-sm uppercase mt-2">Aceleración</h4>
+                                </div>
+                                <div class="flip-card-back bg-gradient-to-br from-cct_cyan/90 to-blue-600/80">
+                                    <p class="text-sm px-3 leading-relaxed text-white font-medium">Aceleración de ciclos de innovación y toma de decisiones mediante gobernanza ágil y datos en tiempo real.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flip-card h-56">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <i class="fas fa-link text-4xl text-cct_orange mb-2"></i>
+                                    <h4 class="font-bold text-navy text-sm uppercase mt-2">Alineación</h4>
+                                </div>
+                                <div class="flip-card-back bg-gradient-to-br from-cct_orange/90 to-red-600/80">
+                                    <p class="text-sm px-3 leading-relaxed text-white font-medium">Alineación total entre cultura, estrategia y tecnología. Toda la organización habla el mismo idioma.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flip-card h-56">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <i class="fas fa-shield-alt text-4xl text-green-500 mb-2"></i>
+                                    <h4 class="font-bold text-navy text-sm uppercase mt-2">Resiliencia</h4>
+                                </div>
+                                <div class="flip-card-back bg-gradient-to-br from-green-500/90 to-emerald-600/80">
+                                    <p class="text-sm px-3 leading-relaxed text-white font-medium">Resiliencia ante crisis mediante gobernanza anticipativa y capacidad de adaptación integrada.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flip-card h-56">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <i class="fas fa-chart-line text-4xl text-purple-500 mb-2"></i>
+                                    <h4 class="font-bold text-navy text-sm uppercase mt-2">Valor</h4>
+                                </div>
+                                <div class="flip-card-back bg-gradient-to-br from-purple-500/90 to-indigo-600/80">
+                                    <p class="text-sm px-3 leading-relaxed text-white font-medium">Creación de valor sostenible y medible (EVA, satisfacción de clientes y rentabilidad real).</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p class="text-center italic text-gray-600 text-sm mt-8 pt-6 border-t border-gray-300">
+                        "Las organizaciones del futuro no serán las más grandes, sino las que sepan transformarse a tiempo."
+                    </p>
+                </div>
+            </div>
+
+            <div x-show="activeTab === 'caf'" class="animate-fade-in space-y-12" x-data="{cafPage: 1}">
+                <!-- PAGE NAVIGATION -->
+                <div class="bg-white/95 backdrop-blur p-6 rounded-2xl shadow-lg border border-cct_orange/30 mb-8">
+                    <div class="flex items-center justify-between flex-wrap gap-4">
+                        <div class="flex items-center gap-3 flex-1">
+                            <button @click="cafPage=1" :class="cafPage===1 ? 'bg-cct_orange text-white shadow-lg scale-105' : 'bg-white text-gray-600 hover:bg-gray-100'" class="px-4 py-2 rounded-lg font-bold text-xs transition-all duration-300 border border-gray-200">1. Visión</button>
+                            <div class="h-1 w-8 bg-gradient-to-r from-cct_orange to-green-500 rounded"></div>
+                            <button @click="cafPage=2" :class="cafPage===2 ? 'bg-cct_orange text-white shadow-lg scale-105' : 'bg-white text-gray-600 hover:bg-gray-100'" class="px-4 py-2 rounded-lg font-bold text-xs transition-all duration-300 border border-gray-200">2. Ecoparques Industriales</button>
+                            <div class="h-1 w-8 bg-gradient-to-r from-green-500 to-cct_cyan rounded"></div>
+                            <button @click="cafPage=3" :class="cafPage===3 ? 'bg-cct_orange text-white shadow-lg scale-105' : 'bg-white text-gray-600 hover:bg-gray-100'" class="px-4 py-2 rounded-lg font-bold text-xs transition-all duration-300 border border-gray-200">3. Inversión</button>
+                        </div>
+                        <div class="flex gap-2">
+                            <button @click="cafPage=Math.max(1,cafPage-1)" class="p-2 rounded-lg bg-gray-100 hover:bg-cct_orange hover:text-white transition-all"><i class="fas fa-chevron-left text-sm"></i></button>
+                            <button @click="cafPage=Math.min(3,cafPage+1)" class="p-2 rounded-lg bg-gray-100 hover:bg-cct_orange hover:text-white transition-all"><i class="fas fa-chevron-right text-sm"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Breadcrumb: CAF -->
+                <div class="hidden mb-4">
+                    <div class="text-xs font-bold text-navy/90">
+                        Servicios › CAF › <span x-text="cafPage===1 ? 'Visión' : (cafPage===2 ? 'Proyecto Arica' : 'Inversión')"></span>
+                    </div>
+                    <a href="#servicios" class="text-xs font-bold text-navy underline">Volver a Servicios</a>
+                </div>
+
+                
+
+                <!-- PAGE 1: VISION & CONCEPTO -->
+                <div x-show="cafPage===1" x-transition>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+                        <div class="flip-card h-32">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <i class="fas fa-industry text-3xl text-cct_orange mb-1"></i>
+                                    <h5 class="font-bold text-navy text-xs">Simbiosis Industrial</h5>
+                                </div>
+                                <div class="flip-card-back bg-gradient-to-br from-cct_orange/90 to-red-600/80">
+                                    <p class="text-sm px-2 leading-relaxed text-white font-medium">Colaboración donde residuos de una empresa son materia prima de otra. Economía circular real.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flip-card h-32">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <i class="fas fa-clock text-3xl text-green-500 mb-1"></i>
+                                    <h5 class="font-bold text-navy text-xs">T2M: 10→2 años</h5>
+                                </div>
+                                <div class="flip-card-back bg-gradient-to-br from-green-500/90 to-emerald-600/80">
+                                    <p class="text-sm px-2 leading-relaxed text-white font-medium">Permisos pre-aprobados (ambientales, territoriales). Reducción drástica del Time-to-Market.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flip-card h-32">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <i class="fas fa-solar-panel text-3xl text-cct_cyan mb-1"></i>
+                                    <h5 class="font-bold text-navy text-xs">Power Shoring</h5>
+                                </div>
+                                <div class="flip-card-back bg-gradient-to-br from-cct_cyan/90 to-blue-600/80">
+                                    <p class="text-sm px-2 leading-relaxed text-white font-medium">Energía solar 15-20 USD/MW. Atrae industrias intensivas en energía para producción local verde.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flip-card h-32">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <i class="fas fa-water text-3xl text-blue-500 mb-1"></i>
+                                    <h5 class="font-bold text-navy text-xs">Infraestructura</h5>
+                                </div>
+                                <div class="flip-card-back bg-gradient-to-br from-blue-500/90 to-cyan-600/80">
+                                    <p class="text-sm px-2 leading-relaxed text-white font-medium">Desaladora, gestión de residuos, redes energéticas compartidas. Economías de escala.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flip-card h-32">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <i class="fas fa-shield-alt text-3xl text-purple-500 mb-1"></i>
+                                    <h5 class="font-bold text-navy text-xs">Certeza Jurídica</h5>
+                                </div>
+                                <div class="flip-card-back bg-gradient-to-br from-purple-500/90 to-indigo-600/80">
+                                    <p class="text-sm px-2 leading-relaxed text-white font-medium">Concesiones 50 años, Ley Arica, Zona Franca. Seguridad y gobernanza para inversionistas.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flip-card h-32">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <i class="fas fa-leaf text-3xl text-green-600 mb-1"></i>
+                                    <h5 class="font-bold text-navy text-xs">Sostenibilidad</h5>
+                                </div>
+                                <div class="flip-card-back bg-gradient-to-br from-green-600/90 to-lime-600/80">
+                                    <p class="text-sm px-2 leading-relaxed text-white font-medium">100% energía renovable. Eficiencia hídrica y economía circular integradas desde el diseño.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Visuales del Ecoparque: Videos Destacados -->
+                    <div id="ecoparque-visuals" class="bg-white/95 backdrop-blur p-6 rounded-2xl shadow border-l-4 border-cct_orange">
+                        <h4 class="text-lg font-bold text-navy mb-4">Visuales del Ecoparque</h4>
+                        <div class="grid md:grid-cols-4 gap-4">
+                            <div class="relative overflow-hidden rounded-xl border border-gray-200 shadow-lg">
+                                <video autoplay muted loop playsinline class="w-full h-40 object-cover">
+                                    <source src="assets/videos/arica.mp4" type="video/mp4">
+                                </video>
+                                <div class="absolute bottom-0 left-0 right-0 bg-orange-600/80 text-white text-xs font-bold px-3 py-2">Ecoparque Arica</div>
+                            </div>
+                            <div class="relative overflow-hidden rounded-xl border border-gray-200 shadow-lg">
+                                <video autoplay muted loop playsinline class="w-full h-40 object-cover">
+                                    <source src="assets/videos/panel_solar.mp4" type="video/mp4">
+                                </video>
+                                <div class="absolute bottom-0 left-0 right-0 bg-green-600/80 text-white text-xs font-bold px-3 py-2">Parque Solar</div>
+                            </div>
+                            <div class="relative overflow-hidden rounded-xl border border-gray-200 shadow-lg">
+                                <video autoplay muted loop playsinline class="w-full h-40 object-cover">
+                                    <source src="assets/videos/ecoparque2.mp4" type="video/mp4">
+                                </video>
+                                <div class="absolute bottom-0 left-0 right-0 bg-purple-600/80 text-white text-xs font-bold px-3 py-2">Ecoparque Industrial</div>
+                            </div>
+                            <div class="relative overflow-hidden rounded-xl border border-gray-200 shadow-lg">
+                                <video autoplay muted loop playsinline class="w-full h-40 object-cover">
+                                    <source src="assets/videos/puerto.mp4" type="video/mp4">
+                                </video>
+                                <div class="absolute bottom-0 left-0 right-0 bg-blue-600/80 text-white text-xs font-bold px-3 py-2">Puerto y Logística</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PAGE 2: ECOPARQUES INDUSTRIALES -->
+                <div x-show="cafPage===2" x-transition>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                        <div class="flip-card h-32">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <i class="fas fa-ship text-3xl text-cct_orange mb-1"></i>
+                                    <h5 class="font-bold text-navy text-xs">Zona Costera</h5>
+                                </div>
+                                <div class="flip-card-back bg-gradient-to-br from-cct_orange/90 to-red-600/80">
+                                    <p class="text-sm px-2 leading-relaxed text-white font-medium">Terminal marítimo, desaladora a nivel del mar, infraestructura logística. 55 ha en explanada baja.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flip-card h-32">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <i class="fas fa-industry text-3xl text-blue-500 mb-1"></i>
+                                    <h5 class="font-bold text-navy text-xs">Planicie Alta</h5>
+                                </div>
+                                <div class="flip-card-back bg-gradient-to-br from-blue-500/90 to-cyan-600/80">
+                                    <p class="text-sm px-2 leading-relaxed text-white font-medium">Data centers, plantas síntesis, agroindustria, zona residencial. Sobre el farellón.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flip-card h-32">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <i class="fas fa-sun text-3xl text-green-500 mb-1"></i>
+                                    <h5 class="font-bold text-navy text-xs">Zona Interior</h5>
+                                </div>
+                                <div class="flip-card-back bg-gradient-to-br from-green-500/90 to-emerald-600/80">
+                                    <p class="text-sm px-2 leading-relaxed text-white font-medium">Parque solar gigante >100 MW. Desierto de Atacama, conexión directa sin costos de transmisión.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flip-card h-32">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <i class="fas fa-umbrella-beach text-3xl text-purple-500 mb-1"></i>
+                                    <h5 class="font-bold text-navy text-xs">Zona Turística</h5>
+                                </div>
+                                <div class="flip-card-back bg-gradient-to-br from-purple-500/90 to-indigo-600/80">
+                                    <p class="text-sm px-2 leading-relaxed text-white font-medium">Borde del farellón. Hotelería, golf, marina, Crystal Lagoons. Retención de talento.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white/95 backdrop-blur p-6 rounded-2xl shadow border-l-4 border-cct_orange">
+                        <h4 class="text-lg font-bold text-navy mb-4 text-center">Otros Ecoparques por Territorio</h4>
+                        <div class="grid md:grid-cols-3 gap-4">
+                            <!-- Arica y Parinacota -->
+                            <div class="flip-card h-48">
+                                <div class="flip-card-inner">
+                                    <div class="flip-card-front">
+                                        <i class="fas fa-sun text-4xl text-yellow-500 mb-2"></i>
+                                        <h5 class="font-bold text-navy text-sm">Arica y Parinacota</h5>
+                                        <p class="text-xs text-gray-600 mt-1">Zona Norte</p>
+                                    </div>
+                                    <div class="flip-card-back bg-gradient-to-br from-yellow-500/90 to-orange-600/80">
+                                        <p class="text-sm px-3 leading-relaxed text-white font-medium">Ecoparque Industrial Quebrada de Camarones. Radiación solar extrema, conectividad internacional y Zona Franca. Ideal para hidrógeno verde, data centers y agroindustria.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Tarapacá -->
+                            <div class="flip-card h-48">
+                                <div class="flip-card-inner">
+                                    <div class="flip-card-front">
+                                        <i class="fas fa-warehouse text-4xl text-blue-500 mb-2"></i>
+                                        <h5 class="font-bold text-navy text-sm">Tarapacá</h5>
+                                        <p class="text-xs text-gray-600 mt-1">Nodo Logístico</p>
+                                    </div>
+                                    <div class="flip-card-back bg-gradient-to-br from-blue-500/90 to-cyan-600/80">
+                                        <p class="text-sm px-3 leading-relaxed text-white font-medium">Ecoparque Tarapacá y Parque Logístico Tarapacá. Acceso terrestre y portuario estratégico. Centro de distribución regional para minería y comercio transfronterizo.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Biobío -->
+                            <div class="flip-card h-48">
+                                <div class="flip-card-inner">
+                                    <div class="flip-card-front">
+                                        <i class="fas fa-industry text-4xl text-gray-700 mb-2"></i>
+                                        <h5 class="font-bold text-navy text-sm">Biobío</h5>
+                                        <p class="text-xs text-gray-600 mt-1">Manufacturas Avanzadas</p>
+                                    </div>
+                                    <div class="flip-card-back bg-gradient-to-br from-gray-700/90 to-slate-800/80">
+                                        <p class="text-sm px-3 leading-relaxed text-white font-medium">Ecoparque Biobío con centro de manufacturas avanzadas CAP. Siderurgia verde, reciclaje de metales y cadena de valor forestal sostenible.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Magallanes -->
+                            <div class="flip-card h-48">
+                                <div class="flip-card-inner">
+                                    <div class="flip-card-front">
+                                        <i class="fas fa-wind text-4xl text-teal-500 mb-2"></i>
+                                        <h5 class="font-bold text-navy text-sm">Magallanes</h5>
+                                        <p class="text-xs text-gray-600 mt-1">Energía Extrema</p>
+                                    </div>
+                                    <div class="flip-card-back bg-gradient-to-br from-teal-500/90 to-cyan-700/80">
+                                        <p class="text-sm px-3 leading-relaxed text-white font-medium">Ecoparque Magallanes habilitado para energía eólica y logística extrema. Hidrógeno verde, metanol verde y e-fuels para navegación antártica y aviación.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Aysén -->
+                            <div class="flip-card h-48">
+                                <div class="flip-card-inner">
+                                    <div class="flip-card-front">
+                                        <i class="fas fa-leaf text-4xl text-green-600 mb-2"></i>
+                                        <h5 class="font-bold text-navy text-sm">Aysén</h5>
+                                        <p class="text-xs text-gray-600 mt-1">Industrias Verdes</p>
+                                    </div>
+                                    <div class="flip-card-back bg-gradient-to-br from-green-600/90 to-emerald-700/80">
+                                        <p class="text-sm px-3 leading-relaxed text-white font-medium">Ecoparque Aysén orientado a industrias verdes: acuicultura sostenible RAS, turismo de naturaleza y procesamiento de productos forestales no madereros.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Huechuraba -->
+                            <div class="flip-card h-48">
+                                <div class="flip-card-inner">
+                                    <div class="flip-card-front">
+                                        <i class="fas fa-city text-4xl text-purple-500 mb-2"></i>
+                                        <h5 class="font-bold text-navy text-sm">Huechuraba</h5>
+                                        <p class="text-xs text-gray-600 mt-1">Urbano Logístico</p>
+                                    </div>
+                                    <div class="flip-card-back bg-gradient-to-br from-purple-500/90 to-indigo-700/80">
+                                        <p class="text-sm px-3 leading-relaxed text-white font-medium">Ecoparque Huechuraba, nodo urbano logístico metropolitano. Data centers urbanos, economía circular, reciclaje avanzado y centros de distribución e-commerce.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PAGE 3: OPORTUNIDADES DE INVERSION -->
+                <div x-show="cafPage===3" x-transition>
+                    <!-- FLIPCARD: OPORTUNIDADES DE INVERSIÓN -->
+                    <div class="flex justify-center mb-6">
+                        <div class="flip-card h-56 max-w-2xl w-full">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front bg-white/95 backdrop-blur flex items-center justify-center p-4">
+                                    <img src="assets/images/gl_12_diagrama_hidrogeno_verde.png" alt="Hidrógeno Verde" class="max-w-full max-h-full object-contain rounded-xl" onerror="this.style.display='none';">
+                                </div>
+                                <div class="flip-card-back bg-gradient-to-br from-green-500/90 to-emerald-600/80 flex items-center justify-center">
+                                    <div class="text-sm px-4 leading-relaxed text-white font-medium text-center space-y-3">
+                                        <p class="font-bold text-lg">Oportunidades de Inversión</p>
+                                        <p>
+                                            El Ecoparque está diseñado para atraer industrias que requieren uso intensivo de <strong>energía verde barata</strong> (15-20 USD/MW solar) y <strong>agua desalada</strong> con infraestructura compartida.
+                                        </p>
+                                        <p>
+                                            Energía solar del desierto de Atacama + agua del Pacífico + permisos pre-aprobados = <strong>Time-to-Market reducido de 10 a 2 años</strong>.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
+                        <div class="flip-card h-32">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <i class="fas fa-bolt text-2xl text-green-500 mb-1"></i>
+                                    <h5 class="font-bold text-navy text-xs">Hidrógeno Verde</h5>
+                                </div>
+                                <div class="flip-card-back bg-gradient-to-br from-green-500/90 to-emerald-600/80">
+                                    <p class="text-xs px-2 leading-tight text-white font-medium">Producción de H2V, amoníaco verde, metanol verde y e-fuels para aviación y transporte marítimo. Chile: hub mundial H2V.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flip-card h-32">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <i class="fas fa-seedling text-2xl text-green-600 mb-1"></i>
+                                    <h5 class="font-bold text-navy text-xs">Fertilizantes Verdes</h5>
+                                </div>
+                                <div class="flip-card-back bg-gradient-to-br from-green-600/90 to-lime-600/80">
+                                    <p class="text-xs px-2 leading-tight text-white font-medium">Nitrato de Amonio Verde para minería regional (Chile, Perú, Bolivia) y agricultura global (Brasil). Reemplazo de fertilizantes fósiles.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flip-card h-32">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <i class="fas fa-server text-2xl text-blue-500 mb-1"></i>
+                                    <h5 class="font-bold text-navy text-xs">Data Centers</h5>
+                                </div>
+                                <div class="flip-card-back bg-gradient-to-br from-blue-500/90 to-cyan-600/80">
+                                    <p class="text-xs px-2 leading-tight text-white font-medium">Hyperscale que aprovechan energía barata (80% costo operativo) y fibra óptica submarina. Clima estable reduce costos de refrigeración.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flip-card h-32">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <i class="fas fa-microchip text-2xl text-purple-500 mb-1"></i>
+                                    <h5 class="font-bold text-navy text-xs">Blockchain & AI</h5>
+                                </div>
+                                <div class="flip-card-back bg-gradient-to-br from-purple-500/90 to-indigo-600/80">
+                                    <p class="text-xs px-2 leading-tight text-white font-medium">Minería de criptoactivos y supercomputación IA. Reducción costos energéticos 70% vs mercado. Estabilidad climática y jurídica.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flip-card h-32">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <i class="fas fa-battery-full text-2xl text-red-500 mb-1"></i>
+                                    <h5 class="font-bold text-navy text-xs">Litio Verde</h5>
+                                </div>
+                                <div class="flip-card-back bg-gradient-to-br from-red-500/90 to-rose-600/80">
+                                    <p class="text-xs px-2 leading-tight text-white font-medium">Procesamiento de carbonato/hidróxido de litio y fabricación de componentes de baterías (cátodos). Energía limpia para refinación.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flip-card h-32">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <i class="fas fa-recycle text-2xl text-orange-500 mb-1"></i>
+                                    <h5 class="font-bold text-navy text-xs">Minería Circular</h5>
+                                </div>
+                                <div class="flip-card-back bg-gradient-to-br from-orange-500/90 to-amber-600/80">
+                                    <p class="text-xs px-2 leading-tight text-white font-medium">Procesamiento de relaves mineros y chatarra electrónica (e-waste) mediante procesos metalúrgicos verdes. Economía circular aplicada.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flip-card h-32">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <i class="fas fa-fish text-2xl text-cct_cyan mb-1"></i>
+                                    <h5 class="font-bold text-navy text-xs">Acuicultura RAS</h5>
+                                </div>
+                                <div class="flip-card-back bg-gradient-to-br from-cct_cyan/90 to-blue-600/80">
+                                    <p class="text-xs px-2 leading-tight text-white font-medium">Cultivo de Seriola, Camarones, Trucha usando sistemas de recirculación (RAS) y agua desalada. Bioseguridad y control total.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flip-card h-32">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <i class="fas fa-apple-alt text-2xl text-green-500 mb-1"></i>
+                                    <h5 class="font-bold text-navy text-xs">Agricultura Hi-Tech</h5>
+                                </div>
+                                <div class="flip-card-back bg-gradient-to-br from-green-500/90 to-emerald-600/80">
+                                    <p class="text-xs px-2 leading-tight text-white font-medium">Cultivos hidropónicos de contraestación (Mango, Papaya, Cítricos) aprovechando radiación solar extrema y agua desalada.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div x-show="activeTab === 'sem'" class="animate-fade-in space-y-12" x-data="{semPage: 1}">
+                <!-- PAGE NAVIGATION -->
+                <div class="bg-white/95 backdrop-blur p-6 rounded-2xl shadow-lg border border-cct_cyan/30 mb-8">
+                    <div class="flex items-center justify-between flex-wrap gap-4">
+                        <div class="flex items-center gap-3 flex-1">
+                            <button @click="semPage=1" :class="semPage===1 ? 'bg-cct_cyan text-white shadow-lg scale-105' : 'bg-white text-gray-600 hover:bg-gray-100'" class="px-4 py-2 rounded-lg font-bold text-xs transition-all duration-300 border border-gray-200">1. Concepto</button>
+                            <div class="h-1 w-8 bg-gradient-to-r from-cct_cyan to-green-500 rounded"></div>
+                            <button @click="semPage=2" :class="semPage===2 ? 'bg-cct_cyan text-white shadow-lg scale-105' : 'bg-white text-gray-600 hover:bg-gray-100'" class="px-4 py-2 rounded-lg font-bold text-xs transition-all duration-300 border border-gray-200">2. Herramientas</button>
+                            <div class="h-1 w-8 bg-gradient-to-r from-green-500 to-cct_orange rounded"></div>
+                            <button @click="semPage=3" :class="semPage===3 ? 'bg-cct_cyan text-white shadow-lg scale-105' : 'bg-white text-gray-600 hover:bg-gray-100'" class="px-4 py-2 rounded-lg font-bold text-xs transition-all duration-300 border border-gray-200">3. Resultados</button>
+                            <div class="h-1 w-8 bg-gradient-to-r from-cct_orange to-purple-500 rounded"></div>
+                            <button @click="semPage=4" :class="semPage===4 ? 'bg-cct_cyan text-white shadow-lg scale-105' : 'bg-white text-gray-600 hover:bg-gray-100'" class="px-4 py-2 rounded-lg font-bold text-xs transition-all duration-300 border border-gray-200">4. Capacitación</button>
+                        </div>
+                        <div class="flex gap-2">
+                            <button @click="semPage=Math.max(1,semPage-1)" class="p-2 rounded-lg bg-gray-100 hover:bg-cct_cyan hover:text-white transition-all"><i class="fas fa-chevron-left text-sm"></i></button>
+                            <button @click="semPage=Math.min(4,semPage+1)" class="p-2 rounded-lg bg-gray-100 hover:bg-cct_cyan hover:text-white transition-all"><i class="fas fa-chevron-right text-sm"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Breadcrumb: SEM -->
+                <div class="hidden mb-4">
+                    <div class="text-xs font-bold text-navy/90">
+                        Servicios › SEM › <span x-text="semPage===1 ? 'Concepto' : (semPage===2 ? 'Herramientas' : (semPage===3 ? 'Resultados' : 'Capacitación'))"></span>
+                    </div>
+                    <a href="#servicios" class="text-xs font-bold text-navy underline">Volver a Servicios</a>
+                </div>
+
+                
+
+                <!-- PAGE 1: EL CONCEPTO SEM -->
+                <div x-show="semPage===1" x-transition>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                        <div class="flip-card h-40">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front bg-white/95 backdrop-blur flex items-center justify-center p-3">
+                                    <img src="assets/images/gl_14_diagrama_escudo_defensivo.png" alt="Escudo Defensivo" class="max-w-full max-h-full object-contain" onerror="this.style.display='none';">
+                                </div>
+                                <div class="flip-card-back bg-gradient-to-br from-red-500/90 to-rose-600/80">
+                                    <p class="text-sm px-2 leading-relaxed text-white font-medium">90% de las estrategias fracasan por falta de rigor en implementación. Costos ocultos, subsidios cruzados y desconexión entre plan y operación erosionan valor.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flip-card h-40">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front bg-white/95 backdrop-blur flex items-center justify-center p-3">
+                                    <img src="assets/images/gl_16_diagrama_cubo_3x3x3.png" alt="Cubo 3x3x3" class="max-w-full max-h-full object-contain" onerror="this.style.display='none';">
+                                    <h5 class="font-bold text-navy text-xs">Qué es SEM</h5>
+                                </div>
+                                <div class="flip-card-back bg-gradient-to-br from-cct_cyan/90 to-blue-600/80">
+                                    <p class="text-sm px-2 leading-relaxed text-white font-medium">Modelo que une visión de negocio con ingeniería dura. Evita gestión por promedios; usa datos, métricas y herramientas de clase mundial.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flip-card h-40">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front bg-white/95 backdrop-blur flex items-center justify-center p-3">
+                                    <img src="assets/images/gl_20_puzzle_sinergia_equipo.png" alt="Sinergia Equipo" class="max-w-full max-h-full object-contain" onerror="this.style.display='none';">
+                                    <h5 class="font-bold text-navy text-xs">Enfoque Sistémico</h5>
+                                </div>
+                                <div class="flip-card-back bg-gradient-to-br from-cct_orange/90 to-red-600/80">
+                                    <p class="text-sm px-2 leading-relaxed text-white font-medium">Integramos 14 capas críticas del negocio. Alineamos estructura, procesos, tecnología y personas bajo arquitectura común.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PAGE 2: CAJA DE HERRAMIENTAS -->
+                <div x-show="semPage===2" x-transition id="sem-herramientas">
+                    <h3 class="text-2xl font-bold text-navy mb-6 border-b-2 border-cct_cyan pb-3">Caja de Herramientas y Metodología</h3>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                        <div class="flip-card h-40">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <i class="fas fa-calculator text-3xl text-cct_cyan mb-1"></i>
+                                    <h5 class="font-bold text-navy text-xs">ABC/ABM</h5>
+                                </div>
+                                <div class="flip-card-back bg-gradient-to-br from-cct_cyan/90 to-blue-600/80">
+                                    <p class="text-sm px-2 leading-relaxed text-white font-medium">Revelamos rentabilidad real por línea de negocio y cliente. Eliminamos actividades sin valor agregado.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flip-card h-40">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <i class="fas fa-chart-line text-3xl text-green-500 mb-1"></i>
+                                    <h5 class="font-bold text-navy text-xs">EVA</h5>
+                                </div>
+                                <div class="flip-card-back bg-gradient-to-br from-green-500/90 to-emerald-600/80">
+                                    <p class="text-sm px-2 leading-relaxed text-white font-medium">Economic Value Added: Decisiones alineadas con creación de riqueza real, más allá de utilidad contable.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flip-card h-40">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <i class="fas fa-bullseye text-3xl text-cct_orange mb-1"></i>
+                                    <h5 class="font-bold text-navy text-xs">BSC</h5>
+                                </div>
+                                <div class="flip-card-back bg-gradient-to-br from-cct_orange/90 to-red-600/80">
+                                    <p class="text-sm px-2 leading-relaxed text-white font-medium">Balanced Scorecard: Conectamos estrategia con operación diaria mediante tableros de control integrados.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flip-card h-40">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <i class="fas fa-map-marked-alt text-3xl text-purple-500 mb-1"></i>
+                                    <h5 class="font-bold text-navy text-xs">Mapas Estratégicos</h5>
+                                </div>
+                                <div class="flip-card-back bg-gradient-to-br from-purple-500/90 to-indigo-600/80">
+                                    <p class="text-sm px-2 leading-relaxed text-white font-medium">Visualizamos relación causa-efecto para que toda la organización entienda su rol estratégico.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flip-card h-40">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <i class="fas fa-star text-3xl text-yellow-500 mb-1"></i>
+                                    <h5 class="font-bold text-navy text-xs">Calidad</h5>
+                                </div>
+                                <div class="flip-card-back bg-gradient-to-br from-yellow-500/90 to-amber-600/80">
+                                    <p class="text-sm px-2 leading-relaxed text-white font-medium">Cerramos brechas entre expectativa del cliente y servicio entregado (Service Quality Gaps).</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flip-card h-40">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <i class="fas fa-medal text-3xl text-blue-500 mb-1"></i>
+                                    <h5 class="font-bold text-navy text-xs">Benchmarking</h5>
+                                </div>
+                                <div class="flip-card-back bg-gradient-to-br from-blue-500/90 to-cyan-600/80">
+                                    <p class="text-sm px-2 leading-relaxed text-white font-medium">Comparamos desempeño con mejores prácticas para identificar mejoras inmediatas.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flip-card h-40">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <i class="fas fa-laptop-code text-3xl text-indigo-500 mb-1"></i>
+                                    <h5 class="font-bold text-navy text-xs">Digital</h5>
+                                </div>
+                                <div class="flip-card-back bg-gradient-to-br from-indigo-500/90 to-blue-700/80">
+                                    <p class="text-sm px-2 leading-relaxed text-white font-medium">Transformación digital integrada que habilita nuevos modelos de negocio, no solo costos.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flip-card h-40">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <i class="fas fa-users-cog text-3xl text-pink-500 mb-1"></i>
+                                    <h5 class="font-bold text-navy text-xs">Gestión del Cambio</h5>
+                                </div>
+                                <div class="flip-card-back bg-gradient-to-br from-pink-500/90 to-rose-600/80">
+                                    <p class="text-sm px-2 leading-relaxed text-white font-medium">Coaching ejecutivo, desarrollo profesional y capacitación para asegurar adopción sostenible.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Grid 5 Categorias Servicios -->
+                    <div class="bg-white/95 backdrop-blur p-8 rounded-2xl shadow border-l-8 border-cct_cyan mt-8">
+                        <h4 class="text-lg font-bold text-navy mb-6 text-center">Servicios Integrados por Categoría (30+ Soluciones)</h4>
+                        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            <div class="p-5 rounded-xl border-2 border-cct_cyan bg-blue-50">
+                                <h5 class="font-bold text-navy text-sm mb-3">📊 Estrategia e Innovación</h5>
+                                <ul class="space-y-1 text-xs text-gray-700">
+                                    <li>• Diseño de Estrategia Corporativa</li>
+                                    <li>• Transformación Digital Integral</li>
+                                    <li>• Prospectiva y Análisis de Escenarios</li>
+                                    <li>• Benchmarking Competitivo</li>
+                                    <li>• Rediseño Organizacional</li>
+                                    <li>• Modelos de Negocio Innovadores</li>
+                                    <li>• Innovación Abierta y Co-creación</li>
+                                </ul>
+                            </div>
+                            <div class="p-5 rounded-xl border-2 border-cct_orange bg-orange-50">
+                                <h5 class="font-bold text-navy text-sm mb-3">⚙️ Calidad, Procesos y TIC</h5>
+                                <ul class="space-y-1 text-xs text-gray-700">
+                                    <li>• ABC/ABM (Análisis de Costos)</li>
+                                    <li>• EVA (Valor Económico Agregado)</li>
+                                    <li>• Reingeniería de Procesos (BPR)</li>
+                                    <li>• Consultoría Sistemas de Información</li>
+                                    <li>• BPO y Outsourcing Estratégico</li>
+                                    <li>• Optimización Supply Chain</li>
+                                    <li>• Gestión de Calidad ISO</li>
+                                </ul>
+                            </div>
+                            <div class="p-5 rounded-xl border-2 border-green-500 bg-green-50">
+                                <h5 class="font-bold text-navy text-sm mb-3">💰 Financiamiento y M&A</h5>
+                                <ul class="space-y-1 text-xs text-gray-700">
+                                    <li>• Estructuración de Inversiones</li>
+                                    <li>• Fusiones y Adquisiciones</li>
+                                    <li>• Valorización de Empresas (DCF)</li>
+                                    <li>• Due Diligence Financiero</li>
+                                    <li>• Asesoría Legal Corporativa</li>
+                                    <li>• Estructuras Patrimoniales</li>
+                                </ul>
+                            </div>
+                            <div class="p-5 rounded-xl border-2 border-purple-500 bg-purple-50">
+                                <h5 class="font-bold text-navy text-sm mb-3">👥 Personas y Cultura</h5>
+                                <ul class="space-y-1 text-xs text-gray-700">
+                                    <li>• Gestión del Cambio Organizacional</li>
+                                    <li>• Coaching Ejecutivo y Equipos</li>
+                                    <li>• Desarrollo de Liderazgo</li>
+                                    <li>• Capacitación Especializada</li>
+                                    <li>• Transformación Cultural</li>
+                                    <li>• Team Building y Cohesión</li>
+                                </ul>
+                            </div>
+                            <div class="p-5 rounded-xl border-2 border-red-500 bg-red-50">
+                                <h5 class="font-bold text-navy text-sm mb-3">🌍 Territorio y Comunidades</h5>
+                                <ul class="space-y-1 text-xs text-gray-700">
+                                    <li>• Planes de Desarrollo Regional</li>
+                                    <li>• Desarrollo Comunitario Sostenible</li>
+                                    <li>• Certificación Sostenibilidad (ESG)</li>
+                                    <li>• Programa de Proveedores Locales</li>
+                                    <li>• Comunicación Comunitaria</li>
+                                </ul>
+                            </div>
+                            <div class="p-5 rounded-xl border-2 border-indigo-500 bg-indigo-50">
+                                <h5 class="font-bold text-navy text-sm mb-3">🎯 Gobierno y Operaciones</h5>
+                                <ul class="space-y-1 text-xs text-gray-700">
+                                    <li>• Gobernanza Corporativa (CGC)</li>
+                                    <li>• Compliance y Riesgos Regulatorios</li>
+                                    <li>• Balanced Scorecard (BSC)</li>
+                                    <li>• Sistemas de Control Interno</li>
+                                    <li>• Operaciones y Logística Integral</li>
+                                    <li>• Gestión de Riesgos Empresariales</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Las 10 Claves Normativas: Exigencias para Exportadores e Inversionistas -->
+                    <div class="bg-gradient-to-br from-indigo-50 to-blue-50 backdrop-blur p-8 rounded-2xl shadow border-l-8 border-indigo-500 mt-8">
+                        <h4 class="text-lg font-bold text-navy mb-6 text-center">10 Claves Normativas: Exigencias para Exportadores e Inversionistas</h4>
+                        <p class="text-sm text-gray-700 mb-6 text-center italic">Integración de buenas prácticas ambientales, sociales y de gobernanza (ESG) alineadas con ODS (ONU, 2015) e ISO 26000</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-3">
+                            <div class="flip-card h-32">
+                                <div class="flip-card-inner">
+                                    <div class="flip-card-front">
+                                        <i class="fas fa-clipboard-check text-2xl text-indigo-600 mb-1"></i>
+                                        <h5 class="font-bold text-navy text-xs">1. Habilitaciones</h5>
+                                    </div>
+                                    <div class="flip-card-back bg-gradient-to-br from-indigo-500/90 to-blue-600/80">
+                                        <p class="text-xs px-2 leading-tight text-white font-medium">Autorizaciones y permisos necesarios. Patente comercial, normas locales y nacionales.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flip-card h-32">
+                                <div class="flip-card-inner">
+                                    <div class="flip-card-front">
+                                        <i class="fas fa-leaf text-2xl text-green-600 mb-1"></i>
+                                        <h5 class="font-bold text-navy text-xs">2. Medioambiente</h5>
+                                    </div>
+                                    <div class="flip-card-back bg-gradient-to-br from-green-500/90 to-emerald-600/80">
+                                        <p class="text-xs px-2 leading-tight text-white font-medium">Ley 19.300. ISO 14001. Emisiones, residuos, huella ambiental, energía y agua.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flip-card h-32">
+                                <div class="flip-card-inner">
+                                    <div class="flip-card-front">
+                                        <i class="fas fa-hard-hat text-2xl text-orange-600 mb-1"></i>
+                                        <h5 class="font-bold text-navy text-xs">3. Laborales & Salud</h5>
+                                    </div>
+                                    <div class="flip-card-back bg-gradient-to-br from-orange-500/90 to-amber-600/80">
+                                        <p class="text-xs px-2 leading-tight text-white font-medium">Código del Trabajo. Ley 16.744. Seguridad, EPP, capacitación, derechos humanos.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flip-card h-32">
+                                <div class="flip-card-inner">
+                                    <div class="flip-card-front">
+                                        <i class="fas fa-calculator text-2xl text-yellow-600 mb-1"></i>
+                                        <h5 class="font-bold text-navy text-xs">4. Contable</h5>
+                                    </div>
+                                    <div class="flip-card-back bg-gradient-to-br from-yellow-500/90 to-amber-600/80">
+                                        <p class="text-xs px-2 leading-tight text-white font-medium">Contabilidad ordenada. Libros Diario, Mayor, Inventarios, Balances.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flip-card h-32">
+                                <div class="flip-card-inner">
+                                    <div class="flip-card-front">
+                                        <i class="fas fa-coins text-2xl text-green-700 mb-1"></i>
+                                        <h5 class="font-bold text-navy text-xs">5. Tributaria</h5>
+                                    </div>
+                                    <div class="flip-card-back bg-gradient-to-br from-green-600/90 to-emerald-700/80">
+                                        <p class="text-xs px-2 leading-tight text-white font-medium">Obligaciones SII. Impuesto a la Renta, IVA 19%, documentación de respaldo.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flip-card h-32">
+                                <div class="flip-card-inner">
+                                    <div class="flip-card-front">
+                                        <i class="fas fa-gavel text-2xl text-red-600 mb-1"></i>
+                                        <h5 class="font-bold text-navy text-xs">6. Compliance</h5>
+                                    </div>
+                                    <div class="flip-card-back bg-gradient-to-br from-red-500/90 to-rose-600/80">
+                                        <p class="text-xs px-2 leading-tight text-white font-medium">Ley 20.393. MPD (Modelo Prevención Delitos). Lavado de activos, terrorismo.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flip-card h-32">
+                                <div class="flip-card-inner">
+                                    <div class="flip-card-front">
+                                        <i class="fas fa-star text-2xl text-purple-600 mb-1"></i>
+                                        <h5 class="font-bold text-navy text-xs">7. Calidad</h5>
+                                    </div>
+                                    <div class="flip-card-back bg-gradient-to-br from-purple-500/90 to-indigo-600/80">
+                                        <p class="text-xs px-2 leading-tight text-white font-medium">ISO 9001. SERNAC. Seguridad consumidor, precios correctos.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flip-card h-32">
+                                <div class="flip-card-inner">
+                                    <div class="flip-card-front">
+                                        <i class="fas fa-users text-2xl text-pink-600 mb-1"></i>
+                                        <h5 class="font-bold text-navy text-xs">8. Género e Igualdad</h5>
+                                    </div>
+                                    <div class="flip-card-back bg-gradient-to-br from-pink-500/90 to-rose-600/80">
+                                        <p class="text-xs px-2 leading-tight text-white font-medium">Igualdad de oportunidades. Flexibilidad horaria, conciliación laboral-personal.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flip-card h-32">
+                                <div class="flip-card-inner">
+                                    <div class="flip-card-front">
+                                        <i class="fas fa-handshake text-2xl text-blue-600 mb-1"></i>
+                                        <h5 class="font-bold text-navy text-xs">9. Derechos Humanos</h5>
+                                    </div>
+                                    <div class="flip-card-back bg-gradient-to-br from-blue-500/90 to-cyan-600/80">
+                                        <p class="text-xs px-2 leading-tight text-white font-medium">Pacto Global ONU. Respeto DDHH en operaciones y cadena de suministro.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flip-card h-32">
+                                <div class="flip-card-inner">
+                                    <div class="flip-card-front">
+                                        <i class="fas fa-building text-2xl text-gray-700 mb-1"></i>
+                                        <h5 class="font-bold text-navy text-xs">10. Infraestructura</h5>
+                                    </div>
+                                    <div class="flip-card-back bg-gradient-to-br from-gray-600/90 to-slate-700/80">
+                                        <p class="text-xs px-2 leading-tight text-white font-medium">DS 594 Minsal. Habilitaciones. Mantenimiento infraestructura, trabajo remoto.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PAGE 3: RESULTADOS Y RESPALDO -->
+                <div x-show="semPage===3" x-transition>
+                    <h3 class="text-2xl font-bold text-navy mb-6 border-b-2 border-cct_cyan pb-3">Resultados y Respaldo</h3>
+                    
+                    <!-- Balanza EVA -->
+                    <div class="flex justify-center mb-6">
+                        <img src="assets/images/gl_18_balanza_eva_vs_ebitda.png" alt="EVA vs EBITDA" class="max-w-md w-full rounded-xl shadow-lg" onerror="this.style.display='none';">
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                        <div class="flip-card h-40">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <i class="fas fa-arrow-up text-3xl text-green-500 mb-1"></i>
+                                    <h5 class="font-bold text-navy text-xs">Aumento de Valor</h5>
+                                </div>
+                                <div class="flip-card-back bg-gradient-to-br from-green-500/90 to-emerald-600/80">
+                                    <p class="text-sm px-2 leading-relaxed text-white font-medium">Maximización del EVA y optimización del uso del capital mediante decisiones basadas en valor económico real.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flip-card h-40">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <i class="fas fa-tachometer-alt text-3xl text-blue-500 mb-1"></i>
+                                    <h5 class="font-bold text-navy text-xs">Eficiencia</h5>
+                                </div>
+                                <div class="flip-card-back bg-gradient-to-br from-blue-500/90 to-cyan-600/80">
+                                    <p class="text-sm px-2 leading-relaxed text-white font-medium">Reducción drástica de actividades sin valor agregado mediante ABM y rediseño de procesos.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flip-card h-40">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <i class="fas fa-crosshairs text-3xl text-purple-500 mb-1"></i>
+                                    <h5 class="font-bold text-navy text-xs">Certeza</h5>
+                                </div>
+                                <div class="flip-card-back bg-gradient-to-br from-purple-500/90 to-indigo-600/80">
+                                    <p class="text-sm px-2 leading-relaxed text-white font-medium">Eliminamos "gestión por promedios". Decisiones quirúrgicas sobre productos, clientes y mercados.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flip-card h-40">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <i class="fas fa-shield-alt text-3xl text-cct_orange mb-1"></i>
+                                    <h5 class="font-bold text-navy text-xs">Ventaja PPCI</h5>
+                                </div>
+                                <div class="flip-card-back bg-gradient-to-br from-cct_orange/90 to-red-600/80">
+                                    <p class="text-sm px-2 leading-relaxed text-white font-medium">Metodología respaldada por 2.000+ expertos Proyecto País. Precisión predictiva superior a Banco Central.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white/95 backdrop-blur p-6 rounded-2xl shadow border-l-4 border-cct_cyan">
+                        <p class="text-sm text-gray-700 leading-relaxed mb-3">
+                            <strong>Consultores senior y socios</strong> se involucran directamente en su proyecto. Integramos ingeniería, legal, finanzas y gestión del cambio bajo un solo techo.
+                        </p>
+                        <p class="text-center italic text-gray-600 text-sm pt-3 border-t border-gray-300">
+                            "Transformamos la incertidumbre en ventaja estratégica mediante la ingeniería de gestión."
+                        </p>
+                    </div>
+                </div>
+
+                <!-- PAGE 4: CAPACITACIÓN Y APOYO A INSTITUCIONES -->
+                <div x-show="semPage===4" x-transition>
+                    <h3 class="text-2xl font-bold text-navy mb-6 border-b-2 border-cct_cyan pb-3">Capacitación y Apoyo a Instituciones</h3>
+                    
+                    <p class="text-sm text-gray-700 mb-8 text-center max-w-3xl mx-auto">Programas de formación especializada para aumentar la competitividad de gobiernos regionales, empresas públicas y emprendimientos territoriales mediante nuestras metodologías probadas.</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                        <!-- DIPLOMADO CAM+ -->
+                        <div class="bg-white/95 backdrop-blur rounded-xl border-2 border-cct_cyan shadow-md hover:shadow-lg transition p-6">
+                            <div class="flex items-center gap-3 mb-4">
+                                <div class="w-12 h-12 rounded-full bg-gradient-to-br from-cct_cyan to-blue-500 flex items-center justify-center text-white">
+                                    <i class="fas fa-graduation-cap text-lg"></i>
+                                </div>
+                                <h4 class="font-bold text-navy text-lg">Diplomado CAM+</h4>
+                            </div>
+                            <p class="text-sm text-gray-700 mb-4">Formación integral en diagnóstico organizacional y capacidad adaptativa para directivos públicos y privados.</p>
+                            <ul class="space-y-2 text-xs text-gray-600 mb-6">
+                                <li class="flex items-start gap-2"><i class="fas fa-check text-cct_cyan mt-0.5"></i><span><strong>Módulo 1:</strong> Los 12 componentes de diagnóstico</span></li>
+                                <li class="flex items-start gap-2"><i class="fas fa-check text-cct_cyan mt-0.5"></i><span><strong>Módulo 2:</strong> Matriz CAM+ y clasificación organizacional</span></li>
+                                <li class="flex items-start gap-2"><i class="fas fa-check text-cct_cyan mt-0.5"></i><span><strong>Módulo 3:</strong> Pré-Futur: 7 etapas de transformación</span></li>
+                                <li class="flex items-start gap-2"><i class="fas fa-check text-cct_cyan mt-0.5"></i><span><strong>Módulo 4:</strong> Casos de estudio territoriales</span></li>
+                            </ul>
+                            <p class="text-xs text-cct_cyan font-bold">Duración: 40 horas | Modalidad: Presencial + Online</p>
+                        </div>
+
+                        <!-- DIPLOMADO GESTIÓN DE ECOPARQUES (CAF) -->
+                        <div class="bg-white/95 backdrop-blur rounded-xl border-2 border-cct_orange shadow-md hover:shadow-lg transition p-6">
+                            <div class="flex items-center gap-3 mb-4">
+                                <div class="w-12 h-12 rounded-full bg-gradient-to-br from-cct_orange to-red-500 flex items-center justify-center text-white">
+                                    <i class="fas fa-leaf text-lg"></i>
+                                </div>
+                                <h4 class="font-bold text-navy text-lg">Gestión de Ecoparques</h4>
+                            </div>
+                            <p class="text-sm text-gray-700 mb-4">Especialización en atracción de inversión, soft landing de proyectos y gobernanza de territorios productivos sostenibles.</p>
+                            <ul class="space-y-2 text-xs text-gray-600 mb-6">
+                                <li class="flex items-start gap-2"><i class="fas fa-check text-cct_orange mt-0.5"></i><span><strong>Módulo 1:</strong> Simbiossis industrial y economía circular</span></li>
+                                <li class="flex items-start gap-2"><i class="fas fa-check text-cct_orange mt-0.5"></i><span><strong>Módulo 2:</strong> Reducción de permisología (Time-to-Market)</span></li>
+                                <li class="flex items-start gap-2"><i class="fas fa-check text-cct_orange mt-0.5"></i><span><strong>Módulo 3:</strong> Oportunidades de inversión verde por región</span></li>
+                                <li class="flex items-start gap-2"><i class="fas fa-check text-cct_orange mt-0.5"></i><span><strong>Módulo 4:</strong> Negociación con inversionistas</span></li>
+                            </ul>
+                            <p class="text-xs text-cct_orange font-bold">Duración: 40 horas | Modalidad: Presencial + Online</p>
+                        </div>
+
+                        <!-- PROGRAMA SEM: GESTIÓN INTEGRAL -->
+                        <div class="bg-white/95 backdrop-blur rounded-xl border-2 border-purple-500 shadow-md hover:shadow-lg transition p-6">
+                            <div class="flex items-center gap-3 mb-4">
+                                <div class="w-12 h-12 rounded-full bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center text-white">
+                                    <i class="fas fa-cogs text-lg"></i>
+                                </div>
+                                <h4 class="font-bold text-navy text-lg">SEM: Gestión Integral</h4>
+                            </div>
+                            <p class="text-sm text-gray-700 mb-4">Entrenamiento avanzado en herramientas de gestión: EVA, ABC/ABM, Compliance y gobernanza para directivos públicos y ejecutivos.</p>
+                            <ul class="space-y-2 text-xs text-gray-600 mb-6">
+                                <li class="flex items-start gap-2"><i class="fas fa-check text-purple-500 mt-0.5"></i><span><strong>Módulo 1:</strong> ABC/ABM y rentabilidad real</span></li>
+                                <li class="flex items-start gap-2"><i class="fas fa-check text-purple-500 mt-0.5"></i><span><strong>Módulo 2:</strong> EVA: Creación de valor</span></li>
+                                <li class="flex items-start gap-2"><i class="fas fa-check text-purple-500 mt-0.5"></i><span><strong>Módulo 3:</strong> Las 10 claves normativas (ESG & Compliance)</span></li>
+                                <li class="flex items-start gap-2"><i class="fas fa-check text-purple-500 mt-0.5"></i><span><strong>Módulo 4:</strong> Balanced Scorecard (BSC)</span></li>
+                            </ul>
+                            <p class="text-xs text-purple-600 font-bold">Duración: 32 horas | Modalidad: Presencial + Online</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-navy rounded-xl text-white border border-cct_cyan p-6">
+                        <h5 class="font-bold mb-3 flex items-center gap-2"><i class="fas fa-handshake text-cct_cyan"></i> Convenios con Gobiernos Regionales y CORFO</h5>
+                        <p class="text-sm leading-relaxed mb-4">
+                            Diseñamos programas a medida para aumentar la competitividad territorial, alinear gobernanza regional con desafíos de inversión, y fortalecer capacidades de gestión en entidades públicas. Trabajamos con <strong>Gobiernos Regionales (GORES)</strong>, <strong>CORFO</strong>, <strong>Asociaciones Gremiales</strong> y <strong>Consejos Empresariales</strong> para transferir metodologías probadas.
+                        </p>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center text-xs">
+                            <div class="bg-white/10 rounded p-2 border border-white/20">
+                                <p class="font-bold text-cct_cyan">Arica & Parinacota</p>
+                            </div>
+                            <div class="bg-white/10 rounded p-2 border border-white/20">
+                                <p class="font-bold text-cct_cyan">Tarapacá</p>
+                            </div>
+                            <div class="bg-white/10 rounded p-2 border border-white/20">
+                                <p class="font-bold text-cct_cyan">Biobío</p>
+                            </div>
+                            <div class="bg-white/10 rounded p-2 border border-white/20">
+                                <p class="font-bold text-cct_cyan">Magallanes</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="border-t border-gray-800 pt-8 text-center text-sm text-gray-500">
-            © 2025 GL Strategic. Todos los derechos reservados.
+            
+    </section>
+
+    <section id="equipo" class="relative py-32 bg-gradient-to-b from-white to-gray-50 bg-sect1 parallax opacity-[0.96]">
+        <div class="absolute inset-0 bg-white/35"></div>
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="flex items-center justify-between mb-4">
+                <div class="text-xs font-bold text-navy">Inicio › Equipo</div>
+                <a href="#inicio" class="text-xs font-bold text-navy underline">Volver al Inicio</a>
+            </div>
+            <h2 class="text-5xl font-bold text-navy mb-20 text-center drop-shadow-lg">NUESTRO EQUIPO</h2>
+
+            <div class="mb-12">
+                <h3 class="text-xl font-bold text-center text-navy mb-8 border-b inline-block pb-2">Directivos & Socios</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-6">
+                    <div class="flip-card team-card">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <img src="assets/images/gaston_lhuillier_troncoso.png" class="team-img team-img-principal mx-auto" alt="Gastón" onerror="this.src='https://placehold.co/100?text=GL';">
+                                <h4 class="font-bold text-sm">Gastón L’Huillier</h4>
+                                <p class="text-xs text-cct_orange font-bold uppercase mt-1">Socio Principal</p>
+                            </div>
+                            <div class="flip-card-back">
+                                <p class="text-xs px-2 text-white">Ing. Civil Industrial, Magíster en Economía. Diseño Organizacional, Estrategia y Gestión de Inversiones.</p>
+                                <a href="https://www.linkedin.com/in/gaston-l-huillier-troncoso-55a24128/" target="_blank" class="mt-3 inline-block border border-white px-3 py-1 rounded text-xs font-bold hover:bg-white hover:text-navy transition">LinkedIn</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flip-card team-card">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <img src="assets/images/pablo_canobra.png" class="team-img mx-auto" alt="Pablo" onerror="this.src='https://placehold.co/100?text=PC';">
+                                <h4 class="font-bold text-sm">Pablo Canobra</h4>
+                                <p class="text-xs text-cct_cyan font-bold uppercase mt-1">Socio</p>
+                            </div>
+                            <div class="flip-card-back">
+                                <p class="text-xs px-2 text-white">Ing. Civil Industrial U. Chile, MBA Tulane. Gestión Regional y Gerencia de Proyectos.</p>
+                                <a href="https://www.linkedin.com/in/pablocanobra/" target="_blank" class="mt-3 inline-block border border-white px-3 py-1 rounded text-xs font-bold hover:bg-white hover:text-navy transition">LinkedIn</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flip-card team-card">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <img src="assets/images/guillermo_munoz.png" class="team-img mx-auto" alt="Guillermo" onerror="this.src='https://placehold.co/100?text=GM';">
+                                <h4 class="font-bold text-sm">Guillermo Muñoz</h4>
+                                <p class="text-xs text-cct_cyan font-bold uppercase mt-1">Socio</p>
+                            </div>
+                            <div class="flip-card-back">
+                                <p class="text-xs px-2 text-white">Ing. Informático. Estrategia de Transformación Digital y Eficiencia (CAM+).</p>
+                                <a href="https://www.linkedin.com/in/guillermomunoz/" target="_blank" class="mt-3 inline-block border border-white px-3 py-1 rounded text-xs font-bold hover:bg-white hover:text-navy transition">LinkedIn</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flip-card team-card">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <img src="assets/images/rafael_sotil.png" class="team-img mx-auto" alt="Rafael" onerror="this.src='https://placehold.co/100?text=RS';">
+                                <h4 class="font-bold text-sm">Rafael Sotil</h4>
+                                <p class="text-xs text-cct_cyan font-bold uppercase mt-1">Socio</p>
+                            </div>
+                            <div class="flip-card-back">
+                                <p class="text-xs px-2 text-white">Ing. Civil Industrial, MBA. Liderazgo Adaptativo, Cambio Cultural y Coaching.</p>
+                                <a href="https://www.linkedin.com/in/rafaelsotil/" target="_blank" class="mt-3 inline-block border border-white px-3 py-1 rounded text-xs font-bold hover:bg-white hover:text-navy transition">LinkedIn</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flip-card team-card">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <img src="assets/images/carlos_vergara.png" class="team-img mx-auto" alt="Carlos" onerror="this.src='https://placehold.co/100?text=CV';">
+                                <h4 class="font-bold text-sm">Carlos Vergara</h4>
+                                <p class="text-xs text-cct_cyan font-bold uppercase mt-1">Socio</p>
+                            </div>
+                            <div class="flip-card-back">
+                                <p class="text-xs px-2 text-white">Ing. Civil Industrial, MBA. Mejoramiento de Procesos y fortalecimiento de equipos.</p>
+                                <a href="https://www.linkedin.com/in/carlosvergarachile" target="_blank" class="mt-3 inline-block border border-white px-3 py-1 rounded text-xs font-bold hover:bg-white hover:text-navy transition">LinkedIn</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flip-card team-card">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <img src="assets/images/jose_martinez.png" class="team-img mx-auto" alt="José" onerror="this.src='https://placehold.co/100?text=JI';">
+                                <h4 class="font-bold text-sm">José Inostroza</h4>
+                                <p class="text-xs text-cct_cyan font-bold uppercase mt-1">Socio</p>
+                            </div>
+                            <div class="flip-card-back">
+                                <p class="text-xs px-2 text-white">Abogado. Experto en Modernización del Estado.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-12">
+                <h3 class="text-xl font-bold text-center text-navy mb-8 border-b inline-block pb-2">Directores Regionales</h3>
+                <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4">
+                    <div class="flip-card team-card h-64"><div class="flip-card-inner"><div class="flip-card-front"><img src="assets/images/javier_diaz.png" class="team-img mx-auto" onerror="this.src='https://placehold.co/100?text=JD';"><h4 class="font-bold text-sm">Javier Díaz</h4><p class="text-xs">Arica y Parinacota</p></div><div class="flip-card-back"><p class="text-xs px-2 text-white">Gestión regional zona norte.</p></div></div></div>
+                    <div class="flip-card team-card h-64"><div class="flip-card-inner"><div class="flip-card-front"><img src="assets/images/jaime_soto.png" class="team-img mx-auto" onerror="this.src='https://placehold.co/100?text=JS';"><h4 class="font-bold text-sm">Jaime Soto</h4><p class="text-xs">Tarapacá</p></div><div class="flip-card-back"><p class="text-xs px-2 text-white">Gestión Inmobiliaria y Logística.</p><a href="https://www.linkedin.com/in/jaime-soto-zura-0a060220b/" target="_blank" class="mt-2 inline-block text-white underline text-xs">LinkedIn</a></div></div></div>
+                    <div class="flip-card team-card h-64"><div class="flip-card-inner"><div class="flip-card-front"><img src="assets/images/juan_bacovich.png" class="team-img mx-auto" onerror="this.src='https://placehold.co/100?text=JB';"><h4 class="font-bold text-sm">Juan C. Bacovich</h4><p class="text-xs">Antofagasta</p></div><div class="flip-card-back"><p class="text-xs px-2 text-white">Ing. Químico. Sostenibilidad y Calidad ISO.</p><a href="https://www.linkedin.com/in/juan-carlos-bacovich/" target="_blank" class="mt-2 inline-block text-white underline text-xs">LinkedIn</a></div></div></div>
+                    <div class="flip-card team-card h-64"><div class="flip-card-inner"><div class="flip-card-front"><img src="assets/images/julio_munoz.png" class="team-img mx-auto" onerror="this.src='https://placehold.co/100?text=JM';"><h4 class="font-bold text-sm">Julio Muñoz</h4><p class="text-xs">Maule</p></div><div class="flip-card-back"><p class="text-xs px-2 text-white">Ing. Civil Industrial. Prospectiva y Desarrollo Territorial.</p><a href="https://www.linkedin.com/in/juliomunozdiaz/" target="_blank" class="mt-2 inline-block text-white underline text-xs">LinkedIn</a></div></div></div>
+                    <div class="flip-card team-card h-64"><div class="flip-card-inner"><div class="flip-card-front"><img src="assets/images/jenny_sauterel.png" class="team-img mx-auto" onerror="this.src='https://placehold.co/100?text=JS';"><h4 class="font-bold text-sm">Jenny Sauterel</h4><p class="text-xs">Concepción</p></div><div class="flip-card-back"><p class="text-xs px-2 text-white">Gestión regional zona sur.</p><a href="https://www.linkedin.com/in/jenny-sauterel-2041a42a/" target="_blank" class="mt-2 inline-block text-white underline text-xs">LinkedIn</a></div></div></div>
+                    <div class="flip-card team-card h-64"><div class="flip-card-inner"><div class="flip-card-front"><img src="assets/images/alejandro_rodo.png" class="team-img mx-auto" onerror="this.src='https://placehold.co/100?text=AR';"><h4 class="font-bold text-sm">Alejandro Rodó</h4><p class="text-xs">Concepción</p></div><div class="flip-card-back"><p class="text-xs px-2 text-white">Gestión Regional.</p><a href="https://www.linkedin.com/in/alejandro-rodo-leon-79279b72/" target="_blank" class="mt-2 inline-block text-white underline text-xs">LinkedIn</a></div></div></div>
+                    <div class="flip-card team-card h-64"><div class="flip-card-inner"><div class="flip-card-front"><img src="assets/images/pablo_canobra.png" class="team-img mx-auto" onerror="this.src='https://placehold.co/100?text=PC';"><h4 class="font-bold text-sm">Pablo Canobra</h4><p class="text-xs">Los Lagos</p></div><div class="flip-card-back"><p class="text-xs px-2 text-white">Gerente de Proyectos.</p><a href="https://www.linkedin.com/in/pablocanobra/" target="_blank" class="mt-2 inline-block text-white underline text-xs">LinkedIn</a></div></div></div>
+                    <div class="flip-card team-card h-64"><div class="flip-card-inner"><div class="flip-card-front"><img src="assets/images/pablo_vega.png" class="team-img mx-auto" onerror="this.src='https://placehold.co/100?text=PV';"><h4 class="font-bold text-sm">Pablo Vega</h4><p class="text-xs">Perú</p></div><div class="flip-card-back"><p class="text-xs px-2 text-white">Economista, MBA. Gobierno Corporativo.</p><a href="https://www.linkedin.com/in/pablovegabuccicardi/" target="_blank" class="mt-2 inline-block text-white underline text-xs">LinkedIn</a></div></div></div>
+                </div>
+            </div>
+
+
+            <div>
+                <h3 class="text-xl font-bold text-center text-navy mb-8 border-b inline-block pb-2">Consultores Especialistas</h3>
+                <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+                    <div class="flip-card team-card h-64"><div class="flip-card-inner"><div class="flip-card-front"><img src="assets/images/gilberto_cespedes.png" class="team-img mx-auto" onerror="this.src='https://placehold.co/100?text=GC';"><h4 class="font-bold text-sm">Gilberto Céspedes</h4><p class="text-xs">Estrategia</p></div><div class="flip-card-back"><p class="text-xs px-2 text-white">Ing. Civil y MBA PUC. Supply Chain.</p><a href="https://www.linkedin.com/in/gilberto-cespedes-43b2b799/" target="_blank" class="mt-2 inline-block text-white underline text-xs">LinkedIn</a></div></div></div>
+                    <div class="flip-card team-card h-64"><div class="flip-card-inner"><div class="flip-card-front"><img src="assets/images/edith_wilson.png" class="team-img mx-auto" onerror="this.src='https://placehold.co/100?text=EW';"><h4 class="font-bold text-sm">Edith Wilson</h4><p class="text-xs">Legal</p></div><div class="flip-card-back"><p class="text-xs px-2 text-white">Abogado. Derecho Corporativo, M&A.</p><a href="https://www.linkedin.com/in/edith-wilson-porter-a0109215/" target="_blank" class="mt-2 inline-block text-white underline text-xs">LinkedIn</a></div></div></div>
+                    <div class="flip-card team-card h-64"><div class="flip-card-inner"><div class="flip-card-front"><img src="assets/images/elena_pailamilla.png" class="team-img mx-auto" onerror="this.src='https://placehold.co/100?text=EP';"><h4 class="font-bold text-sm">Elena Pailamilla</h4><p class="text-xs">Normas</p></div><div class="flip-card-back"><p class="text-xs px-2 text-white">Normativa Contable y Tributaria.</p><a href="https://www.linkedin.com/in/elena-pailamilla-sandoval-10523010a/" target="_blank" class="mt-2 inline-block text-white underline text-xs">LinkedIn</a></div></div></div>
+                    <div class="flip-card team-card h-64"><div class="flip-card-inner"><div class="flip-card-front"><img src="assets/images/juan_samaniego.png" class="team-img mx-auto" onerror="this.src='https://placehold.co/100?text=JS';"><h4 class="font-bold text-sm">Juan R. Samaniego</h4><p class="text-xs">Benchmarking</p></div><div class="flip-card-back"><p class="text-xs px-2 text-white">Ing. Comercial. Consultor Asociado.</p><a href="https://www.linkedin.com/in/juan-ramon-samaniego-sangroniz-82b315a3/" target="_blank" class="mt-2 inline-block text-white underline text-xs">LinkedIn</a></div></div></div>
+                    <div class="flip-card team-card h-64"><div class="flip-card-inner"><div class="flip-card-front"><img src="assets/images/maurice_filippi.png" class="team-img mx-auto" onerror="this.src='https://placehold.co/100?text=MF';"><h4 class="font-bold text-sm">Maurice Filippi</h4><p class="text-xs">Proyectos</p></div><div class="flip-card-back"><p class="text-xs px-2 text-white">Ing. Civil Industrial. Especialista en ABC.</p><a href="https://www.linkedin.com/in/maurice-filippi-rademacher-ba4380101/" target="_blank" class="mt-2 inline-block text-white underline text-xs">LinkedIn</a></div></div></div>
+                    <div class="flip-card team-card h-64"><div class="flip-card-inner"><div class="flip-card-front"><img src="assets/images/mario_boada.png" class="team-img mx-auto" onerror="this.src='https://placehold.co/100?text=MB';"><h4 class="font-bold text-sm">Mario Boada</h4><p class="text-xs">Comunicación</p></div><div class="flip-card-back"><p class="text-xs px-2 text-white">Master Periodismo. Comunicación Estratégica.</p><a href="https://www.linkedin.com/in/marioboada/" target="_blank" class="mt-2 inline-block text-white underline text-xs">LinkedIn</a></div></div></div>
+                    <div class="flip-card team-card h-64"><div class="flip-card-inner"><div class="flip-card-front"><img src="assets/images/jose_martinez_esp.png" class="team-img mx-auto" onerror="this.src='https://placehold.co/100?text=JM';"><h4 class="font-bold text-sm">José I. Martínez</h4><p class="text-xs">Finanzas</p></div><div class="flip-card-back"><p class="text-xs px-2 text-white">Ing. Comercial. Directorios y Empresas Int.</p><a href="https://www.linkedin.com/in/jose-ignacio-martinez-acevedo-41683845/" target="_blank" class="mt-2 inline-block text-white underline text-xs">LinkedIn</a></div></div></div>
+                    <div class="flip-card team-card h-64"><div class="flip-card-inner"><div class="flip-card-front"><img src="assets/images/claus_van.png" class="team-img mx-auto" onerror="this.src='https://placehold.co/100?text=CV';"><h4 class="font-bold text-sm">Claus Van der Molen</h4><p class="text-xs">Riesgos</p></div><div class="flip-card-back"><p class="text-xs px-2 text-white">Analista Financiero. Financiero y riesgos.</p></div></div></div>
+                    <div class="flip-card team-card h-64"><div class="flip-card-inner"><div class="flip-card-front"><img src="assets/images/paula_jadue.png" class="team-img mx-auto" onerror="this.src='https://placehold.co/100?text=PJ';"><h4 class="font-bold text-sm">Paula Jadue</h4><p class="text-xs">Gestión Pública</p></div><div class="flip-card-back"><p class="text-xs px-2 text-white">Gestión Estratégica Sector Público.</p></div></div></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="clientes" class="relative py-32 bg-gradient-to-b from-white to-gray-50 bg-sect4 parallax opacity-[0.96]" x-data="{clientPage: 1}">
+        <div class="absolute inset-0 bg-white/35"></div>
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="flex items-center justify-between mb-4">
+                <div class="text-xs font-bold text-navy">Inicio › Clientes</div>
+                <a href="#inicio" class="text-xs font-bold text-navy underline">Volver al Inicio</a>
+            </div>
+            <h2 class="text-5xl font-bold text-navy mb-12 text-center drop-shadow-lg">NUESTROS CLIENTES</h2>
+
+            <!-- Navegación por Sectores -->
+            <div class="bg-white/95 backdrop-blur p-6 rounded-2xl shadow-lg border border-gray-200/50 mb-12 max-w-6xl mx-auto">
+                <div class="flex items-center justify-center flex-wrap gap-3">
+                    <button @click="clientPage=1" :class="clientPage===1 ? 'bg-gradient-to-br from-cct_cyan to-blue-500 text-white shadow-lg scale-105' : 'bg-white text-navy hover:bg-gray-100 border-2 border-gray-200'" class="px-5 py-2.5 rounded-lg font-bold text-xs transition-all duration-300">
+                        <i class="fas fa-shopping-cart mr-2"></i>Retail y Comercio
+                    </button>
+                    <button @click="clientPage=2" :class="clientPage===2 ? 'bg-gradient-to-br from-cct_cyan to-blue-500 text-white shadow-lg scale-105' : 'bg-white text-navy hover:bg-gray-100 border-2 border-gray-200'" class="px-5 py-2.5 rounded-lg font-bold text-xs transition-all duration-300">
+                        <i class="fas fa-landmark mr-2"></i>Estado y Gremios
+                    </button>
+                    <button @click="clientPage=3" :class="clientPage===3 ? 'bg-gradient-to-br from-cct_cyan to-blue-500 text-white shadow-lg scale-105' : 'bg-white text-navy hover:bg-gray-100 border-2 border-gray-200'" class="px-5 py-2.5 rounded-lg font-bold text-xs transition-all duration-300">
+                        <i class="fas fa-graduation-cap mr-2"></i>Educación
+                    </button>
+                    <button @click="clientPage=4" :class="clientPage===4 ? 'bg-gradient-to-br from-cct_cyan to-blue-500 text-white shadow-lg scale-105' : 'bg-white text-navy hover:bg-gray-100 border-2 border-gray-200'" class="px-5 py-2.5 rounded-lg font-bold text-xs transition-all duration-300">
+                        <i class="fas fa-chart-line mr-2"></i>Financiero y Productivo
+                    </button>
+                    <button @click="clientPage=5" :class="clientPage===5 ? 'bg-gradient-to-br from-cct_cyan to-blue-500 text-white shadow-lg scale-105' : 'bg-white text-navy hover:bg-gray-100 border-2 border-gray-200'" class="px-5 py-2.5 rounded-lg font-bold text-xs transition-all duration-300">
+                        <i class="fas fa-industry mr-2"></i>Utilities y Servicios
+                    </button>
+                </div>
+            </div>
+
+            <!-- Contenedor de Logos por Sector -->
+            <div class="max-w-6xl mx-auto">
+                <!-- Página 1: Retail y Comercio -->
+                <div x-show="clientPage===1" x-transition class="bg-white/95 backdrop-blur p-8 rounded-2xl border-2 border-cct_cyan shadow-xl">
+                    <div class="flex items-center justify-center gap-3 mb-6">
+                        <i class="fas fa-shopping-cart text-3xl text-cct_cyan"></i>
+                        <h3 class="text-2xl font-bold text-navy">Retail y Comercio</h3>
+                    </div>
+                    <div class="flex justify-center">
+                        <img src="assets/images/logos_01.jpeg" alt="Retail y Comercio" class="w-full max-h-96 object-contain rounded-lg" onerror="this.style.display='none';">
+                    </div>
+                </div>
+
+                <!-- Página 2: Estado, Gremios y Sin Fines de Lucro -->
+                <div x-show="clientPage===2" x-transition class="bg-white/95 backdrop-blur p-8 rounded-2xl border-2 border-cct_cyan shadow-xl">
+                    <div class="flex items-center justify-center gap-3 mb-6">
+                        <i class="fas fa-landmark text-3xl text-cct_cyan"></i>
+                        <h3 class="text-2xl font-bold text-navy">Estado, Gremios y Sin Fines de Lucro</h3>
+                    </div>
+                    <div class="flex justify-center">
+                        <img src="assets/images/logos_02.jpeg" alt="Estado y Gremios" class="w-full max-h-96 object-contain rounded-lg" onerror="this.style.display='none';">
+                    </div>
+                </div>
+
+                <!-- Página 3: Educación -->
+                <div x-show="clientPage===3" x-transition class="bg-white/95 backdrop-blur p-8 rounded-2xl border-2 border-cct_cyan shadow-xl">
+                    <div class="flex items-center justify-center gap-3 mb-6">
+                        <i class="fas fa-graduation-cap text-3xl text-cct_cyan"></i>
+                        <h3 class="text-2xl font-bold text-navy">Educación</h3>
+                    </div>
+                    <div class="flex justify-center">
+                        <img src="assets/images/logos_03.jpeg" alt="Educación" class="w-full max-h-96 object-contain rounded-lg" onerror="this.style.display='none';">
+                    </div>
+                </div>
+
+                <!-- Página 4: Financiero y Productivo -->
+                <div x-show="clientPage===4" x-transition class="bg-white/95 backdrop-blur p-8 rounded-2xl border-2 border-cct_cyan shadow-xl">
+                    <div class="flex items-center justify-center gap-3 mb-6">
+                        <i class="fas fa-chart-line text-3xl text-cct_cyan"></i>
+                        <h3 class="text-2xl font-bold text-navy">Financiero y Productivo</h3>
+                    </div>
+                    <div class="flex justify-center">
+                        <img src="assets/images/logos_04.jpeg" alt="Financiero y Productivo" class="w-full max-h-96 object-contain rounded-lg" onerror="this.style.display='none';">
+                    </div>
+                </div>
+
+                <!-- Página 5: Utilities, Servicios y Construcción -->
+                <div x-show="clientPage===5" x-transition class="bg-white/95 backdrop-blur p-8 rounded-2xl border-2 border-cct_cyan shadow-xl">
+                    <div class="flex items-center justify-center gap-3 mb-6">
+                        <i class="fas fa-industry text-3xl text-cct_cyan"></i>
+                        <h3 class="text-2xl font-bold text-navy">Utilities, Servicios y Construcción</h3>
+                    </div>
+                    <div class="flex justify-center">
+                        <img src="assets/images/logos_05.jpeg" alt="Utilities y Servicios" class="w-full max-h-96 object-contain rounded-lg" onerror="this.style.display='none';">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navegación con flechas -->
+            <div class="flex justify-center gap-4 mt-8">
+                <button @click="clientPage=Math.max(1,clientPage-1)" class="px-6 py-3 rounded-lg bg-white border-2 border-navy text-navy font-bold hover:bg-navy hover:text-white transition-all duration-200">
+                    <i class="fas fa-chevron-left mr-2"></i>Anterior
+                </button>
+                <button @click="clientPage=Math.min(5,clientPage+1)" class="px-6 py-3 rounded-lg bg-white border-2 border-navy text-navy font-bold hover:bg-navy hover:text-white transition-all duration-200">
+                    Siguiente<i class="fas fa-chevron-right ml-2"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contacto" class="pt-24 pb-12 bg-white">
+        <div class="container mx-auto px-6">
+            <h2 class="text-5xl font-bold text-navy text-center mb-20 drop-shadow-sm">CONTACTO</h2>
+            <div class="grid md:grid-cols-3 gap-16 mb-20 max-w-4xl mx-auto">
+                <div class="text-center">
+                    <div class="inline-block p-4 rounded-2xl bg-gradient-to-br from-gray-50 to-white border border-gray-200/70 shadow-sm hover:shadow-md transition-all duration-300 mb-6">
+                        <img src="assets/images/logo_gl_strategic.png" class="h-16 w-auto drop-shadow-sm" alt="Logo">
+                    </div>
+                    <p class="text-gray-600 text-sm leading-relaxed">Ingeniería de<br/>Transformación Anticipativa</p>
+                </div>
+                <div class="text-center">
+                    <h5 class="text-sm font-bold text-cct_cyan mb-6 uppercase tracking-wider">Ubicación</h5>
+                    <p class="text-gray-700 text-sm leading-relaxed">La Dehesa 226<br/>Santiago, Chile</p>
+                </div>
+                <div class="text-center">
+                    <h5 class="text-sm font-bold text-cct_cyan mb-6 uppercase tracking-wider">Contacto</h5>
+                    <p class="mb-3 text-gray-700 text-sm">+569 7609 3848</p>
+                    <a href="mailto:contacto@glstrategic.cl" class="text-cct_cyan hover:text-blue-600 text-sm font-semibold transition duration-200">contacto@glstrategic.cl</a>
+                </div>
+            </div>
+            <div class="border-t border-gray-200/50 pt-8 text-center text-xs text-gray-400">
+                © 2026 GL Strategic · Ingeniería de Anticipación
+            </div>
         </div>
     </footer>
 
+        <!-- Botón global: Volver al Inicio -->
+        <a href="#inicio" aria-label="Volver al Inicio" class="fixed bottom-6 left-6 px-4 py-3 rounded-full bg-gradient-to-br from-cct_cyan to-blue-500 text-white text-xs font-bold shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-110">
+            ↑ Inicio
+        </a>
+
     <script>
-        // Gráfico con colores nuevos
         const ctx = document.getElementById('pibChart').getContext('2d');
         new Chart(ctx, {
             type: 'line',
             data: {
                 labels: ['2010', '2011', '2012', '2013', '2014', '2015', '2016', '2017'],
                 datasets: [
-                    { label: 'Mercado (FMI)', data: [5.8, 6.0, 5.5, 5.0, 4.8, 4.5, 4.6, 4.7], borderColor: '#ef4444', borderWidth: 2, pointRadius: 0 },
+                    { label: 'Mercado', data: [5.8, 6.0, 5.5, 5.0, 4.8, 4.5, 4.6, 4.7], borderColor: '#ef4444', borderWidth: 2, pointRadius: 0 },
                     { label: 'Realidad', data: [5.8, 6.1, 5.3, 4.0, 1.9, 2.3, 1.7, 1.4], borderColor: '#9ca3af', borderWidth: 2, borderDash: [5,5] },
-                    { label: 'GL Strategic', data: [5.8, 5.0, 4.0, 3.0, 2.0, 2.1, 2.0, 2.2], borderColor: '#c5a059', borderWidth: 4, backgroundColor: 'white', pointRadius: 5 }
+                    { label: 'PPCI', data: [5.8, 5.0, 4.0, 3.0, 2.0, 2.1, 2.0, 2.2], borderColor: '#00A3E0', borderWidth: 3, backgroundColor: 'white', pointRadius: 4 }
                 ]
             },
-            options: { responsive: true, maintainAspectRatio: false, scales: { y: { grid: { color: '#f0f0f0' } } } }
+            options: { responsive: true, maintainAspectRatio: false, scales: { y: { grid: { color: '#f0f0f0' } }, x: { grid: { display: false } } } }
         });
     </script>
+    
+    <!-- Modal de Imagen (Lightbox) -->
+    <div x-show="modalOpen" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center" @keydown.escape.window="modalOpen=false" @click.self="modalOpen=false" style="display: none;">
+        <div class="relative bg-white rounded-xl shadow-2xl border border-gray-200 max-w-3xl w-[92%]">
+            <button class="absolute top-2 right-2 px-3 py-1 text-xs font-bold rounded bg-navy text-white hover:bg-black transition" @click="modalOpen=false">Cerrar</button>
+            <img :src="modalSrc" alt="Infografía" class="w-full h-auto rounded-xl" @error="modalOpen=false">
+        </div>
+    </div>
 </body>
 </html>

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+  <!-- Fondo blanco -->
+  <rect width="256" height="256" fill="#ffffff"/>
+  
+  <!-- Círculo de fondo celeste -->
+  <circle cx="128" cy="128" r="110" fill="#00A3E0"/>
+  
+  <!-- Texto GL en letras celestes (blanco sobre celeste) -->
+  <text x="128" y="155" font-family="Montserrat, sans-serif" font-size="90" font-weight="700" text-anchor="middle" fill="#ffffff" letter-spacing="4">GL</text>
+</svg>
