@@ -92,10 +92,10 @@
 <body x-data="{ activeTab: 'cam', modalOpen: false, modalSrc: '' }">
 
     <nav class="fixed w-full z-50 bg-white/95 backdrop-blur-lg border-b border-gray-200/50 shadow-sm">
-        <div class="container mx-auto px-6 h-20 flex justify-between items-center">
+        <div class="container mx-auto px-4 md:px-6 h-16 md:h-20 flex justify-between items-center">
             <a href="#inicio" class="transition-all duration-300 hover:scale-105">
-                <div class="p-2 rounded-2xl hover:bg-gray-50 transition-all duration-300">
-                    <img src="assets/images/logo_gl_strategic.png" alt="GL Strategic" class="h-12 w-auto drop-shadow-sm">
+                <div class="p-2 rounded-2xl transition-all duration-300">
+                    <img src="assets/images/logo_gl_strategic_transparent.png" onerror="this.src='assets/images/logo_gl_strategic.png'" alt="GL Strategic" class="h-10 md:h-12 w-auto drop-shadow-sm">
                 </div>
             </a>
             <div class="hidden lg:flex space-x-6 text-xs font-bold uppercase tracking-wider text-navy">
@@ -139,8 +139,25 @@
                 <div class="text-xs font-bold text-navy/90">Inicio › ADN</div>
                 <a href="#inicio" class="text-xs font-bold text-navy underline">Volver al Inicio</a>
             </div>
-            <h2 class="text-4xl font-bold text-navy mb-8 text-center">NUESTRO ADN</h2>
+            <h2 class="text-5xl font-bold text-navy mb-8 text-center drop-shadow-lg">NUESTRO ADN</h2>
             
+            <!-- PROYECTO PAÍS: CONTEXTO Y RELEVANCIA -->
+            <div class="bg-gradient-to-br from-blue-50 to-cyan-50 backdrop-blur p-8 rounded-2xl shadow-lg border border-cct_cyan/30 mb-12">
+                <div class="flex items-center gap-3 mb-6">
+                    <i class="fas fa-network-wired text-4xl text-cct_cyan"></i>
+                    <h3 class="text-2xl font-bold text-navy">Proyecto País (PPCI): El Fundamento de Nuestro Enfoque</h3>
+                </div>
+                <p class="text-base text-gray-800 mb-4 leading-relaxed">
+                    El <strong>Proyecto País (PPCI)</strong> es una iniciativa estratégica de largo plazo diseñada para aportar una visión integrada del desarrollo nacional, con más de dos décadas de trabajo colaborativo entre expertos de múltiples disciplinas. Su foco no es un programa aislado, sino una construcción colectiva de conocimiento que permite comprender y analizar las dinámicas <strong>productivas, sociales, culturales y de administración pública</strong> en Chile y sus regiones.
+                </p>
+                <p class="text-base text-gray-800 mb-4 leading-relaxed">
+                    Este esfuerzo contribuye directamente a la consultoría que ofrecemos, ya que proporciona un <strong>marco analítico robusto</strong> para interpretar las transformaciones estructurales del país, identificar desafíos sistémicos y proponer soluciones con impacto real. El PPCI otorga <strong>contexto estratégico y fundamentación técnica</strong> que enriquece nuestra mirada sobre las tendencias macro y regionales, fortaleciendo el diseño de propuestas que impulsan el desarrollo integral del país, las empresas y las nuevas inversiones.
+                </p>
+                <p class="text-base text-gray-800 leading-relaxed">
+                    Al integrar perspectivas amplias y multidimensionales de la realidad chilena dentro de nuestro enfoque de consultoría estratégica, evidenciamos el valor de una visión holística: entender no solo lo que es, sino anticipar lo que será, construyendo ventajas sostenibles para nuestros clientes.
+                </p>
+            </div>
+
             <!-- HERO ADN + VIDEO SIDE BY SIDE -->
             <div class="grid md:grid-cols-2 gap-6 mb-6">
                 <!-- FLIPCARD: ESPEJO RETROVISOR -->
@@ -178,7 +195,6 @@
                             <source src="assets/videos/nuestro_adn.mp4" type="video/mp4">
                         </video>
                     </div>
-                    <p class="text-[10px] text-gray-500 mt-2 text-center">Video: Nuestro ADN</p>
                 </div>
             </div>
 
@@ -298,14 +314,14 @@
 
             <!-- ENLACES INSTITUCIONALES -->
             <div class="grid md:grid-cols-2 gap-4 mb-8">
-                <a href="https://chilecontodo.cl/proyecto-pais/" target="_blank" class="bg-white/95 backdrop-blur p-6 rounded-xl border-2 border-cct_cyan shadow-md hover:shadow-xl hover:scale-105 transition-all duration-300 group">
+                <a href="https://proyectopaischile.blogspot.com/" target="_blank" class="bg-white/95 backdrop-blur p-6 rounded-xl border-2 border-cct_cyan shadow-md hover:shadow-xl hover:scale-105 transition-all duration-300 group">
                     <div class="flex items-center gap-4">
                         <div class="w-16 h-16 rounded-full bg-gradient-to-br from-cct_cyan to-blue-500 flex items-center justify-center flex-shrink-0">
                             <i class="fas fa-network-wired text-2xl text-white"></i>
                         </div>
                         <div class="flex-1">
-                            <h5 class="font-bold text-navy text-base mb-1 group-hover:text-cct_cyan transition-colors">Proyecto País Chile</h5>
-                            <p class="text-xs text-gray-600">Red de 2.000+ expertos del Colegio de Ingenieros. Dirigido por Gastón L'Huillier, fundador de GL Strategic.</p>
+                            <h5 class="font-bold text-navy text-base mb-1 group-hover:text-cct_cyan transition-colors">Proyecto País Chile (PPCI)</h5>
+                            <p class="text-xs text-gray-600">Red de 2.000+ expertos del Colegio de Ingenieros. Visión integrada del desarrollo nacional. Fundamento estratégico de GL Strategic.</p>
                         </div>
                         <i class="fas fa-external-link-alt text-cct_cyan text-xl opacity-0 group-hover:opacity-100 transition-opacity"></i>
                     </div>
@@ -318,7 +334,7 @@
                         </div>
                         <div class="flex-1">
                             <h5 class="font-bold text-navy text-base mb-1 group-hover:text-cct_orange transition-colors">Groupe Loyal</h5>
-                            <p class="text-xs text-gray-600">Firma antecesora de GL Strategic. Legado de más de 20 años en consultoría estratégica y transformación.</p>
+                            <p class="text-xs text-gray-600">Firma antecesora de GL Strategic. Legado de más de 20 años en consultoría estratégica y transformación organizacional.</p>
                         </div>
                         <i class="fas fa-external-link-alt text-cct_orange text-xl opacity-0 group-hover:opacity-100 transition-opacity"></i>
                     </div>
@@ -361,10 +377,10 @@
         </div>
     </section>
 
-    <section id="servicios" class="relative py-24 bg-gradient-to-b from-white to-gray-50 bg-sect3 parallax opacity-[0.97]">
+    <section id="servicios" class="relative py-48 bg-gradient-to-b from-white to-gray-50 bg-sect3 parallax opacity-[0.97]">
         <div class="absolute inset-0 bg-white/30"></div>
         <div class="container mx-auto px-6 relative z-10">
-            <h2 class="text-5xl font-bold text-navy mb-12 text-center">NUESTROS SERVICIOS</h2>
+            <h2 class="text-6xl font-bold text-navy mb-12 text-center drop-shadow-lg">NUESTROS SERVICIOS</h2>
             <div class="text-center mb-8">
                 <div class="bg-white/95 backdrop-blur-sm rounded-xl p-4 shadow-md border border-gray-200 max-w-4xl mx-auto">
                     <p class="text-xs text-navy font-semibold"><strong>CAM+:</strong> Centro de Anticipación y Creación de Futuro | <strong>CAF:</strong> Soft Landing de Inversiones y Desarrollo Territorial | <strong>SEM:</strong> Strategic Engineering & Management</p>
@@ -379,6 +395,12 @@
             </div>
 
             <div x-show="activeTab === 'cam'" class="animate-fade-in space-y-12" x-data="{camPage: 1}">
+                <!-- INTRODUCCIÓN CAM+ -->
+                <div class="bg-gradient-to-br from-blue-50 to-cyan-50 backdrop-blur p-6 rounded-2xl shadow-lg border border-cct_cyan/30">
+                    <h4 class="text-lg font-bold text-navy mb-3">¿Qué es CAM+?</h4>
+                    <p class="text-sm text-gray-800 leading-relaxed">CAM+ es nuestro centro de <strong>Anticipación y Creación de Futuro</strong>: un diagnóstico integral de 14 componentes clave que evalúa la capacidad adaptativa de tu organización, seguido de la metodología <strong>Pré-Futur</strong> — 7 etapas de transformación anticipativa que conectan visión estratégica con ejecución operacional. Es especialmente diseñado para organizaciones que necesitan no solo entender dónde están, sino anticipar dónde deben estar en un entorno volátil.</p>
+                </div>
+
                 <!-- PAGE NAVIGATION -->
                 <div class="bg-white/95 backdrop-blur p-6 rounded-2xl shadow-lg border border-cct_cyan/30 mb-8">
                     <div class="flex items-center justify-between flex-wrap gap-4">
@@ -858,6 +880,12 @@
             </div>
 
             <div x-show="activeTab === 'caf'" class="animate-fade-in space-y-12" x-data="{cafPage: 1}">
+                <!-- INTRODUCCIÓN CAF -->
+                <div class="bg-gradient-to-br from-orange-50 to-red-50 backdrop-blur p-6 rounded-2xl shadow-lg border border-cct_orange/30">
+                    <h4 class="text-lg font-bold text-navy mb-3">¿Qué es CAF?</h4>
+                    <p class="text-sm text-gray-800 leading-relaxed">CAF es nuestro centro de <strong>Atracción de Inversiones y Desarrollo Territorial</strong>: una estrategia integral para transformar territorios en ecosistemas productivos sostenibles mediante ecoparques industriales con simbiosis económica, energía verde, infraestructura compartida y gobernanza clara. Combina oportunidades de inversión verde (hidrógeno, litio, data centers, acuicultura) con permisos pre-aprobados que reducen el Time-to-Market de 10 a 2 años.</p>
+                </div>
+
                 <!-- PAGE NAVIGATION -->
                 <div class="bg-white/95 backdrop-blur p-6 rounded-2xl shadow-lg border border-cct_orange/30 mb-8">
                     <div class="flex items-center justify-between flex-wrap gap-4">
@@ -985,6 +1013,7 @@
                                 <div class="absolute bottom-0 left-0 right-0 bg-blue-600/80 text-white text-xs font-bold px-3 py-2">Puerto y Logística</div>
                             </div>
                         </div>
+                        <p class="text-xs text-gray-600 italic mt-3 text-center">Las visualizaciones mostradas son ideas y maquetas conceptuales con fines ilustrativos.</p>
                     </div>
                 </div>
 
@@ -1119,6 +1148,7 @@
                                 </div>
                             </div>
                         </div>
+                        <p class="text-xs text-gray-600 italic mt-3 text-center">Los territorios y propuestas listados corresponden a ideas y maquetas conceptuales.</p>
                     </div>
                 </div>
 
@@ -1240,6 +1270,12 @@
             </div>
 
             <div x-show="activeTab === 'sem'" class="animate-fade-in space-y-12" x-data="{semPage: 1}">
+                <!-- INTRODUCCIÓN SEM -->
+                <div class="bg-gradient-to-br from-cyan-50 to-blue-50 backdrop-blur p-6 rounded-2xl shadow-lg border border-cct_cyan/30">
+                    <h4 class="text-lg font-bold text-navy mb-3">¿Qué es SEM?</h4>
+                    <p class="text-sm text-gray-800 leading-relaxed"><strong>Strategic Engineering & Management</strong> es nuestro enfoque integrado que une estrategia empresarial con ingeniería operacional rigurosa. Combinamos herramientas de clase mundial (ABC/ABM, EVA, Balanced Scorecard, reingeniería de procesos) con gestión del cambio y cumplimiento normativo (ESG & Compliance). Es especialmente efectivo para organizaciones que necesitan pasar de "buenas intenciones" a resultados económicos medibles y sostenibles.</p>
+                </div>
+
                 <!-- PAGE NAVIGATION -->
                 <div class="bg-white/95 backdrop-blur p-6 rounded-2xl shadow-lg border border-cct_cyan/30 mb-8">
                     <div class="flex items-center justify-between flex-wrap gap-4">
@@ -1401,8 +1437,8 @@
                                     <i class="fas fa-laptop-code text-3xl text-indigo-500 mb-1"></i>
                                     <h5 class="font-bold text-navy text-xs">Digital</h5>
                                 </div>
-                                <div class="flip-card-back bg-gradient-to-br from-indigo-500/90 to-blue-700/80">
-                                    <p class="text-sm px-2 leading-relaxed text-white font-medium">Transformación digital integrada que habilita nuevos modelos de negocio, no solo costos.</p>
+                                <div class="flip-card-back bg-gradient-to-br from-indigo-500/90 to-blue-700/80 overflow-y-auto">
+                                    <p class="text-sm px-2 leading-relaxed text-white font-medium">La transformación digital no se trata de tecnología, sino de estrategia y de nuevas formas de concebir los modelos de negocio. Implica, ante todo, un cambio profundo de mentalidad más que una renovación de la infraestructura tecnológica. Este proceso requiere una mirada holística de la estrategia empresarial, integrando de manera coherente las dimensiones de clientes, formas de competir, gestión basada en datos e innovación continua, con el fin de adaptar y fortalecer la propuesta de valor en un entorno dinámico.</p>
                                 </div>
                             </div>
                         </div>
@@ -1412,8 +1448,8 @@
                                     <i class="fas fa-users-cog text-3xl text-pink-500 mb-1"></i>
                                     <h5 class="font-bold text-navy text-xs">Gestión del Cambio</h5>
                                 </div>
-                                <div class="flip-card-back bg-gradient-to-br from-pink-500/90 to-rose-600/80">
-                                    <p class="text-sm px-2 leading-relaxed text-white font-medium">Coaching ejecutivo, desarrollo profesional y capacitación para asegurar adopción sostenible.</p>
+                                <div class="flip-card-back bg-gradient-to-br from-pink-500/90 to-rose-600/80 overflow-y-auto">
+                                    <p class="text-sm px-2 leading-relaxed text-white font-medium">La gestión del cambio consiste en planificar, implementar, medir y monitorear de manera sistemática las acciones asociadas al factor humano en los proyectos de transformación. Un enfoque estructurado permite aumentar significativamente las probabilidades de alcanzar los resultados esperados y, en muchos casos, superarlos, asegurando la adopción efectiva y sostenible de los cambios en la organización.</p>
                                 </div>
                             </div>
                         </div>
@@ -1766,7 +1802,7 @@
             
     </section>
 
-    <section id="equipo" class="relative py-32 bg-gradient-to-b from-white to-gray-50 bg-sect1 parallax opacity-[0.96]">
+    <section id="equipo" class="relative py-48 bg-gradient-to-b from-white to-gray-50 bg-sect1 parallax opacity-[0.96]">
         <div class="absolute inset-0 bg-white/35"></div>
         <div class="container mx-auto px-6 relative z-10">
             <div class="flex items-center justify-between mb-4">
@@ -1800,7 +1836,7 @@
                             </div>
                             <div class="flip-card-back">
                                 <p class="text-xs px-2 text-white">Socio de Groupe Loyal.</p>
-                                <a href="#" target="_blank" class="mt-3 inline-block border border-white px-3 py-1 rounded text-xs font-bold hover:bg-white hover:text-navy transition">LinkedIn</a>
+                                <a href="https://www.linkedin.com/in/claudiomaggi" target="_blank" class="mt-3 inline-block border border-white px-3 py-1 rounded text-xs font-bold hover:bg-white hover:text-navy transition">LinkedIn</a>
                             </div>
                         </div>
                     </div>
@@ -1846,7 +1882,7 @@
                     <div class="flip-card team-card">
                         <div class="flip-card-inner">
                             <div class="flip-card-front">
-                                <img src="assets/images/carlos_vergara.png" class="team-img mx-auto" alt="Carlos" onerror="this.src='https://placehold.co/100?text=CV';">
+                                <img src="assets/images/carlos_vergara.PNG" class="team-img mx-auto" alt="Carlos" onerror="this.src='https://placehold.co/100?text=CV';">
                                 <h4 class="font-bold text-sm">Carlos Vergara</h4>
                                 <p class="text-xs text-cct_cyan font-bold uppercase mt-1">Socio</p>
                             </div>
@@ -1909,14 +1945,14 @@
                     <div class="flip-card team-card h-64"><div class="flip-card-inner"><div class="flip-card-front"><img src="assets/images/maurice_filippi.png" class="team-img mx-auto" onerror="this.src='https://placehold.co/100?text=MF';"><h4 class="font-bold text-sm">Maurice Filippi</h4><p class="text-xs">Proyectos</p></div><div class="flip-card-back"><p class="text-xs px-2 text-white">Ing. Civil Industrial. Especialista en ABC.</p><a href="https://www.linkedin.com/in/maurice-filippi-rademacher-ba4380101/" target="_blank" class="mt-2 inline-block text-white underline text-xs">LinkedIn</a></div></div></div>
                     <div class="flip-card team-card h-64"><div class="flip-card-inner"><div class="flip-card-front"><img src="assets/images/mario_boada.png" class="team-img mx-auto" onerror="this.src='https://placehold.co/100?text=MB';"><h4 class="font-bold text-sm">Mario Boada</h4><p class="text-xs">Comunicación</p></div><div class="flip-card-back"><p class="text-xs px-2 text-white">Master Periodismo. Comunicación Estratégica.</p><a href="https://www.linkedin.com/in/marioboada/" target="_blank" class="mt-2 inline-block text-white underline text-xs">LinkedIn</a></div></div></div>
                     <div class="flip-card team-card h-64"><div class="flip-card-inner"><div class="flip-card-front"><img src="assets/images/jose_martinez_esp.png" class="team-img mx-auto" onerror="this.src='https://placehold.co/100?text=JM';"><h4 class="font-bold text-sm">José I. Martínez</h4><p class="text-xs">Finanzas</p></div><div class="flip-card-back"><p class="text-xs px-2 text-white">Ing. Comercial. Directorios y Empresas Int.</p><a href="https://www.linkedin.com/in/jose-ignacio-martinez-acevedo-41683845/" target="_blank" class="mt-2 inline-block text-white underline text-xs">LinkedIn</a></div></div></div>
-                    <div class="flip-card team-card h-64"><div class="flip-card-inner"><div class="flip-card-front"><img src="assets/images/claus_van.png" class="team-img mx-auto" onerror="this.src='https://placehold.co/100?text=CV';"><h4 class="font-bold text-sm">Claus Van der Molen</h4><p class="text-xs">Riesgos</p></div><div class="flip-card-back"><p class="text-xs px-2 text-white">Analista Financiero. Financiero y riesgos.</p></div></div></div>
+                    <div class="flip-card team-card h-64"><div class="flip-card-inner"><div class="flip-card-front"><img src="assets/images/claus_van.png" class="team-img mx-auto" onerror="this.src='https://placehold.co/100?text=CV';"><h4 class="font-bold text-sm">Claus Van der Molen</h4><p class="text-xs">Riesgos</p></div><div class="flip-card-back"><p class="text-xs px-2 text-white">Analista Financiero. Financiero y riesgos.</p><a href="https://www.linkedin.com/in/clausvandermolen/" target="_blank" class="mt-2 inline-block text-white underline text-xs">LinkedIn</a></div></div></div>
                     <div class="flip-card team-card h-64"><div class="flip-card-inner"><div class="flip-card-front"><img src="assets/images/paula_jadue.png" class="team-img mx-auto" onerror="this.src='https://placehold.co/100?text=PJ';"><h4 class="font-bold text-sm">Paula Jadue</h4><p class="text-xs">Gestión Pública</p></div><div class="flip-card-back"><p class="text-xs px-2 text-white">Gestión Estratégica Sector Público.</p></div></div></div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="clientes" class="relative py-32 bg-gradient-to-b from-white to-gray-50 bg-sect4 parallax opacity-[0.96]" x-data="{clientPage: 1}">
+    <section id="clientes" class="relative py-48 bg-gradient-to-b from-white to-gray-50 bg-sect4 parallax opacity-[0.96]" x-data="{clientPage: 1}">
         <div class="absolute inset-0 bg-white/35"></div>
         <div class="container mx-auto px-6 relative z-10">
             <div class="flex items-center justify-between mb-4">
@@ -2036,8 +2072,16 @@
                     <a href="mailto:contacto@glstrategic.cl" class="text-cct_cyan hover:text-blue-600 text-sm font-semibold transition duration-200">contacto@glstrategic.cl</a>
                 </div>
             </div>
-            <div class="border-t border-gray-200/50 pt-8 text-center text-xs text-gray-400">
-                © 2026 GL Strategic · Ingeniería de Anticipación
+            <div class="border-t border-gray-200/50 pt-8 mb-8">
+                <div class="flex justify-center gap-6 mb-6">
+                    <a href="https://www.linkedin.com/company/gl-strategic/" target="_blank" class="text-cct_cyan hover:text-blue-600 transition" title="LinkedIn"><i class="fab fa-linkedin text-2xl"></i></a>
+                    <a href="https://www.youtube.com/" target="_blank" class="text-cct_cyan hover:text-red-600 transition" title="YouTube"><i class="fab fa-youtube text-2xl"></i></a>
+                    <a href="https://www.facebook.com/" target="_blank" class="text-cct_cyan hover:text-blue-500 transition" title="Facebook"><i class="fab fa-facebook text-2xl"></i></a>
+                    <a href="https://www.instagram.com/" target="_blank" class="text-cct_cyan hover:text-pink-600 transition" title="Instagram"><i class="fab fa-instagram text-2xl"></i></a>
+                </div>
+                <div class="text-center text-xs text-gray-400">
+                    © 2026 GL Strategic · Ingeniería de Anticipación
+                </div>
             </div>
         </div>
     </footer>
