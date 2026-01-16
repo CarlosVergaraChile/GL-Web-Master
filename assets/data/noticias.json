@@ -1,0 +1,124 @@
+{
+  "noticias": [
+    {
+      "id": 1,
+      "titulo": "Anticipación estratégica: Chile hacia el 2030",
+      "extracto": "El desafío no es adaptarse al cambio, sino anticiparlo. En GL Strategic, trabajamos con una red de 2.000+ expertos del Proyecto País para detectar señales débiles que moldearán el futuro de nuestros clientes. Una década de precisión predictiva comprobada.",
+      "autor": "Gastón L'Huillier",
+      "rol": "Socio Principal",
+      "imagen_autor": "gaston_lhuillier_troncoso.png",
+      "tipo": "linkedin",
+      "url": "https://www.linkedin.com/feed/",
+      "fecha": "2025-01-20",
+      "categoria": "estrategia"
+    },
+    {
+      "id": 2,
+      "titulo": "Transformación Digital: más que tecnología, es mentalidad",
+      "extracto": "La transformación digital fracasa cuando se trata solo de implementar herramientas. El verdadero cambio ocurre cuando la estrategia, la cultura y la tecnología convergen en un mismo propósito. Guillermo Muñoz comparte los pilares de CAM+ para lograrlo.",
+      "autor": "Guillermo Muñoz Herrera",
+      "rol": "Socio, Especialista Digital",
+      "imagen_autor": "guillermo_munoz.png",
+      "tipo": "linkedin",
+      "url": "https://www.linkedin.com/feed/",
+      "fecha": "2025-01-18",
+      "categoria": "transformacion"
+    },
+    {
+      "id": 3,
+      "titulo": "Liderazgo en tiempos de incertidumbre",
+      "extracto": "Los líderes del futuro no serán los que reaccionan más rápido, sino los que anticipan mejor. Rafael Sotil examina cómo el coaching ejecutivo y el liderazgo adaptativo transforman organizaciones en ecosistemas resilientes.",
+      "autor": "Rafael Sotil",
+      "rol": "Socio, Especialista en Liderazgo",
+      "imagen_autor": "rafael_sotil.png",
+      "tipo": "linkedin",
+      "url": "https://www.linkedin.com/feed/",
+      "fecha": "2025-01-15",
+      "categoria": "liderazgo"
+    },
+    {
+      "id": 4,
+      "titulo": "Economía circular: diseñando el futuro productivo de Chile",
+      "extracto": "Los ecoparques no son solo infraestructura verde. Son ecosistemas donde la sinergia económica, la innovación y la sostenibilidad convergen. Desde Arica a Magallanes, GL Strategic está diseñando nuevos modelos de valor territorial.",
+      "autor": "Pablo Canobra",
+      "rol": "Socio, Especialista Territorial",
+      "imagen_autor": "pablo_canobra.png",
+      "tipo": "linkedin",
+      "url": "https://www.linkedin.com/feed/",
+      "fecha": "2025-01-12",
+      "categoria": "estrategia"
+    },
+    {
+      "id": 5,
+      "titulo": "Valores que transforman: ESG no es cumplimiento, es oportunidad",
+      "extracto": "Las 10 claves normativas de GL Strategic van más allá de la regulación. Son oportunidades de diferenciación para empresas que entienden que la sostenibilidad, los derechos humanos y el buen gobierno son ventajas competitivas.",
+      "autor": "Edith Wilson",
+      "rol": "Socio, Derecho Corporativo",
+      "imagen_autor": "edith_wilson.png",
+      "tipo": "linkedin",
+      "url": "https://www.linkedin.com/feed/",
+      "fecha": "2025-01-10",
+      "categoria": "transformacion"
+    },
+    {
+      "id": 6,
+      "titulo": "Rentabilidad real: ABC/ABM en acción",
+      "extracto": "¿Realmente sabes cuál es tu margen por cliente y por línea? ABC/ABM revela verdades incómodas y oportunidades doradas. Carlos Vergara demuestra cómo la gestión basada en actividades transformó una cartera de 50 SKU en 20 productos estratégicos.",
+      "autor": "Carlos Vergara",
+      "rol": "Socio, Experto en Procesos",
+      "imagen_autor": "carlos_vergara.png",
+      "tipo": "linkedin",
+      "url": "https://www.linkedin.com/feed/",
+      "fecha": "2025-01-08",
+      "categoria": "estrategia"
+    },
+    {
+      "id": 7,
+      "titulo": "GL Strategic presente en Foro de Competitividad 2025",
+      "extracto": "Nuestro equipo ejecutivo participó en el principal evento de liderazgo empresarial de América Latina. Gastón L'Huillier presentó el modelo de anticipación estratégica basado en datos del Proyecto País, generando gran impacto en la audiencia.",
+      "autor": "GL Strategic",
+      "rol": "Comunicado Oficial",
+      "imagen_autor": "logo_gl_strategic.png",
+      "tipo": "comunicado",
+      "url": "https://www.linkedin.com/company/gl-strategic/",
+      "fecha": "2025-01-05",
+      "categoria": "liderazgo"
+    },
+    {
+      "id": 8,
+      "titulo": "Nuevo diplomado CAM+ abre inscripciones",
+      "extracto": "Capacitación especializada para directivos públicos y privados. 40 horas en línea y presencial. Aprende los 14 componentes de diagnóstico organizacional y las 7 etapas de Pré-Futur para transformación anticipativa. Próxima cohorte inicia en febrero.",
+      "autor": "GL Strategic",
+      "rol": "Comunicado de Educación",
+      "imagen_autor": "logo_gl_strategic.png",
+      "tipo": "comunicado",
+      "url": "https://www.linkedin.com/company/gl-strategic/",
+      "fecha": "2025-01-03",
+      "categoria": "transformacion"
+    },
+    {
+      "id": 9,
+      "titulo": "Proyecto País se anticipa 10 años a los cambios de tendencia en Chile",
+      "extracto": "El PP del Colegio de Ingenieros, creado y dirigido por nuestro socio Gastón L'Huillier, ha entregado durante 12 años la mejor información sobre los cambios que vienen en el país.",
+      "autor": "Gastón L'Huillier",
+      "rol": "Socio Principal",
+      "imagen_autor": "gaston_lhuillier_troncoso.png",
+      "tipo": "linkedin",
+      "url": "http://groupeloyal.blogspot.com/2014/03/proyecto-pais-se-anticipa-10-anos-los.html",
+      "fecha": "2014-03-20",
+      "categoria": "estrategia"
+    },
+    {
+      "id": 10,
+      "titulo": "Arica como hub productivo: transformación territorial mediante ecoparques industriales",
+      "extracto": "Javier Díaz Calderón, Director Regional de GL Strategic en Arica y Parinacota, analiza cómo los ecoparques industriales pueden convertir la región en un polo de innovación verde y manufactura avanzada. Con energía solar extrema y certeza jurídica (Zona Franca, Ley Arica), Arica está posicionada para atraer inversión en hidrógeno verde, fertilizantes verdes y data centers de clase mundial.",
+      "autor": "Javier Díaz Calderón",
+      "rol": "Director Regional, Arica y Parinacota",
+      "imagen_autor": "javier_delamaza.jfif",
+      "tipo": "linkedin",
+      "url": "https://www.linkedin.com/in/javier-e-d%C3%ADaz-calder%C3%B3n-08abb222/",
+      "fecha": "2026-01-16",
+      "categoria": "estrategia"
+    }
+  ]
+}

@@ -1,0 +1,236 @@
+════════════════════════════════════════════════════════════════
+  ACTUALIZACIÓN - 3 MEJORAS IMPLEMENTADAS
+════════════════════════════════════════════════════════════════
+
+MEJORA 1: DESCARGAS → assets/images DIRECTAMENTE
+═══════════════════════════════════════════════════════════════
+
+CAMBIO:
+  ANTES: Descarga → raw_linkedin_photos → assets/images
+  AHORA: Descarga → assets/images (directamente)
+
+BENEFICIO:
+  • Menos pasos
+  • Fotos aparecen en website en ~10 segundos
+  • Más rápido y simple
+
+CÓMO USAR:
+  1. Doble-click DESCARGA_FOTOS.bat
+  2. Selecciona [1] INICIAR MONITOR
+  3. Descarga fotos de LinkedIn (click derecho → Guardar imagen)
+  4. Script detecta y GUARDA DIRECTAMENTE en assets/images/
+  5. Foto aparece en website (F5 para refrescar)
+
+
+MEJORA 2: SOLO ACTUALIZA SI LA FOTO CAMBIÓ
+═══════════════════════════════════════════════════════════════
+
+CÓMO FUNCIONA:
+  • El script calcula HASH (SHA256) de cada foto
+  • Compara con hash anterior
+  • Si es igual → SALTA (ya está actualizada)
+  • Si es diferente → PROCESA Y REEMPLAZA
+
+BENEFICIO:
+  • No reprocesa fotos innecesariamente
+  • Ahorra tiempo si descargas la misma foto 2 veces
+  • Historial automático de cambios
+
+EJEMPLO:
+  → Descargas foto de Gastón
+  → Script calcula hash y la guarda
+  → Luego descargas la MISMA foto (sin cambios)
+  → Script ve que es idéntica → SALTA
+  → Tercera descarga con foto NUEVA/DIFERENTE
+  → Script detecta cambio → REEMPLAZA
+
+ARCHIVO DE CONTROL:
+  c:\...\automatizaciones\.photo_hashes.json
+  (Almacena hashes de todas las fotos para comparación)
+
+
+MEJORA 3: SISTEMA DE NOTICIAS DINÁMICAS
+═══════════════════════════════════════════════════════════════
+
+QUÉ ES:
+  • Gestor interactivo de noticias
+  • Agregar, editar, eliminar noticias fácilmente
+  • Las noticias aparecen en el website automáticamente
+
+CÓMO USAR:
+  1. Doble-click en: GESTOR_NOTICIAS.bat
+  2. Aparece menú:
+     [1] Agregar noticia
+     [2] Listar noticias
+     [3] Editar noticia
+     [4] Eliminar noticia
+     [5] Salir
+
+AGREGAR NOTICIA:
+  Ejemplo: Javier Díaz publicó sobre ecoparque en Arica
+  
+  1. GESTOR_NOTICIAS.bat → [1] Agregar noticia
+  2. Completas:
+     Título: "Arica como hub productivo: transformación territorial mediante ecoparques"
+     Extracto: "Javier Díaz analiza cómo los ecoparques industriales pueden convertir..."
+     Autor: "Javier Díaz Calderón"
+     Rol: "Director Regional, Arica y Parinacota"
+     Imagen: "javier_delamaza.jfif"
+     URL: "https://www.linkedin.com/in/javier-e-día..."
+     Categoría: "estrategia"
+  
+  3. El sistema REDACTA Y PUBLICA automáticamente
+  4. Aparece en "Noticias y Perspectivas" en el website
+
+CARACTERÍSTICAS:
+  ✓ Redacta la noticia (no pega copy-paste de LinkedIn)
+  ✓ Categoriza por tipo (estrategia, transformación, liderazgo)
+  ✓ Versión con fecha
+  ✓ Vinculada al perfil LinkedIn de la persona
+  ✓ Imagen de perfil asociada
+
+ARCHIVOS:
+  • Script: automatizaciones/gestor_noticias.py
+  • Datos: assets/data/noticias.json
+  • Acceso: GESTOR_NOTICIAS.bat
+
+
+════════════════════════════════════════════════════════════════
+EJEMPLO COMPLETO: FLUJO CON LAS 3 MEJORAS
+════════════════════════════════════════════════════════════════
+
+ESCENARIO:
+Javier Díaz publicó en LinkedIn sobre "Ecoparque Industrial de Arica"
+Quieres:
+  1. Actualizar su foto de perfil
+  2. Publicar la noticia en el website
+
+PASOS:
+
+PASO 1: ACTUALIZAR FOTO
+  
+  1. Ve a LinkedIn → Perfil de Javier Díaz
+     (https://www.linkedin.com/in/javier-e-día...)
+  
+  2. Click derecho en foto de perfil
+     → Guardar imagen as...
+     → Guarda en Downloads (se llama algo como "profile_pic.png")
+  
+  3. Abre DESCARGA_FOTOS.bat → [1] INICIAR MONITOR
+  
+  4. El script:
+     ✓ DETECTA photo_pic.png en Downloads (2 segundos)
+     ✓ CALCULA hash
+     ✓ COMPARA con anterior (¿es diferente?)
+     ✓ Si SÍ: Procesa (1000x1000, brillo, contraste)
+     ✓ Si NO: SALTA (ya está actualizada)
+     ✓ GUARDA en assets/images/profile_pic.png
+  
+  5. Foto aparece en website al instante ✨
+
+
+PASO 2: PUBLICAR NOTICIA
+
+  1. Abre GESTOR_NOTICIAS.bat → [1] Agregar noticia
+  
+  2. Completas el formulario:
+     Título: "Arica como hub productivo..."
+     Extracto: "Javier Díaz Calderón, Director Regional... analiza cómo..."
+     (Redactas, no copias de LinkedIn)
+     Autor: Javier Díaz Calderón
+     Rol: Director Regional, Arica y Parinacota
+     Imagen: javier_delamaza.jfif
+     URL: https://www.linkedin.com/in/...
+     Categoría: estrategia
+  
+  3. Script GUARDA en noticias.json
+  
+  4. Recarga website (F5)
+  
+  5. Noticia aparece en "Noticias y Perspectivas" ✨
+
+
+════════════════════════════════════════════════════════════════
+ARCHIVOS Y CARPETAS PRINCIPALES
+════════════════════════════════════════════════════════════════
+
+SCRIPTS:
+  ✓ automatizaciones/auto_descargas_v2.py
+    └─ Detecta descargas, procesa, guarda en assets/images
+       (solo si cambió)
+  
+  ✓ automatizaciones/gestor_noticias.py
+    └─ Agregar, editar, eliminar noticias
+  
+  ✓ automatizaciones/sync_linkedin_photos.py
+    └─ Sincronización avanzada (requiere Selenium)
+
+INTERFACES (.bat):
+  ✓ DESCARGA_FOTOS.bat
+    └─ Monitor de descargas + procesamiento
+  
+  ✓ GESTOR_NOTICIAS.bat
+    └─ Gestión de noticias
+  
+  ✓ LINKEDIN_AUTOMATOR.bat
+    └─ Automatización Selenium (experimental)
+
+DATOS:
+  ✓ assets/images/
+    └─ Fotos finales (PNG, 1000x1000, optimizadas)
+  
+  ✓ assets/data/noticias.json
+    └─ Noticias dinámicas (se actualiza con GESTOR_NOTICIAS.bat)
+  
+  ✓ automatizaciones/.photo_hashes.json
+    └─ Hashes de fotos (controla qué cambió)
+
+CONFIGURACIÓN:
+  ✓ index.html
+    └─ Carga noticias dinámicamente desde noticias.json
+
+
+════════════════════════════════════════════════════════════════
+VENTAJAS FINALES
+════════════════════════════════════════════════════════════════
+
+1️⃣ FOTOS DIRECTAS A assets/images
+   • Guardar directamente donde las necesita
+   • Proceso simplificado (1 paso menos)
+   • Más rápido
+
+2️⃣ SOLO ACTUALIZA SI CAMBIÓ
+   • No reprocesa innecesariamente
+   • Ahorra tiempo
+   • Mantiene historial de cambios
+   • Hash SHA256 para integridad
+
+3️⃣ NOTICIAS DINÁMICAS
+   • Agregar noticias sin tocar código
+   • Redacción manual (contextualizado a GL Strategic)
+   • Aparecen al instante en website
+   • Categorización automática
+   • Vínculo a perfiles LinkedIn
+
+RESULTADO FINAL:
+  ✅ Fotos actualizadas sin complejidad
+  ✅ Noticias publicadas rápidamente
+  ✅ Website siempre actualizado
+  ✅ Flujo manual sencillo (0 código)
+
+
+════════════════════════════════════════════════════════════════
+PRÓXIMOS PASOS
+════════════════════════════════════════════════════════════════
+
+Ahora puedes:
+
+1. Descargar fotos de LinkedIn
+   → DESCARGA_FOTOS.bat → [1]
+
+2. Publicar noticias sobre lo que publiquen en LinkedIn
+   → GESTOR_NOTICIAS.bat → [1]
+
+3. Website se actualiza automáticamente ✨
+
+¡Listo para usar!

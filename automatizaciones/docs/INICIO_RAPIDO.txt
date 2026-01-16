@@ -1,0 +1,28 @@
+INICIO RAPIDO - GL STRATEGIC FOTOS (ASCII)
+
+1) Haz doble clic en AUTOMATOR.bat
+2) Elige opcion 2 (Completa)
+3) Presiona ENTER al terminar
+
+Terminal (alternativa):
+- Ejecuta: powershell -NoProfile -ExecutionPolicy Bypass -File .\post_process.ps1
+
+Estado actual:
+- 20/20 fotos de equipo presentes
+- 83 fotos normalizadas
+- Nombres consistentes, tamaños 1000x1000, 0 errores
+
+Documentacion:
+- automatizaciones\docs\README_FOTOS.md
+- automatizaciones\docs\CHECKLIST.md
+- automatizaciones\docs\RESUMEN_FINAL.txt
+
+Casos de uso:
+- Normalizar: python automatizaciones\normalize_all_photos.py
+- Auditar:    python automatizaciones\audit_fotos.py
+- Monitor:    python automatizaciones\watchdog_fotos.py
+- IA fondos:  python automatizaciones\process_linkedin_photos.py
+
+Acceso:
+- assets\images\ (todas las fotos)
+- index.html (sitio)

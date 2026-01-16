@@ -1,0 +1,199 @@
+======================================================
+             QUE HACE CADA BOTON
+======================================================
+
+SIMPLEMENTE:
+- Ejecuta AUTOMATOR.bat
+- Elige un numero (1-7)
+- Listo, todo automático
+
+
+======================================================
+OPCION [1] - RAPIDA: Normalizar fotos
+======================================================
+
+Que hace: Ajusta las fotos que ya tienes en assets/images
+- Las hace 1000x1000 pixeles
+- Mejora el brillo y contraste
+- Las guarda como PNG
+
+Cuándo usarla: Después de agregar fotos rápidamente y
+solo quieres que se vean bien.
+
+Tiempo: 5-10 segundos
+
+
+======================================================
+OPCION [2] - COMPLETA: Todo automaticamente (RECOMENDADO)
+======================================================
+
+Que hace: Lo que hace la opción 1, más:
+- Verifica que todas las fotos estén en assets/images
+- Si falta alguna foto que el website espera, te lo dice
+- Borra archivos temporales y respaldos viejos
+- Te muestra un resumen final
+
+Cuándo usarla: Después de descargar un lote nuevo de
+fotos de LinkedIn y quieres que todo esté perfecto.
+
+Tiempo: 15-30 segundos
+
+RECOMENDACION: Usa SIEMPRE esta opción cuando dudes.
+
+
+======================================================
+OPCION [3] - PROCESAR CON IA: Quitar fondos
+======================================================
+
+Que hace: Lo más avanzado
+- Toma las fotos brutas de LinkedIn
+  (Ubicación: assets/raw_linkedin_photos/)
+- Las pone en blanco (quita el fondo)
+- Las ajusta a 1000x1000
+- Las mejora (brillo, contraste)
+- Las guarda en assets/images
+
+Cuándo usarla: Cuando tienes fotos nuevas CON FONDO
+(como si estuvieran al aire libre o con gente atrás)
+y quieres que solo se vea la cara.
+
+IMPORTANTE: Primero debes poner las fotos en:
+   assets/raw_linkedin_photos/
+
+Tiempo: 30 segundos a 2 minutos (depende de la cantidad)
+
+
+======================================================
+OPCION [4] - AUDITORIA: Verificar que no falten fotos
+======================================================
+
+Que hace: Compara qué fotos espera el website vs
+las que realmente existen.
+
+Cuándo usarla: Cuando no sabes si falta alguna foto
+o el website no muestra algo que esperabas.
+
+Resultado: Te dice si hay fotos faltantes y cuáles
+están bien.
+
+Tiempo: 3-5 segundos
+
+
+======================================================
+OPCION [5] - MONITOR: Vigilar cambios en tiempo real
+======================================================
+
+Que hace: Deja un programa que espera...
+- Si agregas una foto nueva a assets/images
+- La normaliza automáticamente
+- Sin que hagas nada
+
+Cuándo usarla: Cuando estás bajando muchas fotos
+de LinkedIn una por una y quieres que se normalicen
+al instante.
+
+COMO DETENERLA: Presiona Ctrl+C en la terminal
+
+Tiempo: Corre indefinidamente hasta que lo detengas
+
+
+======================================================
+OPCION [6] - VER DOCUMENTACION (README)
+======================================================
+
+Que hace: Muestra en la terminal la documentación
+técnica con más detalles.
+
+Cuándo usarla: Si quieres entender más a fondo
+cómo funciona todo.
+
+Tiempo: 2 minutos de lectura
+
+
+======================================================
+OPCION [7] - SALIR
+======================================================
+
+Cierra el programa. Listo.
+
+
+======================================================
+                 ARCHIVOS QUE EXISTEN
+======================================================
+
+Principales (no toques):
+- index.html           = Tu website (la página que ves)
+- AUTOMATOR.bat        = El menu de botones (lo que ejecutas)
+
+Carpeta de fotos:
+- assets/images/       = Donde están las fotos finales
+- assets/raw_linkedin_photos/ = Donde pones las fotos
+                         brutas si quieres quitar fondos
+
+Scripts (automáticos, no toques):
+- automatizaciones/normalize_all_photos.py     = Ajusta fotos
+- automatizaciones/process_linkedin_photos.py  = IA quita fondos
+- automatizaciones/audit_fotos.py              = Verifica fotos
+- automatizaciones/watchdog_fotos.py           = Monitor tiempo real
+
+Documentación:
+- automatizaciones/docs/README_FOTOS.md        = Guía técnica
+
+Entornos Python (no toques):
+- .venv/               = Para normalizar (ya listo)
+- .venv312/            = Para IA rembg (ya listo)
+
+
+======================================================
+                  FLUJO RECOMENDADO
+======================================================
+
+1) Descargas fotos de LinkedIn a tu PC
+
+2) Copias las fotos a: assets/raw_linkedin_photos/
+
+3) Ejecutas: AUTOMATOR.bat -> Opción [3]
+   (La IA quita los fondos y las ajusta)
+
+4) Ejecutas: AUTOMATOR.bat -> Opción [2]
+   (Verifica que todo esté bien)
+
+5) Listo. El website ya muestra las fotos nuevas.
+
+
+======================================================
+                   PREGUNTAS RAPIDAS
+======================================================
+
+P: ¿Las fotos se ven borrosas?
+R: Usa opción [2] para mejorar brillo/contraste
+
+P: ¿Falta una foto en el website?
+R: Usa opción [4] para ver qué falta
+
+P: ¿Las fotos tienen fondo blanco/colorido?
+R: Descárgalas a assets/raw_linkedin_photos/
+   y usa opción [3] para quitar fondos con IA
+
+P: ¿Agregué una foto y no aparece?
+R: Espera 1 segundo y recarga el navegador (Ctrl+F5)
+
+P: ¿Agregué muchas fotos y quiero procesarlas?
+R: Cópialas todas a assets/raw_linkedin_photos/
+   y usa opción [3]
+
+
+======================================================
+                    CONTACTO TECNICO
+======================================================
+
+Si algo no funciona:
+
+1. Ejecuta opción [4] (Auditoria) para ver el estado
+2. Si dice "Fotos FALTANTES: 0", está todo bien
+3. Si dice que faltan fotos, comprueba que existen
+   en assets/images/
+
+¿Necesitas ayuda?
+- Lee esta guía de nuevo
+- Ejecuta opción [6] para documentación técnica

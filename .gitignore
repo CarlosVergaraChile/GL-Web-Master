@@ -1,0 +1,11 @@
+.env
+.env.local
+.photo_hashes.json
+automatizaciones/.photo_hashes.json
+__pycache__/
+*.pyc
+.venv/
+.venv312/
+node_modules/
+.DS_Store
+*.log

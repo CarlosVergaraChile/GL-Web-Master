@@ -1,0 +1,138 @@
+======================================================
+   COMIENZA AQUI - GUIA SIMPLE
+======================================================
+
+¿QUE HACER AHORA?
+
+PASO 1: Busca este archivo y abrelo
+  Archivo: AUTOMATOR.bat
+  Ubicacion: C:\Proyectos\GL-Web-Master\AUTOMATOR.bat
+  Accion: Doble clic
+
+Se abrira un menu con opciones del 1 al 7.
+
+
+======================================================
+                  OPCIONES DEL MENU
+======================================================
+
+Si descargas fotos de LinkedIn sin procesar:
+
+  [3] PROCESAR CON IA
+      - Quita los fondos (solo se ve la cara)
+      - Ajusta tamaño
+      - Mejora brillo
+      - Resultado: Foto limpia en assets/images/
+
+
+Si ya tienes fotos listas para usar:
+
+  [2] OPCION COMPLETA (RECOMENDADO)
+      - Normaliza todas las fotos
+      - Verifica que no falte ninguna
+      - Limpia archivos temporales
+      - Mejor opcion si tienes dudas
+
+
+Para verificar el estado:
+
+  [4] AUDITORIA
+      - Te dice si falta alguna foto
+      - Compara website vs archivos reales
+
+
+Para procesar en tiempo real:
+
+  [5] MONITOR
+      - Cuando agregas una foto, se normaliza sola
+      - Presiona Ctrl+C para detener
+
+
+======================================================
+                  FLUJO RECOMENDADO
+======================================================
+
+1. Descargas fotos de LinkedIn
+   (Click derecho en foto -> Guardar imagen como)
+
+2. Copias a: assets\raw_linkedin_photos\
+
+3. Ejecutas: AUTOMATOR.bat y presionas [3]
+   (La IA quita los fondos)
+
+4. Listo. El website muestra las fotos nuevas
+
+
+======================================================
+                  CARPETAS IMPORTANTES
+======================================================
+
+assets\images\
+  - Aqui estan las fotos que se ven en el website
+  - Destino final
+
+assets\raw_linkedin_photos\
+  - Aqui pones las fotos sin procesar
+  - Solo se usa con opcion [3] (IA)
+
+
+======================================================
+                  ARCHIVOS PRINCIPALES
+======================================================
+
+AUTOMATOR.bat
+  - El menu de botones que ejecutas
+  - Ubicacion: C:\Proyectos\GL-Web-Master\
+
+index.html
+  - Tu website (lo que ves en el navegador)
+
+GUIA_BOTONES.txt
+  - Explicacion detallada de cada opcion del menu
+
+
+======================================================
+                  OPCION RAPIDA
+======================================================
+
+No quiero pensar, solo quiero que funcione:
+
+1. Copias tus fotos a: assets\raw_linkedin_photos\
+
+2. Ejecutas: AUTOMATOR.bat
+
+3. Presionas [3]
+
+4. Esperas 1-2 minutos
+
+5. Listo
+
+
+======================================================
+                  PREGUNTAS COMUNES
+======================================================
+
+P: ¿Que carpeta uso para las fotos?
+R: assets\raw_linkedin_photos\ (si quieres quitar fondos)
+   O assets\images\ (si ya estan procesadas)
+
+P: ¿Que pasa si presiono la opcion incorrecta?
+R: Solo reinicia AUTOMATOR.bat y presiona otra
+
+P: ¿Las fotos no aparecen en el website?
+R: Ejecuta AUTOMATOR.bat -> Opcion [4] para verificar
+
+P: ¿Cuanto tarda?
+R: Opcion 2 = 15-30 segundos
+   Opcion 3 = 30 segundos a 2 minutos
+
+
+======================================================
+
+LISTO. YA PUEDES EMPEZAR.
+
+Abre: AUTOMATOR.bat (Doble clic)
+Presiona: [3] para IA o [2] para rapido
+Espera: 30 segundos - 2 minutos
+Disfruta: Tu website con fotos nuevas
+

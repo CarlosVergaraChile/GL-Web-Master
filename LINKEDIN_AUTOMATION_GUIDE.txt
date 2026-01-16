@@ -1,0 +1,159 @@
+════════════════════════════════════════════════════════════════
+  AUTOMATIZACIÓN LINKEDIN - GUÍA RÁPIDA
+════════════════════════════════════════════════════════════════
+
+FUNCIONES:
+
+1. DESCARGAR FOTOS
+   • Abre Selenium
+   • Inicia sesión en LinkedIn (credenciales en .env)
+   • Recorre perfiles del equipo
+   • Descarga foto de perfil
+   • Redimensiona a 1000x1000
+   • Optimiza (brillo +5%, contraste +10%)
+   • Guarda en assets/images/
+
+2. EXTRAER NOTICIAS
+   • Abre Selenium
+   • Inicia sesión en LinkedIn
+   • Revisa posts de cada equipo
+   • Si contiene "GL Strategic" → extrae
+   • Redacta con templates automáticos
+   • Guarda en noticias.json
+
+
+════════════════════════════════════════════════════════════════
+CÓMO USAR:
+════════════════════════════════════════════════════════════════
+
+Paso 1: Abre el menú
+   Doble-click: LINKEDIN_AUTOMATOR.bat
+
+Paso 2: Elige opción
+   [1] Descargar fotos
+   [2] Extraer noticias
+   [3] Salir
+
+Paso 3: Espera a que termine
+   El script se ejecuta automáticamente
+   No cierres la ventana hasta que diga [OK]
+
+
+════════════════════════════════════════════════════════════════
+INFORMACIÓN TÉCNICA:
+════════════════════════════════════════════════════════════════
+
+CREDENCIALES (seguro):
+  • Guardadas en .env (no se commitea en Git)
+  • No aparecen en código
+  • Leídas en tiempo de ejecución
+
+FOTOS:
+  • Descargadas con Selenium
+  • Procesadas con Pillow (redimensión + mejora)
+  • Guardadas en assets/images/ directamente
+  • Hash comparación: solo se actualizan si cambiaron
+
+NOTICIAS:
+  • Extraídas automáticamente de LinkedIn
+  • Redactadas con templates predefinidos
+  • Detecta categoría automáticamente:
+    - "estrategia" si menciona futuro/anticipación
+    - "transformacion" si menciona digital/cambio
+    - "liderazgo" si menciona equipo/cultura
+    - "ecoparques" si menciona territorial/sostenible
+  • Guardadas en assets/data/noticias.json
+  • Aparecen en "Noticias y Perspectivas" en website
+
+
+════════════════════════════════════════════════════════════════
+MIEMBROS DEL EQUIPO INCLUIDOS:
+════════════════════════════════════════════════════════════════
+
+Fotos:
+  ✓ Gastón L'Huillier
+  ✓ Guillermo Muñoz
+  ✓ Rafael Sotil
+  ✓ Edith Wilson
+  ✓ Carlos Vergara
+  ✓ Pablo Canobra
+  ✓ Claudio Maggi
+  ✓ Javier Delamaza
+  ✓ Jenny Sauterel
+  ✓ Alejandro Rodó
+  ✓ Gilberto Céspedes
+  ✓ Elena Pailamilla
+  ✓ Juan Samaniego
+  ✓ Maurice Filippi
+  ✓ Mario Boada
+  ✓ José Martínez
+  ✓ Claus van der Molen
+  ✓ Paula Jadue
+
+Noticias (busca posts de):
+  ✓ Misma lista anterior
+
+
+════════════════════════════════════════════════════════════════
+POSIBLES ERRORES Y SOLUCIONES:
+════════════════════════════════════════════════════════════════
+
+ERROR: "Credenciales no encontradas en .env"
+SOLUCIÓN: Verifica que .env exista en la raíz del proyecto
+          Debe contener:
+          LINKEDIN_EMAIL=carlosvergarachile@gmail.com
+          LINKEDIN_PASSWORD=h_!d9HBr0nH3_7k
+
+ERROR: "Chrome driver not found"
+SOLUCIÓN: Instala webdriver-manager
+          .\.venv\Scripts\pip.exe install webdriver-manager
+
+ERROR: LinkedIn bloquea el bot (mucho tráfico)
+SOLUCIÓN: Es normal con scraping. Espera 5 minutos y reinenta
+
+ERROR: No se descarga foto de alguien
+SOLUCIÓN: Puede que su foto no sea pública
+          Verifica manualmente en LinkedIn
+
+
+════════════════════════════════════════════════════════════════
+FLUJO COMPLETO RECOMENDADO:
+════════════════════════════════════════════════════════════════
+
+1. Doble-click: LINKEDIN_AUTOMATOR.bat
+2. Selecciona [1] Descargar fotos
+3. Espera a que termine (~1-2 minutos)
+4. Vuelve a menu
+5. Selecciona [2] Extraer noticias
+6. Espera a que termine (~2-3 minutos)
+7. Verifica website
+   - Fotos actualizadas en equipo
+   - Noticias nuevas en "Noticias y Perspectivas"
+
+
+════════════════════════════════════════════════════════════════
+SEGURIDAD:
+════════════════════════════════════════════════════════════════
+
+✓ .env está en .gitignore
+✓ No commitees credenciales
+✓ Credenciales solo locales
+✓ Scripts usan variables de entorno
+✓ Selenium se ejecuta en local
+✓ No sube datos a servidores
+
+⚠️ NUNCA compartas .env
+⚠️ NUNCA hardcodees credenciales en scripts
+
+
+════════════════════════════════════════════════════════════════
+PRÓXIMOS PASOS:
+════════════════════════════════════════════════════════════════
+
+Ahora puedes:
+1. Ejecutar LINKEDIN_AUTOMATOR.bat
+2. Descargar fotos automáticamente
+3. Extraer y redactar noticias
+4. Website actualiza al instante
+
+¡Listo para usar!

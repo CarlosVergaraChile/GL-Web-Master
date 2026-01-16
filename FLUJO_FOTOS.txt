@@ -1,0 +1,144 @@
+===========================================
+FLUJO FINAL DE DESCARGAR Y PROCESAR FOTOS
+===========================================
+
+OPCIÓN 1: AUTOMATIZACIÓN COMPLETA SIN BLOQUEOS
+==============================================
+
+Como funciona:
+1. Tu descargas fotos de LinkedIn normalmente (navegador Firefox/Chrome)
+   - Sitio: https://www.linkedin.com
+   - Perfil: cada compañero
+   - Click derecho en foto
+   - Guardar imagen (se guardan en Downloads)
+
+2. Este script las DETECTA AUTOMÁTICAMENTE:
+   - Se copian a assets/raw_linkedin_photos
+   - Se PROCESAN:
+     ✓ Redimensionan a 1000x1000px
+     ✓ Mejoran brillo (+5%) y contraste (+10%)
+     ✓ Se guardan como PNG en assets/images
+   - APARECEN EN EL WEBSITE
+
+VENTAJAS:
+- Sin bloqueos de LinkedIn (tú usas el navegador)
+- Sin CAPTCHA (navegador = humano)
+- 95% automático (solo descargas)
+- Funciona 100% confiable
+
+PASOS:
+1. Doble-click en DESCARGA_FOTOS.bat (en la carpeta raíz)
+2. Selecciona [1] INICIAR MONITOR
+3. Ve a LinkedIn en el navegador
+4. Abre cada perfil de equipo
+5. Click derecho en foto → Guardar imagen
+6. El script las procesa al instante
+7. Ctrl+C cuando termines
+
+
+OPCIÓN 2: AUTOMATIZACIÓN CON SELENIUM (EXPERIMENTAL)
+====================================================
+
+Qué intenta:
+- Selenium abre LinkedIn automáticamente
+- Navega perfiles hardcodeados
+- Descarga fotos sin intervención
+- Procesa con IA
+
+LIMITACIÓN CRÍTICA:
+❌ LinkedIn BLOQUEARÁ el bot después de 3-5 intentos
+❌ Pedirá CAPTCHA/verificación de teléfono
+❌ No es confiable para producción
+
+PASOS:
+1. Configura credenciales de LinkedIn:
+   set LINKEDIN_EMAIL=tu@email.com
+   set LINKEDIN_PASSWORD=tu_contraseña
+
+2. Doble-click en LINKEDIN_AUTOMATOR.bat
+
+3. Cuando LinkedIn pida verificación:
+   - Abre el navegador que aparece
+   - Resuelve el CAPTCHA manualmente
+   - Presiona ENTER en la consola
+
+RECOMENDACIÓN:
+⭐ Usa OPCIÓN 1 (DESCARGA_FOTOS.bat)
+   Es más segura, funciona mejor, 0 bloqueos
+
+
+CARPETAS IMPORTANTES:
+====================
+
+assets/images/
+  └─ Fotos FINALES (PNG procesadas, aparecen en website)
+
+assets/raw_linkedin_photos/
+  └─ Fotos DESCARGADAS (antes de procesar)
+
+C:\Users\[Tu Usuario]\Downloads\
+  └─ Fotos que descargas manualmente de LinkedIn
+
+
+MONITOREO:
+==========
+
+En cualquier momento puedes:
+1. Abrir DESCARGA_FOTOS.bat
+2. Seleccionar [3] VER DESCARGAS
+3. Se abre la carpeta Downloads para ver qué descargaste
+
+El script revisa cada 2 segundos si hay nuevas fotos.
+
+
+FORMATO FINAL:
+==============
+
+Cada foto se guarda así:
+- Nombre: firstname_lastname.png
+- Tamaño: 1000x1000 píxeles
+- Color: PNG RGBA (fondo transparente si aplica)
+- Brillo: +5%
+- Contraste: +10%
+- Ubicación: assets/images/
+
+Aparecen en el website dentro de ~10 segundos.
+
+
+TROUBLESHOOTING:
+================
+
+P: No se ve la foto en el website
+R: 
+  1. Verifica que está en assets/images/
+  2. Nombre debe coincidir con href en HTML
+  3. Recarga el navegador (Ctrl+Shift+R)
+
+P: El script no detecta descargas
+R:
+  1. Verifica que guardaste en Downloads
+  2. Comprueba que sea PNG (no JPG)
+  3. Reinicia el script
+
+P: LinkedIn bloqueó el bot
+R:
+  1. Es NORMAL con Selenium
+  2. Resuelve el CAPTCHA en el navegador
+  3. Presiona ENTER para continuar
+  4. O usa OPCIÓN 1 en su lugar (mejor)
+
+
+LÍNEA DE COMANDO AVANZADA:
+==========================
+
+Monitor continuo:
+  python automatizaciones\auto_descargas.py
+
+Procesar una sola vez:
+  python automatizaciones\auto_descargas.py --once
+
+Listar fotos procesadas:
+  dir assets\images\
+
+Ver tamaño de fotos:
+  dir /s assets\images\ | find ".png"

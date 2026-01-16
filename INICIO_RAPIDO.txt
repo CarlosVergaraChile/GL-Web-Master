@@ -1,0 +1,131 @@
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                                                                              ║
+║                   🚀 INICIO RÁPIDO - GL STRATEGIC FOTOS                     ║
+║                                                                              ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ SI ACABAS DE ENTRAR AQUÍ POR PRIMERA VEZ:                                   │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+1️⃣  HAGA DOBLE CLIC EN ESTE ARCHIVO:
+     
+     ➜ AUTOMATOR.bat
+     
+     (Se abrirá un menú interactivo)
+
+2️⃣  SELECCIONA OPCIÓN 2 (OPCIÓN COMPLETA)
+     
+     Esto normaliza todas las fotos automáticamente
+
+3️⃣  ¡LISTO! Presiona ENTER al terminar
+
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ O EJECUTA DIRECTAMENTE DESDE TERMINAL:                                      │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+   PowerShell:
+   ➜ .\post_process.ps1
+
+   O simplemente:
+   ➜ python normalize_all_photos.py
+
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ ✅ ESTADO ACTUAL (TODO COMPLETADO):                                         │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+   ✓ 20/20 fotos de equipo presentes
+   ✓ 83 fotos totales normalizadas
+   ✓ Nombres consistentes (minúsculas, sin acentos)
+   ✓ Tamaños estandarizados (1000x1000px)
+   ✓ HTML actualizado
+   ✓ Scripts listos
+   ✓ 0 errores
+
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ 📚 DOCUMENTACIÓN (Lee si quieres entender más):                             │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+   Para entender qué hace cada cosa:
+   ➜ Lee: README_FOTOS.md
+
+   Para un checklist rápido:
+   ➜ Lee: CHECKLIST.md
+
+   Para todo en detalle:
+   ➜ Lee: RESUMEN_FINAL.txt
+
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ 🎯 CASOS DE USO RÁPIDOS:                                                    │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+   ¿Quiero NORMALIZAR FOTOS?
+   ➜ python normalize_all_photos.py
+
+   ¿Quiero VERIFICAR QUÉ FALTA?
+   ➜ python audit_fotos.py
+
+   ¿Quiero MONITOR AUTOMÁTICO?
+   ➜ python watchdog_fotos.py
+
+   ¿Quiero AGREGAR FOTOS NUEVAS?
+   ➜ Copia a assets/images/
+   ➜ Ejecuta: python normalize_all_photos.py
+
+   ¿Quiero QUITAR FONDOS CON IA?
+   ➜ Descarga de LinkedIn → assets/raw_linkedin_photos/
+   ➜ python process_linkedin_photos.py
+
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ ⚡ ACCESO DIRECTO (Lo más importante):                                      │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+   AUTOMATOR.bat              ← Haz doble clic (menú interactivo)
+   post_process.ps1           ← Todo automático
+   normalize_all_photos.py    ← Normalizar fotos
+   audit_fotos.py             ← Verificar estado
+   watchdog_fotos.py          ← Monitor tiempo real
+
+   assets/images/             ← Aquí están todas las fotos
+   index.html                 ← El sitio web
+
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ 🆘 AYUDA RÁPIDA:                                                            │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+   "La foto no aparece en el sitio"
+   → Ejecuta: python audit_fotos.py
+   → Verifica que el nombre sea correcto en HTML vs assets/images/
+
+   "Quiero ver todas las fotos"
+   → Abre carpeta: assets/images/
+
+   "Quiero ejecutar todo de una vez"
+   → Doble clic en: AUTOMATOR.bat
+   → Selecciona opción 2
+
+   "Tengo más preguntas"
+   → Lee: README_FOTOS.md (75+ líneas explicando todo)
+
+
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                                                                              ║
+║                    ✨ TODO ESTÁ AUTOMATIZADO Y LISTO ✨                      ║
+║                                                                              ║
+║                   No necesitas hacer nada especial.                          ║
+║         Simplemente haz doble clic en AUTOMATOR.bat y listo.               ║
+║                                                                              ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+
+Creado: 15 Enero 2026
+Estado: PRODUCCIÓN LISTA ✅
+Versión: 2.0 (Automatización Completa)
+

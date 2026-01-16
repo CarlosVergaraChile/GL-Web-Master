@@ -87,23 +87,39 @@
         /* Diagrama CAM - Texto Blanco */
         img[src*="Diagrama_CAM"] { filter: brightness(1.1); }
         img[src*="Diagrama_CAM_glass.png"] { color: white; }
+
+        /* News Card Dinámicas */
+        .news-card {
+            transition: all 0.3s ease;
+            border: 1px solid #e5e7eb;
+        }
+        .news-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(0, 163, 224, 0.15);
+            border-color: #00A3E0;
+        }
     </style>
 </head>
 <body x-data="{ activeTab: 'cam', modalOpen: false, modalSrc: '' }">
+
+    <script>
+        // Estado global para noticias dinámicas
+        let todasLasNoticias = [];
+    </script>
 
     <nav class="fixed w-full z-50 bg-white/95 backdrop-blur-lg border-b border-gray-200/50 shadow-sm">
         <div class="container mx-auto px-4 md:px-6 h-16 md:h-20 flex justify-between items-center">
             <a href="#inicio" class="transition-all duration-300 hover:scale-105">
                 <div class="p-2 rounded-2xl transition-all duration-300">
-                    <img src="assets/images/logo_gl_strategic_transparent.png" onerror="this.src='assets/images/logo_gl_strategic.png'" alt="GL Strategic" class="h-10 md:h-12 w-auto drop-shadow-sm">
+                    <img src="assets/images/logo_gl_strategic.png" alt="GL Strategic" class="h-10 md:h-12 w-auto drop-shadow-sm">
                 </div>
             </a>
             <div class="hidden lg:flex space-x-6 text-xs font-bold uppercase tracking-wider text-navy">
                 <a href="#inicio" class="px-4 py-2 rounded-lg hover:bg-gray-100 transition duration-200">Inicio</a>
-                <a href="#adn" class="px-4 py-2 rounded-lg hover:bg-gray-100 transition duration-200">Nuestro ADN</a>
-                <a href="#servicios" class="px-4 py-2 rounded-lg hover:bg-gray-100 transition duration-200">Servicios</a>
-                <a href="#equipo" class="px-4 py-2 rounded-lg hover:bg-gray-100 transition duration-200">Equipo</a>
-                <a href="#clientes" class="px-4 py-2 rounded-lg hover:bg-gray-100 transition duration-200">Clientes</a>
+                <a href="#noticias" class="px-4 py-2 rounded-lg hover:bg-gray-100 transition duration-200">Noticias</a>
+                <a href="#servicios" class="px-4 py-2 rounded-lg hover:bg-gray-100 transition duration-200">Nuestros Servicios</a>
+                <a href="#equipo" class="px-4 py-2 rounded-lg hover:bg-gray-100 transition duration-200">Nuestro Equipo</a>
+                <a href="#clientes" class="px-4 py-2 rounded-lg hover:bg-gray-100 transition duration-200">Nuestros Clientes</a>
                 <a href="#contacto" class="px-4 py-2 rounded-lg bg-gradient-to-br from-cct_cyan to-blue-500 text-white font-bold hover:shadow-lg transition-all duration-200">Contacto</a>
             </div>
         </div>
@@ -132,6 +148,42 @@
         </div>
     </header>
 
+        <!-- SECCIÓN DE NOTICIAS Y PERSPECTIVAS DINÁMICAS (AL INICIO) -->
+        <section id="noticias" class="relative py-16 bg-gradient-to-b from-blue-50 to-cyan-50">
+            <div class="container mx-auto px-6 relative z-10">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="text-xs font-bold text-navy/90">Inicio › Noticias</div>
+                    <a href="#inicio" class="text-xs font-bold text-navy underline">Volver al Inicio</a>
+                </div>
+            
+                <h2 class="text-4xl md:text-5xl font-bold text-navy mb-8 text-center drop-shadow-lg">Noticias y Perspectivas</h2>
+            
+                <div class="max-w-5xl mx-auto mb-8">
+                    <!-- Filtros por Categoría -->
+                    <div class="flex flex-wrap justify-center gap-3 mb-6" id="filtros-noticias">
+                        <span class="text-xs text-gray-500">Cargando filtros...</span>
+                    </div>
+                </div>
+
+                <!-- Carrusel de noticias -->
+                <div class="relative max-w-6xl mx-auto">
+                    <button id="btn-prev-noticias" class="absolute -left-3 md:-left-8 top-1/2 -translate-y-1/2 bg-white shadow-lg border border-gray-200 text-navy rounded-full p-3 hover:bg-cct_cyan hover:text-white transition" aria-label="Anterior noticia">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <div class="overflow-hidden px-2">
+                        <div id="noticias-container" class="flex gap-4 transition-all duration-500 ease-out min-h-[230px]">
+                            <div class="w-full text-center py-10">
+                                <p class="text-gray-500 text-sm">Cargando noticias...</p>
+                            </div>
+                        </div>
+                    </div>
+                    <button id="btn-next-noticias" class="absolute -right-3 md:-right-8 top-1/2 -translate-y-1/2 bg-white shadow-lg border border-gray-200 text-navy rounded-full p-3 hover:bg-cct_cyan hover:text-white transition" aria-label="Siguiente noticia">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
     <section id="adn" class="relative py-24 bg-gradient-to-b from-white to-gray-50 bg-sect2 parallax opacity-[0.95]">
         <div class="absolute inset-0 bg-white/40"></div>
         <div class="container mx-auto px-6 relative z-10">
@@ -147,15 +199,54 @@
                     <i class="fas fa-network-wired text-4xl text-cct_cyan"></i>
                     <h3 class="text-2xl font-bold text-navy">Proyecto País (PPCI): El Fundamento de Nuestro Enfoque</h3>
                 </div>
-                <p class="text-base text-gray-800 mb-4 leading-relaxed">
-                    El <strong>Proyecto País (PPCI)</strong> es una iniciativa estratégica de largo plazo diseñada para aportar una visión integrada del desarrollo nacional, con más de dos décadas de trabajo colaborativo entre expertos de múltiples disciplinas. Su foco no es un programa aislado, sino una construcción colectiva de conocimiento que permite comprender y analizar las dinámicas <strong>productivas, sociales, culturales y de administración pública</strong> en Chile y sus regiones.
-                </p>
-                <p class="text-base text-gray-800 mb-4 leading-relaxed">
-                    Este esfuerzo contribuye directamente a la consultoría que ofrecemos, ya que proporciona un <strong>marco analítico robusto</strong> para interpretar las transformaciones estructurales del país, identificar desafíos sistémicos y proponer soluciones con impacto real. El PPCI otorga <strong>contexto estratégico y fundamentación técnica</strong> que enriquece nuestra mirada sobre las tendencias macro y regionales, fortaleciendo el diseño de propuestas que impulsan el desarrollo integral del país, las empresas y las nuevas inversiones.
-                </p>
-                <p class="text-base text-gray-800 leading-relaxed">
-                    Al integrar perspectivas amplias y multidimensionales de la realidad chilena dentro de nuestro enfoque de consultoría estratégica, evidenciamos el valor de una visión holística: entender no solo lo que es, sino anticipar lo que será, construyendo ventajas sostenibles para nuestros clientes.
-                </p>
+                
+                <!-- Resumen en destaque -->
+                <div class="bg-white/60 rounded-lg p-4 mb-6 border-l-4 border-cct_cyan">
+                    <p class="text-lg font-bold text-navy mb-2">Red de 2.000+ expertos · 107 comisiones técnicas · +20 años de anticipación</p>
+                    <p class="text-sm text-gray-700">Visión integrada del desarrollo nacional que transforma incertidumbre en ventaja estratégica</p>
+                </div>
+
+                <!-- Grid de beneficios clave -->
+                <div class="grid md:grid-cols-3 gap-4 mb-6">
+                    <div class="bg-white/80 rounded-lg p-4 border border-cct_cyan/20">
+                        <div class="flex items-center gap-2 mb-2">
+                            <i class="fas fa-lightbulb text-xl text-cct_orange"></i>
+                            <h4 class="font-bold text-navy text-sm">Anticipación Real</h4>
+                        </div>
+                        <p class="text-xs text-gray-700">Marco analítico que detecta señales débiles antes que el mercado y el gobierno</p>
+                    </div>
+                    
+                    <div class="bg-white/80 rounded-lg p-4 border border-cct_cyan/20">
+                        <div class="flex items-center gap-2 mb-2">
+                            <i class="fas fa-map-marked-alt text-xl text-cct_orange"></i>
+                            <h4 class="font-bold text-navy text-sm">Contexto Territorial</h4>
+                        </div>
+                        <p class="text-xs text-gray-700">Conocimiento profundo de dinámicas regionales, sectoriales y culturales de Chile</p>
+                    </div>
+                    
+                    <div class="bg-white/80 rounded-lg p-4 border border-cct_cyan/20">
+                        <div class="flex items-center gap-2 mb-2">
+                            <i class="fas fa-rocket text-xl text-cct_orange"></i>
+                            <h4 class="font-bold text-navy text-sm">Impacto Medible</h4>
+                        </div>
+                        <p class="text-xs text-gray-700">Soluciones fundamentadas en datos y validadas por red multidisciplinaria</p>
+                    </div>
+                </div>
+
+                <!-- Track record compacto -->
+                <div class="bg-navy/90 rounded-lg p-4 text-white">
+                    <p class="font-bold text-sm mb-2"><i class="fas fa-trophy text-cct_orange mr-2"></i>Historial de Precisión Predictiva</p>
+                    <div class="grid md:grid-cols-2 gap-3 text-xs">
+                        <div class="flex items-start gap-2">
+                            <span class="text-cct_orange font-bold">2011:</span>
+                            <span>Anticipó Estallido Social 2019</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <span class="text-cct_orange font-bold">2005:</span>
+                            <span>Advirtió Estancamiento Económico 2014+</span>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- HERO ADN + VIDEO SIDE BY SIDE -->
@@ -341,39 +432,6 @@
                 </a>
             </div>
 
-            <!-- BANNER DE NOTICIAS Y NOVEDADES -->
-            <div class="bg-gradient-to-br from-blue-50 to-cyan-50 backdrop-blur p-8 rounded-2xl shadow-lg border border-cct_cyan/30">
-                <div class="flex items-center justify-between mb-6">
-                    <div class="flex items-center gap-3">
-                        <i class="fas fa-newspaper text-3xl text-cct_cyan"></i>
-                        <h4 class="text-2xl font-bold text-navy">Noticias y Novedades</h4>
-                    </div>
-                    <a href="http://groupeloyal.blogspot.com/" target="_blank" class="text-xs font-bold text-cct_cyan hover:text-blue-600 transition">Ver todas →</a>
-                </div>
-                
-                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    <!-- Noticia 1 -->
-                    <div class="bg-white/95 rounded-xl p-5 shadow-md hover:shadow-lg transition-all duration-300 border border-gray-200 hover:border-cct_cyan">
-                        <h5 class="font-bold text-navy text-sm mb-2 line-clamp-2">Proyecto País se anticipa 10 años a los cambios de tendencia en Chile</h5>
-                        <p class="text-xs text-gray-600 mb-3 line-clamp-3">El PP del Colegio de Ingenieros, creado y dirigido por nuestro socio Gastón L'Huillier, ha entregado durante 12 años la mejor información sobre los cambios que vienen en el País...</p>
-                        <a href="http://groupeloyal.blogspot.com/2014/03/proyecto-pais-se-anticipa-10-anos-los.html" target="_blank" class="text-xs font-bold text-cct_cyan hover:text-blue-600 transition">Leer más →</a>
-                    </div>
-                    
-                    <!-- Noticia 2 -->
-                    <div class="bg-white/95 rounded-xl p-5 shadow-md hover:shadow-lg transition-all duration-300 border border-gray-200 hover:border-cct_cyan">
-                        <h5 class="font-bold text-navy text-sm mb-2 line-clamp-2">Proyecto de nuestra firma premiados a nivel mundial</h5>
-                        <p class="text-xs text-gray-600 mb-3 line-clamp-3">Chilectra, una de las cuatro empresas chilenas premiadas con Palladium Balanced Scorecard Hall of Fame for Executing Strategy...</p>
-                        <a href="http://groupeloyal.blogspot.com/2014/03/proyectos-de-nuestra-firma-premiados.html" target="_blank" class="text-xs font-bold text-cct_cyan hover:text-blue-600 transition">Leer más →</a>
-                    </div>
-                    
-                    <!-- Noticia 3 -->
-                    <div class="bg-white/95 rounded-xl p-5 shadow-md hover:shadow-lg transition-all duration-300 border border-gray-200 hover:border-cct_cyan">
-                        <h5 class="font-bold text-navy text-sm mb-2 line-clamp-2">Plan estratégico para tener ingeniería de clase mundial el año 2030</h5>
-                        <p class="text-xs text-gray-600 mb-3 line-clamp-3">Nuestra firma asesoró a la Universidad de Concepción en el programa de Corfo "Nueva Ingeniería para el 2030"...</p>
-                        <a href="http://groupeloyal.blogspot.com/2014/03/plan-estrategico-para-tener-ingenieria.html" target="_blank" class="text-xs font-bold text-cct_cyan hover:text-blue-600 transition">Leer más →</a>
-                    </div>
-                </div>
-            </div>
         </div>
     </section>
 
@@ -381,16 +439,11 @@
         <div class="absolute inset-0 bg-white/30"></div>
         <div class="container mx-auto px-6 relative z-10">
             <h2 class="text-6xl font-bold text-navy mb-12 text-center drop-shadow-lg">NUESTROS SERVICIOS</h2>
-            <div class="text-center mb-8">
-                <div class="bg-white/95 backdrop-blur-sm rounded-xl p-4 shadow-md border border-gray-200 max-w-4xl mx-auto">
-                    <p class="text-xs text-navy font-semibold"><strong>CAM+:</strong> Centro de Anticipación y Creación de Futuro | <strong>CAF:</strong> Soft Landing de Inversiones y Desarrollo Territorial | <strong>SEM:</strong> Strategic Engineering & Management</p>
-                </div>
-            </div>
             <div class="text-center mb-12">
                 <div class="flex flex-wrap justify-center gap-3 md:gap-4">
-                    <button @click="activeTab = 'cam'" :class="activeTab === 'cam' ? 'bg-white text-navy border-2 border-navy' : 'bg-white text-navy hover:bg-navy/10 border-2 border-gray-200'" class="px-6 md:px-8 py-2.5 md:py-3 rounded-full font-bold transition shadow-sm" title="CAM+: Centro de Anticipación y Creación de Futuro">CAM+ <span class="text-xs font-normal">Diagnóstico</span><br><span class="text-xs font-normal">Pré-Futur Transformación Anticipativa</span></button>
-                    <button @click="activeTab = 'caf'" :class="activeTab === 'caf' ? 'bg-white text-navy border-2 border-navy' : 'bg-white text-navy hover:bg-navy/10 border-2 border-gray-200'" class="px-6 md:px-8 py-2.5 md:py-3 rounded-full font-bold transition shadow-sm" title="CAF: Centro de Anticipación y Creación de Futuro">CAF <span class="text-xs font-normal">Soft Landing de Inversiones<br>y Desarrollo Territorial</span></button>
-                    <button @click="activeTab = 'sem'" :class="activeTab === 'sem' ? 'bg-white text-navy border-2 border-navy' : 'bg-white text-navy hover:bg-navy/10 border-2 border-gray-200'" class="px-6 md:px-8 py-2.5 md:py-3 rounded-full font-bold transition shadow-sm" title="SEM: Strategic Engineering & Management">SEM <span class="text-xs font-normal">Gestión</span></button>
+                    <button @click="activeTab = 'cam'" :class="activeTab === 'cam' ? 'bg-white text-navy border-2 border-navy' : 'bg-white text-navy hover:bg-navy/10 border-2 border-gray-200'" class="px-6 md:px-8 py-2.5 md:py-3 rounded-full font-bold transition shadow-sm" title="CAM+: Critical Adjustment Matrix">CAM+ <span class="text-xs font-normal">Critical Adjustment Matrix</span><br><span class="text-xs font-normal">Diagnóstico & Pré-Futur</span></button>
+                    <button @click="activeTab = 'caf'" :class="activeTab === 'caf' ? 'bg-white text-navy border-2 border-navy' : 'bg-white text-navy hover:bg-navy/10 border-2 border-gray-200'" class="px-6 md:px-8 py-2.5 md:py-3 rounded-full font-bold transition shadow-sm" title="CAF: Centro de Anticipación y Creación de Futuro">CAF <span class="text-xs font-normal">Centro de Anticipación<br>y Creación de Futuro</span></button>
+                    <button @click="activeTab = 'sem'" :class="activeTab === 'sem' ? 'bg-white text-navy border-2 border-navy' : 'bg-white text-navy hover:bg-navy/10 border-2 border-gray-200'" class="px-6 md:px-8 py-2.5 md:py-3 rounded-full font-bold transition shadow-sm" title="SEM: Strategic Engineering & Management">SEM <span class="text-xs font-normal">Strategic Engineering<br>& Management</span></button>
                 </div>
             </div>
 
@@ -398,7 +451,7 @@
                 <!-- INTRODUCCIÓN CAM+ -->
                 <div class="bg-gradient-to-br from-blue-50 to-cyan-50 backdrop-blur p-6 rounded-2xl shadow-lg border border-cct_cyan/30">
                     <h4 class="text-lg font-bold text-navy mb-3">¿Qué es CAM+?</h4>
-                    <p class="text-sm text-gray-800 leading-relaxed">CAM+ es nuestro centro de <strong>Anticipación y Creación de Futuro</strong>: un diagnóstico integral de 14 componentes clave que evalúa la capacidad adaptativa de tu organización, seguido de la metodología <strong>Pré-Futur</strong> — 7 etapas de transformación anticipativa que conectan visión estratégica con ejecución operacional. Es especialmente diseñado para organizaciones que necesitan no solo entender dónde están, sino anticipar dónde deben estar en un entorno volátil.</p>
+                    <p class="text-sm text-gray-800 leading-relaxed"><strong>Critical Adjustment Matrix (CAM+)</strong> es un diagnóstico integral de 14 componentes clave que evalúa la capacidad adaptativa de tu organización, seguido de la metodología <strong>Pré-Futur</strong> — 7 etapas de transformación anticipativa que conectan visión estratégica con ejecución operacional. Es especialmente diseñado para organizaciones que necesitan no solo entender dónde están, sino anticipar dónde deben estar en un entorno volátil.</p>
                 </div>
 
                 <!-- PAGE NAVIGATION -->
@@ -469,7 +522,7 @@
                         <div class="flip-card h-72">
                             <div class="flip-card-inner">
                                 <div class="flip-card-front bg-white/95 backdrop-blur flex items-center justify-center p-2">
-                                    <img src="assets/images/Diagrama_CAM_glass.png" alt="Matriz CAM+" class="w-full h-auto max-w-xs mx-auto rounded-lg shadow-md" onerror="this.style.display='none';">
+                                    <img src="assets/images/gl_14_diagrama_escudo_defensivo.png" alt="Matriz CAM+" class="w-full h-auto max-w-xs mx-auto rounded-lg shadow-md" onerror="this.style.display='none';">
                                 </div>
                                 <div class="flip-card-back bg-gradient-to-br from-navy to-cct_cyan">
                                     <div class="flex flex-col justify-center h-full px-2 py-3">
@@ -883,7 +936,7 @@
                 <!-- INTRODUCCIÓN CAF -->
                 <div class="bg-gradient-to-br from-orange-50 to-red-50 backdrop-blur p-6 rounded-2xl shadow-lg border border-cct_orange/30">
                     <h4 class="text-lg font-bold text-navy mb-3">¿Qué es CAF?</h4>
-                    <p class="text-sm text-gray-800 leading-relaxed">CAF es nuestro centro de <strong>Atracción de Inversiones y Desarrollo Territorial</strong>: una estrategia integral para transformar territorios en ecosistemas productivos sostenibles mediante ecoparques industriales con simbiosis económica, energía verde, infraestructura compartida y gobernanza clara. Combina oportunidades de inversión verde (hidrógeno, litio, data centers, acuicultura) con permisos pre-aprobados que reducen el Time-to-Market de 10 a 2 años.</p>
+                    <p class="text-sm text-gray-800 leading-relaxed"><strong>Centro de Anticipación y Creación de Futuro (CAF)</strong> es una estrategia integral para transformar territorios en ecosistemas productivos sostenibles mediante ecoparques industriales con simbiosis económica, energía verde, infraestructura compartida y gobernanza clara. Combina oportunidades de inversión verde (hidrógeno, litio, data centers, acuicultura) con permisos pre-aprobados que reducen el Time-to-Market de 10 a 2 años.</p>
                 </div>
 
                 <!-- PAGE NAVIGATION -->
@@ -1312,7 +1365,7 @@
                         <div class="flip-card h-56">
                             <div class="flip-card-inner">
                                 <div class="flip-card-front bg-white/95 backdrop-blur flex items-center justify-center p-4">
-                                    <img src="assets/images/gl_sem_3d.png" alt="SEM 3D" class="max-w-full max-h-full object-contain" onerror="this.style.display='none';">
+                                    <img src="assets/images/gl_20_puzzle_sinergia_equipo.png" alt="SEM Integración" class="max-w-full max-h-full object-contain" onerror="this.style.display='none';">
                                 </div>
                                 <div class="flip-card-back bg-gradient-to-br from-navy to-cct_cyan flex items-center justify-center">
                                     <p class="text-sm px-3 leading-relaxed text-white font-medium text-center">Strategic Engineering & Management: Integración sistémica de estrategia, operación y tecnología.</p>
@@ -1831,7 +1884,7 @@
                         <div class="flip-card-inner">
                             <div class="flip-card-front">
                                 <img src="assets/images/claudio_maggi.png" class="team-img mx-auto" alt="Claudio" onerror="this.src='https://placehold.co/100?text=CM';">
-                                <h4 class="font-bold text-sm">Claudio Maggi</h4>
+                                <h4 class="font-bold text-sm">Claudio Maggi Campos</h4>
                                 <p class="text-xs text-cct_cyan font-bold uppercase mt-1">Socio</p>
                             </div>
                             <div class="flip-card-back">
@@ -1844,7 +1897,7 @@
                         <div class="flip-card-inner">
                             <div class="flip-card-front">
                                 <img src="assets/images/guillermo_munoz.png" class="team-img mx-auto" alt="Guillermo" onerror="this.src='https://placehold.co/100?text=GM';">
-                                <h4 class="font-bold text-sm">Guillermo Muñoz</h4>
+                                <h4 class="font-bold text-sm">Guillermo Muñoz Herrera</h4>
                                 <p class="text-xs text-cct_cyan font-bold uppercase mt-1">Socio</p>
                             </div>
                             <div class="flip-card-back">
@@ -1901,7 +1954,7 @@
                             </div>
                             <div class="flip-card-back">
                                 <p class="text-xs px-2 text-white">Ing. Civil Industrial U. Chile, MBA Tulane. Gestión Regional y Gerencia de Proyectos.</p>
-                                <a href="https://www.linkedin.com/in/pablocanobra/" target="_blank" class="mt-3 inline-block border border-white px-3 py-1 rounded text-xs font-bold hover:bg-white hover:text-navy transition">LinkedIn</a>
+                                <a href="https://www.linkedin.com/in/pablocanobra" target="_blank" class="mt-3 inline-block border border-white px-3 py-1 rounded text-xs font-bold hover:bg-white hover:text-navy transition">LinkedIn</a>
                             </div>
                         </div>
                     </div>
@@ -1924,14 +1977,14 @@
             <div class="mb-12">
                 <h3 class="text-xl font-bold text-center text-navy mb-8 border-b inline-block pb-2">Directores Regionales</h3>
                 <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4">
-                    <div class="flip-card team-card h-64"><div class="flip-card-inner"><div class="flip-card-front"><img src="assets/images/javier_diaz.png" class="team-img mx-auto" onerror="this.src='https://placehold.co/100?text=JD';"><h4 class="font-bold text-sm">Javier Díaz</h4><p class="text-xs">Arica y Parinacota</p></div><div class="flip-card-back"><p class="text-xs px-2 text-white">Gestión regional zona norte.</p></div></div></div>
-                    <div class="flip-card team-card h-64"><div class="flip-card-inner"><div class="flip-card-front"><img src="assets/images/jaime_soto.png" class="team-img mx-auto" onerror="this.src='https://placehold.co/100?text=JS';"><h4 class="font-bold text-sm">Jaime Soto</h4><p class="text-xs">Tarapacá</p></div><div class="flip-card-back"><p class="text-xs px-2 text-white">Gestión Inmobiliaria y Logística.</p><a href="https://www.linkedin.com/in/jaime-soto-zura-0a060220b/" target="_blank" class="mt-2 inline-block text-white underline text-xs">LinkedIn</a></div></div></div>
-                    <div class="flip-card team-card h-64"><div class="flip-card-inner"><div class="flip-card-front"><img src="assets/images/juan_bacovich.png" class="team-img mx-auto" onerror="this.src='https://placehold.co/100?text=JB';"><h4 class="font-bold text-sm">Juan C. Bacovich</h4><p class="text-xs">Antofagasta</p></div><div class="flip-card-back"><p class="text-xs px-2 text-white">Ing. Químico. Sostenibilidad y Calidad ISO.</p><a href="https://www.linkedin.com/in/juan-carlos-bacovich/" target="_blank" class="mt-2 inline-block text-white underline text-xs">LinkedIn</a></div></div></div>
-                    <div class="flip-card team-card h-64"><div class="flip-card-inner"><div class="flip-card-front"><img src="assets/images/julio_munoz.png" class="team-img mx-auto" onerror="this.src='https://placehold.co/100?text=JM';"><h4 class="font-bold text-sm">Julio Muñoz</h4><p class="text-xs">Maule</p></div><div class="flip-card-back"><p class="text-xs px-2 text-white">Ing. Civil Industrial. Prospectiva y Desarrollo Territorial.</p><a href="https://www.linkedin.com/in/juliomunozdiaz/" target="_blank" class="mt-2 inline-block text-white underline text-xs">LinkedIn</a></div></div></div>
-                    <div class="flip-card team-card h-64"><div class="flip-card-inner"><div class="flip-card-front"><img src="assets/images/jenny_sauterel.png" class="team-img mx-auto" onerror="this.src='https://placehold.co/100?text=JS';"><h4 class="font-bold text-sm">Jenny Sauterel</h4><p class="text-xs">Concepción</p></div><div class="flip-card-back"><p class="text-xs px-2 text-white">Gestión regional zona sur.</p><a href="https://www.linkedin.com/in/jenny-sauterel-2041a42a/" target="_blank" class="mt-2 inline-block text-white underline text-xs">LinkedIn</a></div></div></div>
-                    <div class="flip-card team-card h-64"><div class="flip-card-inner"><div class="flip-card-front"><img src="assets/images/alejandro_rodo.png" class="team-img mx-auto" onerror="this.src='https://placehold.co/100?text=AR';"><h4 class="font-bold text-sm">Alejandro Rodó</h4><p class="text-xs">Temuco</p></div><div class="flip-card-back"><p class="text-xs px-2 text-white">Gestión Regional.</p><a href="https://www.linkedin.com/in/alejandro-rodo-leon-79279b72/" target="_blank" class="mt-2 inline-block text-white underline text-xs">LinkedIn</a></div></div></div>
+                    <div class="flip-card team-card h-64"><div class="flip-card-inner"><div class="flip-card-front"><img src="assets/images/javier_delamaza.png" class="team-img mx-auto" onerror="this.src='https://placehold.co/100?text=JD';"><h4 class="font-bold text-sm">Javier Delamaza Díaz</h4><p class="text-xs">Arica y Parinacota</p></div><div class="flip-card-back"><p class="text-xs px-2 text-white">Gestión regional zona norte.</p><a href="https://www.linkedin.com/in/javier-e-d%C3%ADaz-calder%C3%B3n-08abb222" target="_blank" class="mt-2 inline-block text-white underline text-xs">LinkedIn</a></div></div></div>
+                    <div class="flip-card team-card h-64"><div class="flip-card-inner"><div class="flip-card-front"><img src="assets/images/jaime_soto.png" class="team-img mx-auto" onerror="this.src='https://placehold.co/100?text=JS';"><h4 class="font-bold text-sm">Jaime Soto Zura</h4><p class="text-xs">Tarapacá</p></div><div class="flip-card-back"><p class="text-xs px-2 text-white">Gestión Inmobiliaria y Logística.</p><a href="https://www.linkedin.com/in/jaime-soto-zura-0a060220b" target="_blank" class="mt-2 inline-block text-white underline text-xs">LinkedIn</a></div></div></div>
+                    <div class="flip-card team-card h-64"><div class="flip-card-inner"><div class="flip-card-front"><img src="assets/images/juan_bacovich.png" class="team-img mx-auto" onerror="this.src='https://placehold.co/100?text=JB';"><h4 class="font-bold text-sm">Juan Carlos Bacovich</h4><p class="text-xs">Antofagasta</p></div><div class="flip-card-back"><p class="text-xs px-2 text-white">Ing. Químico. Sostenibilidad y Calidad ISO.</p><a href="https://www.linkedin.com/in/juan-carlos-bacovich/" target="_blank" class="mt-2 inline-block text-white underline text-xs">LinkedIn</a></div></div></div>
+                    <div class="flip-card team-card h-64"><div class="flip-card-inner"><div class="flip-card-front"><img src="assets/images/julio_munoz.png" class="team-img mx-auto" onerror="this.src='https://placehold.co/100?text=JM';"><h4 class="font-bold text-sm">Julio Muñoz Díaz</h4><p class="text-xs">Maule</p></div><div class="flip-card-back"><p class="text-xs px-2 text-white">Ing. Civil Industrial. Prospectiva y Desarrollo Territorial.</p><a href="https://www.linkedin.com/in/juliomunozdiaz/" target="_blank" class="mt-2 inline-block text-white underline text-xs">LinkedIn</a></div></div></div>
+                    <div class="flip-card team-card h-64"><div class="flip-card-inner"><div class="flip-card-front"><img src="assets/images/jenny_sauterel.png" class="team-img mx-auto" onerror="this.src='https://placehold.co/100?text=JS';"><h4 class="font-bold text-sm">Jenny Sauterel Soto</h4><p class="text-xs">Concepción</p></div><div class="flip-card-back"><p class="text-xs px-2 text-white">Gestión regional zona sur.</p><a href="https://www.linkedin.com/in/jenny-sauterel-2041a42a/" target="_blank" class="mt-2 inline-block text-white underline text-xs">LinkedIn</a></div></div></div>
+                    <div class="flip-card team-card h-64"><div class="flip-card-inner"><div class="flip-card-front"><img src="assets/images/alejandro_rodo.png" class="team-img mx-auto" onerror="this.src='https://placehold.co/100?text=AR';"><h4 class="font-bold text-sm">Alejandro Rodó León</h4><p class="text-xs">Temuco</p></div><div class="flip-card-back"><p class="text-xs px-2 text-white">Gestión Regional.</p><a href="https://www.linkedin.com/in/alejandro-rodo-leon-79279b72/" target="_blank" class="mt-2 inline-block text-white underline text-xs">LinkedIn</a></div></div></div>
                     <div class="flip-card team-card h-64"><div class="flip-card-inner"><div class="flip-card-front"><img src="assets/images/pablo_canobra.png" class="team-img mx-auto" onerror="this.src='https://placehold.co/100?text=PC';"><h4 class="font-bold text-sm">Pablo Canobra</h4><p class="text-xs">Los Lagos</p></div><div class="flip-card-back"><p class="text-xs px-2 text-white">Gerente de Proyectos.</p><a href="https://www.linkedin.com/in/pablocanobra/" target="_blank" class="mt-2 inline-block text-white underline text-xs">LinkedIn</a></div></div></div>
-                    <div class="flip-card team-card h-64"><div class="flip-card-inner"><div class="flip-card-front"><img src="assets/images/pablo_vega.png" class="team-img mx-auto" onerror="this.src='https://placehold.co/100?text=PV';"><h4 class="font-bold text-sm">Pablo Vega</h4><p class="text-xs">Perú</p></div><div class="flip-card-back"><p class="text-xs px-2 text-white">Economista, MBA. Gobierno Corporativo.</p><a href="https://www.linkedin.com/in/pablovegabuccicardi/" target="_blank" class="mt-2 inline-block text-white underline text-xs">LinkedIn</a></div></div></div>
+                    <div class="flip-card team-card h-64"><div class="flip-card-inner"><div class="flip-card-front"><img src="assets/images/pablo_vega.png" class="team-img mx-auto" onerror="this.src='https://placehold.co/100?text=PV';"><h4 class="font-bold text-sm">Pablo Vega Buccicardi</h4><p class="text-xs">Perú</p></div><div class="flip-card-back"><p class="text-xs px-2 text-white">Economista, MBA. Gobierno Corporativo.</p><a href="https://www.linkedin.com/in/pablovegabuccicardi/" target="_blank" class="mt-2 inline-block text-white underline text-xs">LinkedIn</a></div></div></div>
                 </div>
             </div>
 
@@ -1939,14 +1992,14 @@
             <div>
                 <h3 class="text-xl font-bold text-center text-navy mb-8 border-b inline-block pb-2">Consultores Especialistas</h3>
                 <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
-                    <div class="flip-card team-card h-64"><div class="flip-card-inner"><div class="flip-card-front"><img src="assets/images/gilberto_cespedes.png" class="team-img mx-auto" onerror="this.src='https://placehold.co/100?text=GC';"><h4 class="font-bold text-sm">Gilberto Céspedes</h4><p class="text-xs">Estrategia</p></div><div class="flip-card-back"><p class="text-xs px-2 text-white">Ing. Civil y MBA PUC. Supply Chain.</p><a href="https://www.linkedin.com/in/gilberto-cespedes-43b2b799/" target="_blank" class="mt-2 inline-block text-white underline text-xs">LinkedIn</a></div></div></div>
-                    <div class="flip-card team-card h-64"><div class="flip-card-inner"><div class="flip-card-front"><img src="assets/images/elena_pailamilla.png" class="team-img mx-auto" onerror="this.src='https://placehold.co/100?text=EP';"><h4 class="font-bold text-sm">Elena Pailamilla</h4><p class="text-xs">Normas</p></div><div class="flip-card-back"><p class="text-xs px-2 text-white">Normativa Contable y Tributaria.</p><a href="https://www.linkedin.com/in/elena-pailamilla-sandoval-10523010a/" target="_blank" class="mt-2 inline-block text-white underline text-xs">LinkedIn</a></div></div></div>
-                    <div class="flip-card team-card h-64"><div class="flip-card-inner"><div class="flip-card-front"><img src="assets/images/juan_samaniego.png" class="team-img mx-auto" onerror="this.src='https://placehold.co/100?text=JS';"><h4 class="font-bold text-sm">Juan R. Samaniego</h4><p class="text-xs">Benchmarking</p></div><div class="flip-card-back"><p class="text-xs px-2 text-white">Ing. Comercial. Consultor Asociado.</p><a href="https://www.linkedin.com/in/juan-ramon-samaniego-sangroniz-82b315a3/" target="_blank" class="mt-2 inline-block text-white underline text-xs">LinkedIn</a></div></div></div>
-                    <div class="flip-card team-card h-64"><div class="flip-card-inner"><div class="flip-card-front"><img src="assets/images/maurice_filippi.png" class="team-img mx-auto" onerror="this.src='https://placehold.co/100?text=MF';"><h4 class="font-bold text-sm">Maurice Filippi</h4><p class="text-xs">Proyectos</p></div><div class="flip-card-back"><p class="text-xs px-2 text-white">Ing. Civil Industrial. Especialista en ABC.</p><a href="https://www.linkedin.com/in/maurice-filippi-rademacher-ba4380101/" target="_blank" class="mt-2 inline-block text-white underline text-xs">LinkedIn</a></div></div></div>
-                    <div class="flip-card team-card h-64"><div class="flip-card-inner"><div class="flip-card-front"><img src="assets/images/mario_boada.png" class="team-img mx-auto" onerror="this.src='https://placehold.co/100?text=MB';"><h4 class="font-bold text-sm">Mario Boada</h4><p class="text-xs">Comunicación</p></div><div class="flip-card-back"><p class="text-xs px-2 text-white">Master Periodismo. Comunicación Estratégica.</p><a href="https://www.linkedin.com/in/marioboada/" target="_blank" class="mt-2 inline-block text-white underline text-xs">LinkedIn</a></div></div></div>
-                    <div class="flip-card team-card h-64"><div class="flip-card-inner"><div class="flip-card-front"><img src="assets/images/jose_martinez_esp.png" class="team-img mx-auto" onerror="this.src='https://placehold.co/100?text=JM';"><h4 class="font-bold text-sm">José I. Martínez</h4><p class="text-xs">Finanzas</p></div><div class="flip-card-back"><p class="text-xs px-2 text-white">Ing. Comercial. Directorios y Empresas Int.</p><a href="https://www.linkedin.com/in/jose-ignacio-martinez-acevedo-41683845/" target="_blank" class="mt-2 inline-block text-white underline text-xs">LinkedIn</a></div></div></div>
-                    <div class="flip-card team-card h-64"><div class="flip-card-inner"><div class="flip-card-front"><img src="assets/images/claus_van.png" class="team-img mx-auto" onerror="this.src='https://placehold.co/100?text=CV';"><h4 class="font-bold text-sm">Claus Van der Molen</h4><p class="text-xs">Riesgos</p></div><div class="flip-card-back"><p class="text-xs px-2 text-white">Analista Financiero. Financiero y riesgos.</p><a href="https://www.linkedin.com/in/clausvandermolen/" target="_blank" class="mt-2 inline-block text-white underline text-xs">LinkedIn</a></div></div></div>
-                    <div class="flip-card team-card h-64"><div class="flip-card-inner"><div class="flip-card-front"><img src="assets/images/paula_jadue.png" class="team-img mx-auto" onerror="this.src='https://placehold.co/100?text=PJ';"><h4 class="font-bold text-sm">Paula Jadue</h4><p class="text-xs">Gestión Pública</p></div><div class="flip-card-back"><p class="text-xs px-2 text-white">Gestión Estratégica Sector Público.</p></div></div></div>
+                    <div class="flip-card team-card h-64"><div class="flip-card-inner"><div class="flip-card-front"><img src="assets/images/gilberto_cespedes.png" class="team-img mx-auto" onerror="this.src='https://placehold.co/100?text=GC';"><h4 class="font-bold text-sm">Gilberto Céspedes Berrios</h4><p class="text-xs">Estrategia</p></div><div class="flip-card-back"><p class="text-xs px-2 text-white">Ing. Civil y MBA PUC. Supply Chain.</p><a href="https://www.linkedin.com/in/gilberto-cespedes-43b2b799/" target="_blank" class="mt-2 inline-block text-white underline text-xs">LinkedIn</a></div></div></div>
+                    <div class="flip-card team-card h-64"><div class="flip-card-inner"><div class="flip-card-front"><img src="assets/images/elena_pailamilla.png" class="team-img mx-auto" onerror="this.src='https://placehold.co/100?text=EP';"><h4 class="font-bold text-sm">Elena Pailamilla Sandoval</h4><p class="text-xs">Normas</p></div><div class="flip-card-back"><p class="text-xs px-2 text-white">Normativa Contable y Tributaria.</p><a href="https://www.linkedin.com/in/elena-pailamilla-sandoval-10523010a/" target="_blank" class="mt-2 inline-block text-white underline text-xs">LinkedIn</a></div></div></div>
+                    <div class="flip-card team-card h-64"><div class="flip-card-inner"><div class="flip-card-front"><img src="assets/images/juan_samaniego.png" class="team-img mx-auto" onerror="this.src='https://placehold.co/100?text=JS';"><h4 class="font-bold text-sm">Juan Ramón Samaniego Sangroniz</h4><p class="text-xs">Benchmarking</p></div><div class="flip-card-back"><p class="text-xs px-2 text-white">Ing. Comercial. Consultor Asociado.</p><a href="https://www.linkedin.com/in/juan-ramon-samaniego-sangroniz-82b315a3/" target="_blank" class="mt-2 inline-block text-white underline text-xs">LinkedIn</a></div></div></div>
+                    <div class="flip-card team-card h-64"><div class="flip-card-inner"><div class="flip-card-front"><img src="assets/images/maurice_filippi.png" class="team-img mx-auto" onerror="this.src='https://placehold.co/100?text=MF';"><h4 class="font-bold text-sm">Maurice Filippi Rademacher</h4><p class="text-xs">Proyectos</p></div><div class="flip-card-back"><p class="text-xs px-2 text-white">Ing. Civil Industrial. Especialista en ABC.</p><a href="https://www.linkedin.com/in/maurice-filippi-rademacher-ba4380101/" target="_blank" class="mt-2 inline-block text-white underline text-xs">LinkedIn</a></div></div></div>
+                    <div class="flip-card team-card h-64"><div class="flip-card-inner"><div class="flip-card-front"><img src="assets/images/mario_boada.png" class="team-img mx-auto" onerror="this.src='https://placehold.co/100?text=MB';"><h4 class="font-bold text-sm">Mario Boada Figueroa</h4><p class="text-xs">Comunicación</p></div><div class="flip-card-back"><p class="text-xs px-2 text-white">Master Periodismo. Comunicación Estratégica.</p><a href="https://www.linkedin.com/in/marioboada/" target="_blank" class="mt-2 inline-block text-white underline text-xs">LinkedIn</a></div></div></div>
+                    <div class="flip-card team-card h-64"><div class="flip-card-inner"><div class="flip-card-front"><img src="assets/images/jose_martinez_esp.png" class="team-img mx-auto" onerror="this.src='https://placehold.co/100?text=JM';"><h4 class="font-bold text-sm">José Ignacio Martínez Acevedo</h4><p class="text-xs">Finanzas</p></div><div class="flip-card-back"><p class="text-xs px-2 text-white">Ing. Comercial. Directorios y Empresas Int.</p><a href="https://www.linkedin.com/in/jose-ignacio-martinez-acevedo-41683845" target="_blank" class="mt-2 inline-block text-white underline text-xs">LinkedIn</a></div></div></div>
+                    <div class="flip-card team-card h-64"><div class="flip-card-inner"><div class="flip-card-front"><img src="assets/images/claus_van.png" class="team-img mx-auto" onerror="this.src='https://placehold.co/100?text=CV';"><h4 class="font-bold text-sm">Claus van der Molen Vargas</h4><p class="text-xs">Riesgos</p></div><div class="flip-card-back"><p class="text-xs px-2 text-white">Analista Financiero. Financiero y riesgos.</p><a href="https://www.linkedin.com/in/clausvandermolen/" target="_blank" class="mt-2 inline-block text-white underline text-xs">LinkedIn</a></div></div></div>
+                    <div class="flip-card team-card h-64"><div class="flip-card-inner"><div class="flip-card-front"><img src="assets/images/paula_jadue.png" class="team-img mx-auto" onerror="this.src='https://placehold.co/100?text=PJ';"><h4 class="font-bold text-sm">Paula Jadue Jadue</h4><p class="text-xs">Gestión Pública</p></div><div class="flip-card-back"><p class="text-xs px-2 text-white">Gestión Estratégica Sector Público.</p><a href="https://www.linkedin.com/in/paula-jadue-abuyeres" target="_blank" class="mt-2 inline-block text-white underline text-xs">LinkedIn</a></div></div></div>
                 </div>
             </div>
         </div>
@@ -1991,7 +2044,7 @@
                         <h3 class="text-2xl font-bold text-navy">Retail y Comercio</h3>
                     </div>
                     <div class="flex justify-center">
-                        <img src="assets/images/logos_01.jpeg" alt="Retail y Comercio" class="w-full max-h-96 object-contain rounded-lg" onerror="this.style.display='none';">
+                        <img src="assets/images/logos_01.png" alt="Retail y Comercio" class="w-full max-h-96 object-contain rounded-lg" onerror="this.style.display='none';">
                     </div>
                 </div>
 
@@ -2002,7 +2055,7 @@
                         <h3 class="text-2xl font-bold text-navy">Estado, Gremios y Sin Fines de Lucro</h3>
                     </div>
                     <div class="flex justify-center">
-                        <img src="assets/images/logos_02.jpeg" alt="Estado y Gremios" class="w-full max-h-96 object-contain rounded-lg" onerror="this.style.display='none';">
+                        <img src="assets/images/logos_02.png" alt="Estado y Gremios" class="w-full max-h-96 object-contain rounded-lg" onerror="this.style.display='none';">
                     </div>
                 </div>
 
@@ -2013,7 +2066,7 @@
                         <h3 class="text-2xl font-bold text-navy">Educación</h3>
                     </div>
                     <div class="flex justify-center">
-                        <img src="assets/images/logos_03.jpeg" alt="Educación" class="w-full max-h-96 object-contain rounded-lg" onerror="this.style.display='none';">
+                        <img src="assets/images/logos_03.png" alt="Educación" class="w-full max-h-96 object-contain rounded-lg" onerror="this.style.display='none';">
                     </div>
                 </div>
 
@@ -2024,7 +2077,7 @@
                         <h3 class="text-2xl font-bold text-navy">Financiero y Productivo</h3>
                     </div>
                     <div class="flex justify-center">
-                        <img src="assets/images/logos_04.jpeg" alt="Financiero y Productivo" class="w-full max-h-96 object-contain rounded-lg" onerror="this.style.display='none';">
+                        <img src="assets/images/logos_04.png" alt="Financiero y Productivo" class="w-full max-h-96 object-contain rounded-lg" onerror="this.style.display='none';">
                     </div>
                 </div>
 
@@ -2035,7 +2088,7 @@
                         <h3 class="text-2xl font-bold text-navy">Utilities, Servicios y Construcción</h3>
                     </div>
                     <div class="flex justify-center">
-                        <img src="assets/images/logos_05.jpeg" alt="Utilities y Servicios" class="w-full max-h-96 object-contain rounded-lg" onerror="this.style.display='none';">
+                        <img src="assets/images/logos_05.png" alt="Utilities y Servicios" class="w-full max-h-96 object-contain rounded-lg" onerror="this.style.display='none';">
                     </div>
                 </div>
             </div>
@@ -2090,6 +2143,231 @@
         <a href="#inicio" aria-label="Volver al Inicio" class="fixed bottom-6 left-6 px-4 py-3 rounded-full bg-gradient-to-br from-cct_cyan to-blue-500 text-white text-xs font-bold shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-110">
             ↑ Inicio
         </a>
+
+    <script>
+        // Datos de respaldo en caso de falla de carga desde assets/data/noticias.json
+        const NOTICIAS_BACKUP = {
+            "noticias": [
+                {
+                    "id": 1,
+                    "titulo": "Anticipación estratégica: Chile hacia el 2030",
+                    "extracto": "El desafío no es adaptarse al cambio, sino anticiparlo. En GL Strategic trabajamos con una red de 2.000+ expertos del Proyecto País para detectar señales débiles que moldearán el futuro de nuestros clientes.",
+                    "autor": "Gastón L'Huillier",
+                    "rol": "Socio Principal",
+                    "imagen_autor": "gaston_lhuillier_troncoso.png",
+                    "tipo": "linkedin",
+                    "url": "https://www.linkedin.com/feed/",
+                    "fecha": "2025-01-20",
+                    "categoria": "estrategia"
+                },
+                {
+                    "id": 2,
+                    "titulo": "Proyecto País se anticipa 10 años a los cambios de tendencia en Chile",
+                    "extracto": "El PP del Colegio de Ingenieros, creado y dirigido por nuestro socio Gastón L'Huillier, ha entregado durante 12 años la mejor información sobre los cambios que vienen en el país.",
+                    "autor": "Gastón L'Huillier",
+                    "rol": "Socio Principal",
+                    "imagen_autor": "gaston_lhuillier_troncoso.png",
+                    "tipo": "linkedin",
+                    "url": "http://groupeloyal.blogspot.com/2014/03/proyecto-pais-se-anticipa-10-anos-los.html",
+                    "fecha": "2014-03-20",
+                    "categoria": "estrategia"
+                },
+                {
+                    "id": 3,
+                    "titulo": "Transformación digital sin estrategia es sólo gasto",
+                    "extracto": "La verdadera transformación digital no se trata de tecnología, sino de estrategia. Integramos herramientas de clase mundial con gestión del cambio para resultados medibles.",
+                    "autor": "Guillermo Muñoz",
+                    "rol": "Socio - Estrategia Digital",
+                    "imagen_autor": "guillermo_munoz.png",
+                    "tipo": "linkedin",
+                    "url": "https://www.linkedin.com/feed/",
+                    "fecha": "2025-01-18",
+                    "categoria": "transformacion"
+                },
+                {
+                    "id": 4,
+                    "titulo": "Liderazgo adaptativo: La minga como modelo de gestión",
+                    "extracto": "El legado cultural de la minga inspira modelos de liderazgo horizontal y adaptativo que las organizaciones modernas necesitan redescubrir.",
+                    "autor": "Rafael Sotil",
+                    "rol": "Socio - Liderazgo y Cultura",
+                    "imagen_autor": "rafael_sotil.png",
+                    "tipo": "linkedin",
+                    "url": "https://www.linkedin.com/feed/",
+                    "fecha": "2025-01-15",
+                    "categoria": "liderazgo"
+                }
+            ]
+        };
+
+        let carouselIndex = 0;
+        let noticiasActuales = [];
+
+        // Cargar y renderizar noticias desde JSON externo con respaldo local
+        async function cargarNoticias() {
+            const container = document.getElementById('noticias-container');
+            let noticias = [];
+
+            try {
+                const respuesta = await fetch('assets/data/noticias.json', { cache: 'no-store' });
+                if (!respuesta.ok) {
+                    throw new Error(`HTTP ${respuesta.status}`);
+                }
+
+                const data = await respuesta.json();
+                if (!data || !Array.isArray(data.noticias) || data.noticias.length === 0) {
+                    throw new Error('El archivo de noticias está vacío');
+                }
+
+                noticias = data.noticias;
+            } catch (error) {
+                console.warn('Fallo carga desde JSON, usando respaldo local:', error.message);
+                noticias = NOTICIAS_BACKUP.noticias;
+            }
+
+            todasLasNoticias = noticias;
+            noticiasActuales = noticias;
+            carouselIndex = 0;
+            renderizarFiltros(noticias);
+            renderizarNoticias(noticias);
+        }
+
+        function renderizarFiltros(noticias) {
+            const contenedor = document.getElementById('filtros-noticias');
+            const categorias = ['todas', ...new Set(noticias.map(n => n.categoria))];
+
+            contenedor.innerHTML = categorias.map(cat => {
+                const activa = cat === 'todas';
+                const icono = iconoCategoria(cat);
+                return `
+                    <button onclick="filtrarNoticias('${cat}')" data-categoria="${cat}"
+                            class="filter-btn px-5 py-2 rounded-full font-bold text-xs transition-all duration-300 ${activa ? 'bg-cct_cyan text-white' : 'bg-white text-navy border-2 border-gray-200 hover:border-cct_cyan'}">
+                        <i class="${icono} mr-2"></i>${formatearCategoria(cat)}
+                    </button>
+                `;
+            }).join('');
+        }
+
+        function calcularItemsPorVista() {
+            if (window.innerWidth >= 1024) return 3;
+            if (window.innerWidth >= 768) return 2;
+            return 1;
+        }
+
+        function renderizarNoticias(noticias) {
+            const container = document.getElementById('noticias-container');
+            if (!container) return;
+
+            const lista = noticias && noticias.length ? noticias : noticiasActuales;
+            if (!lista || lista.length === 0) {
+                container.innerHTML = '<div class="w-full text-center py-10"><p class="text-gray-500 text-sm">No hay noticias en esta categoría</p></div>';
+                return;
+            }
+
+            const itemsPorVista = Math.min(calcularItemsPorVista(), lista.length);
+            if (carouselIndex < 0) carouselIndex = 0;
+            if (carouselIndex >= lista.length) carouselIndex = 0;
+
+            const visibles = [];
+            for (let i = 0; i < itemsPorVista; i++) {
+                const idx = (carouselIndex + i) % lista.length;
+                visibles.push(lista[idx]);
+            }
+
+            container.innerHTML = visibles.map(noticia => `
+                <article class="news-card bg-white rounded-xl shadow-md border border-gray-200 overflow-hidden w-[260px] md:w-[300px] flex-shrink-0">
+                    <div class="flex items-start p-4 gap-3">
+                        <img src="assets/images/${noticia.imagen_autor}" 
+                             alt="${noticia.autor}"
+                             class="w-12 h-12 rounded-full object-cover flex-shrink-0 border-2 border-cct_cyan"
+                             onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(noticia.autor)}&background=00A3E0&color=fff&size=60'">
+                        <div class="flex-1 min-w-0">
+                            <h5 class="font-bold text-xs text-navy line-clamp-2">${noticia.autor}</h5>
+                            <p class="text-[11px] text-gray-500 line-clamp-1">${noticia.rol}</p>
+                            <div class="flex items-center gap-2 mt-1">
+                                <span class="inline-block px-2 py-0.5 bg-cct_cyan/10 text-cct_cyan text-[11px] rounded-full font-bold whitespace-nowrap">
+                                    ${noticia.tipo === 'linkedin' ? '<i class="fab fa-linkedin mr-1"></i>LinkedIn' : '<i class="fas fa-bullhorn mr-1"></i>Comunicado'}
+                                </span>
+                                <span class="text-[11px] text-gray-400 whitespace-nowrap">${formatearFecha(noticia.fecha)}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="px-4 pb-4 border-t border-gray-100 mt-2">
+                        <h4 class="font-bold text-sm text-navy mb-2 line-clamp-2 leading-tight">${noticia.titulo}</h4>
+                        <p class="text-xs text-gray-600 mb-3 line-clamp-3 leading-relaxed">${noticia.extracto}</p>
+                        <div class="flex items-center justify-between pt-2 border-t border-gray-100">
+                            <span class="text-[11px] font-bold text-gray-500 uppercase tracking-wide">${noticia.categoria}</span>
+                            <a href="${noticia.url}" target="_blank" rel="noopener noreferrer"
+                               class="text-[11px] font-bold text-cct_cyan hover:text-navy transition-colors flex items-center gap-1">
+                                Leer más <i class="fas fa-arrow-right text-[9px]"></i>
+                            </a>
+                        </div>
+                    </div>
+                </article>
+            `).join('');
+        }
+
+        function formatearCategoria(cat) {
+            if (cat === 'todas') return 'Todas';
+            return cat.charAt(0).toUpperCase() + cat.slice(1);
+        }
+
+        function iconoCategoria(cat) {
+            if (cat === 'estrategia') return 'fas fa-chess';
+            if (cat === 'liderazgo') return 'fas fa-chart-line';
+            if (cat === 'transformacion') return 'fas fa-sync-alt';
+            return 'fas fa-newspaper';
+        }
+
+        function formatearFecha(fechaStr) {
+            try {
+                const opciones = { year: 'numeric', month: 'short', day: 'numeric' };
+                const fecha = new Date(fechaStr);
+                return fecha.toLocaleDateString('es-CL', opciones);
+            } catch (error) {
+                return fechaStr;
+            }
+        }
+
+        function filtrarNoticias(categoria) {
+            if (!todasLasNoticias || todasLasNoticias.length === 0) return;
+
+            const botones = document.querySelectorAll('.filter-btn');
+            botones.forEach(btn => {
+                if (btn.dataset.categoria === categoria) {
+                    btn.className = 'filter-btn px-5 py-2 rounded-full font-bold text-xs transition-all duration-300 bg-cct_cyan text-white';
+                } else {
+                    btn.className = 'filter-btn px-5 py-2 rounded-full font-bold text-xs transition-all duration-300 bg-white text-navy border-2 border-gray-200 hover:border-cct_cyan';
+                }
+            });
+
+            const filtradas = categoria === 'todas' 
+                ? todasLasNoticias 
+                : todasLasNoticias.filter(n => n.categoria === categoria);
+
+            noticiasActuales = filtradas;
+            carouselIndex = 0;
+            renderizarNoticias(filtradas);
+        }
+
+        function moverCarrusel(delta) {
+            if (!noticiasActuales || noticiasActuales.length === 0) return;
+            carouselIndex = (carouselIndex + delta + noticiasActuales.length) % noticiasActuales.length;
+            renderizarNoticias(noticiasActuales);
+        }
+
+        function handleResize() {
+            renderizarNoticias(noticiasActuales);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            cargarNoticias();
+            const prev = document.getElementById('btn-prev-noticias');
+            const next = document.getElementById('btn-next-noticias');
+            prev?.addEventListener('click', () => moverCarrusel(-1));
+            next?.addEventListener('click', () => moverCarrusel(1));
+            window.addEventListener('resize', handleResize);
+        });
+    </script>
 
     <script>
         const ctx = document.getElementById('pibChart').getContext('2d');
